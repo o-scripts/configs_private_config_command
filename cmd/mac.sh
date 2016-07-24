@@ -9,8 +9,15 @@ alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias tailf='tail -f'
 # end
-
-# mount ntfs disk
+# revalue mac.command
+re-bashrc()
+{
+    source ~/.bash_profile
+}
+# end
+# mac
+## self define
+### mount ntfs disk
 ntfs.mount()
 {
 	code='0'
@@ -164,10 +171,5 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
     esac
 }
 ### end
-
-# revalue mac.command
-re-bashrc()
-{
-	source ~/.bash_profile
-}
+## end
 # end

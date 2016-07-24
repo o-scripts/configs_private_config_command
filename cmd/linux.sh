@@ -16,21 +16,14 @@ re-bashrc()
 {
 	source ~/.bashrc
 }
-## eqplay
-eqplay.sign()
-{
-    nonce=`random.cli date`
-    ts=`timestamp | awk '{print $3}'`
-    key='9YetVl8hlD+mG/pEzPGtUcfr'
-    signature=`echo "$nonce
-$ts
-$key" | sort | xargs echo |awk '{print $1$2$3}' | sha1sum`
-    echo nonce: $nonce
-    echo timestamp: $ts
-    echo signature: $signature
-}
-## end
 ## self define
+### timestamp
+timestamp()
+{
+    str="`date +%Y-%m-%d\ %H:%M:%S`"
+    echo \[$str\] `date -d "${str}" +%s`
+}
+### end
 ### LNMP config
 lnmp()
 {

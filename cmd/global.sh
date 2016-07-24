@@ -103,11 +103,6 @@ alias cyanogenmodsync="cat .repo/manifest.xml | grep CyanogenMod | awk '{print $
 ## end
 
 ## avalible for enviorment
-timestamp()
-{
-    str="`date +%Y-%m-%d\ %H:%M:%S`"
-    echo \[$str\] `date -d "${str}" +%s`
-}
 datestr()
 {
 	echo "`date +%Y.%m.%d.%H.%M.%S`"
