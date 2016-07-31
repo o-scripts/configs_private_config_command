@@ -1,6 +1,6 @@
 #! /bin/bash
 # das ist fuer OS X
-alias ls='ls -G'
+alias ls='ls -G --color'
 alias la='ls -a'
 alias ll='ls -l'
 alias lla='ls -la'
@@ -93,8 +93,14 @@ mdocker()
     op=$1
     case $op in
         'lnmp')
-            docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
+            #docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
+			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
             ;;
+		'ubuntu')
+			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
+			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
+			;;
         'use'|'help'|'h')
             echo '
                             HOW TO USE DOCKER
