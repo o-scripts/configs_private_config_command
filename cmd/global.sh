@@ -145,19 +145,67 @@ cd.config()
 ## end
 
 ## self define command
-ssh.nopwd()
+### ssh login with no pw
+ssh.login()
 {
      op=$1
      case $op in
-         *)
+        'rsa')
+            echo '
+        HOW TO USE SSH WITH RSA KEY
+==============================================
+1. 创建rsa证书
+ssh-keygen -t rsa -C "commit"
+2. 配置登录
+在~/.ssh/config添加如下内容：
+Host pc.host.de
+    HostName pc.host.de
+    User user
+    IdentityFile ~/.ssh/path/id_rsa
+3. 登录
+ssh -v user@pc.host.de
+----------------------------------------------'
+            ;;
+        'pem')
+            echo '
+        HOW TO USE SSH WITH PEM KEY
+==============================================
+1. rsa证书转换为pem证书
+openssl req -x509 -key path/to/key/id_rsa -nodes -days 365 -newkey rsa:2048 -out myCert.pem
+2. 使用证书登录
+ssh -i path/to/key.pem -v user@pc.host.de
+----------------------------------------------'
+            ;;
+        'nopwd')
              echo '
         HOW LOGIN SSH WITHOUT PWD
 ==============================================
-1. cat id_rsa.pub > authorized_keys
+1. 添加信任证书
+cat id_rsa.pub > authorized_keys
+2. 配置登录
+在~/.ssh/config添加如下内容：
+Host pc.host.de
+    HostName pc.host.de
+    User user
+    IdentityFile ~/.ssh/path/id_rsa
+3. 登录
+ssh -v user@pc.host.de
 ----------------------------------------------'
             ;;
+        *)
+            echo '
+            HOW LOGIN SSH LOGIN
+==============================================
+1. rsa
+ssh login with rsa key
+2. pem
+ssh login with pem key
+3. nopwd
+ssh login without pwd
+----------------------------------------------'
     esac
 }
+### end
 ### use openssl rand to create random string
 function random.cli {
     seed=$1
