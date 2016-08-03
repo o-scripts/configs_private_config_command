@@ -17,6 +17,27 @@ re-bashrc()
 # end
 # mac
 ## self define
+### histoty command config
+history.cfg()
+{
+    op=$1
+    case $op in
+        'h'|'H')
+            echo '
+                HOW TO CONFIG HISTORY COMMOND
+====================================================================
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000000000
+HISTFILESIZE=2000000000
+HISTTIMEFORMAT="[%F %T] "
+HISTCONTROL=ignoreboth
+---------------------------------------------------------------------'
+            ;;
+        *)
+            ;;
+    esac
+}
+### end
 ### mount ntfs disk
 ntfs.mount()
 {
@@ -92,6 +113,12 @@ mdocker()
 {
     op=$1
     case $op in
+		'start'|'up')
+			echo boot2docker start
+			boot2docker start
+			echo docker version
+			docker version
+			;;
         'lnmp')
             #docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
 			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash

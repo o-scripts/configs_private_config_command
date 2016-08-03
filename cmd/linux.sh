@@ -17,6 +17,27 @@ re-bashrc()
 	source ~/.bashrc
 }
 ## self define
+### histoty command config
+history.cfg()
+{
+    op=$1
+    case $op in
+        'h'|'H')
+            echo '
+                HOW TO CONFIG HISTORY COMMOND
+====================================================================
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000000000
+HISTFILESIZE=2000000000
+HISTTIMEFORMAT="[%F %T] "
+HISTCONTROL=ignoreboth
+---------------------------------------------------------------------'
+            ;;
+        *)
+            ;;
+    esac
+}
+### end
 ### timestamp
 timestamp()
 {
