@@ -17,6 +17,26 @@ alias adbr="adb reboot"
 alias adbcls="adb logcat -c"
 alias adblog="adb logcat -v threadtime"
 alias adbreport="adb shell bugreport"
+### bsdiff file
+ota.diff()
+{
+    op=$1
+    case $op in
+        *)
+            echo '
+            HOW CREATE OTA DIFF FILE
+===============================================
+1. install bsdiff package
+    sudo apt-get install bsdiff
+2. create diff file
+    bsdiff old new xx.patch
+3. update old to new
+    bspatch old new_file xx.patch
+-----------------------------------------------'
+            ;;
+    esac
+}
+### end
 ### spf13-vim short-key
 vim.k()
 {
