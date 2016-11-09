@@ -81,6 +81,8 @@ docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
 docker run -P --expose 80 --expose 443 -v ~:/root -i -t ubuntu:14.04 /bin/bash
 2.4. bind local ports 80, 443 with container ports 80, 443
 docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04 /bin/bash
+2.5. run uni-module robotik
+docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/robotics:/home/sites -it ubuntu:14.04 bash
 
 3. commit a status
 `docker commit -m "lnmp" e61884a17a10 ubuntu:lnmp`'
@@ -123,6 +125,21 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
     在成功添加源之后，就可以安装最新版本的 Docker 了，软件包名称为 docker-engine
     apt-get install -y docker-engine
 
+4.6.1. 安装docker-machine
+    curl -L https://github.com/docker/machine/releases/download/v0.8.2/docker-machine-`uname -s`-`uname -m`
+    sudo mv docker-machine* /usr/local/bin/docker-machine
+    sudo chmod +x /usr/local/bin/docker-machine
+    docker-machine version
+4.6.2. 创建一个本地VM
+    docker-machine create --driver virtualbox default
+    docker-machine ls
+4.6.3. 获取配置
+    docker-machine env default
+4.6.4. 添加docker组
+    sudo groupadd docker
+4.6.5. 添加用户到docker组
+    sudo usermod -aG docker $USER
+
 4.7. Quick Start
 4.7.1. Start the docker daemon.
     sudo service docker start
@@ -137,6 +154,68 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 1. use|help|h - userguide
 2. install|i - quick install
 ----------------------------------------------------------------------------'
+            ;;
+    esac
+}
+### end
+### my usefully command
+my.env()
+{
+    op=$1
+    case $op in
+        't'|'tools')
+            sudo apt update
+            sudo apt -y install vim git axel wget htop ssh sshfs \
+                    wine
+            ;;
+        'deb'|'p')
+            cd ~/hinterladen/tools/
+            sudo dpkg -i \
+                    google-chrome-stable_current_amd64.deb \
+                    virtualbox-5.1_5.1.8-111374~Ubuntu~xenial_amd64.deb \
+                    teamviewer_11.0.57095_i386.deb \
+                    dropbox_2015.10.28_amd64.deb \
+                    sublime-text_build-3114_amd64.deb \
+                    bcompare-4.1.1.20615_amd64.deb \
+                    wps-office*.deb \
+                    AdbeRdr9.5.5-1_i386linux_enu.deb \
+                    FoxitReader_1.1.0_i386.deb \
+                    picasa-3.0.0-build-57.4402.deb \
+                    netease-cloud-music_0.9.0-2_amd64.deb
+            ;;
+        'lnmp')
+            sudo apt update
+            sudo apt -y install nginx \
+                        php5 php5-fpm \
+                        mysql-server phpmyadmin \
+                        php5-mysql php5-gd php5-memcached php5-geoip memcached \
+                        libmysqlclient-dev
+            ;;
+        'docker')
+            sudo apt-get install apt-transport-https ca-certificates
+            sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 \
+                        --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+            sudo touch /etc/apt/sources.list.d/docker.list
+            sudo echo "deb https://apt.dockerproject.org/repo ubuntu-`lsb_release -c | awk '{print $2}' | sed s/[[:space:]]//g` main" > /etc/apt/sources.list.d/docker.list
+            sudo apt update
+            sudo apt-get install -y linux-image-extra-$(uname -r)
+            sudo apt-get install -y docker-engine
+            curl -L https://github.com/docker/machine/releases/download/v0.8.2/docker-machine-`uname -s`-`uname -m` > docker-machine
+            sudo mv docker-machine* /usr/local/bin/docker-machine
+            sudo chmod +x /usr/local/bin/docker-machine
+            docker-machine version
+			#docker-machine create --driver virtualbox default
+			docker-machine ls
+            ;;
+        'h'|'help'|*)
+            echo "
+            HOW TO CONFIG MY ENV
+================================================
+1. t|tools - install normaly tools
+2. deb|p - install some usefull deb package
+3. lnmp - install LNMP
+4. h|help|* - display this help information
+------------------------------------------------"
             ;;
     esac
 }
