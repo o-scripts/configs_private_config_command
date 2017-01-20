@@ -17,6 +17,112 @@ alias adbr="adb reboot"
 alias adbcls="adb logcat -c"
 alias adblog="adb logcat -v threadtime"
 alias adbreport="adb shell bugreport"
+### bsdiff file
+ota.diff()
+{
+    op=$1
+    case $op in
+        *)
+            echo '
+            HOW CREATE OTA DIFF FILE
+===============================================
+1. install bsdiff package
+    sudo apt-get install bsdiff
+2. create diff file
+    bsdiff old new xx.patch
+3. update old to new
+    bspatch old new_file xx.patch
+-----------------------------------------------'
+            ;;
+    esac
+}
+### end
+### spf13-vim short-key
+vim.k()
+{
+	op=$1
+	case $op in
+        '1')
+            echo '
+1. Leader/命令前缀:
+    [,]
+-----------------------------------------------'
+            ;;
+        '2')
+            echo '
+2. Vundle: The best plugin manager
+-----------------------------------------------'
+            ;;
+        '3')
+            echo '
+3. NERDTree/目录树:
+    [, e]/[, nt] 跳转到打开的文件所在位置
+    [Ctrl+e] 打开目录树
+-----------------------------------------------'
+            ;;
+        '4')
+            echo '
+===============================================
+-----------------------------------------------'
+            ;;
+        '5')
+            echo '
+===============================================
+-----------------------------------------------'
+            ;;
+		*)
+            echo '
+            SPF13-VIM SHORTKEY
+===============================================
+1. Leader/命令前缀:
+    [,]
+
+2. Vundle: The best plugin manager
+
+3. NERDTree/目录树:
+    [, e]/[, nt] 跳转到打开的文件所在位置
+    [Ctrl+e] 打开目录树
+
+4. ctrlp/快速查找文件:
+    [^c-p]
+
+5. Surround/添加括号: managing all the "[{}]" etc.
+    Old text                  Command     New text
+----------------------------------------------------------------------
+5.1.  "Hello *world!"           ds"         Hello world!"
+5.2.  [123+4*56]/2              cs])        (123+456)/2
+5.3. "Look ma, I am *HTML!"     cs"<q>      <q>Look ma, I am HTML!</q>"
+5.4. if *x>3 {                 ysW(        if ( x>3  ) {
+5.5. my $str = *whee!;         vllllS""     my $str = "whee!";
+
+6. NERDCommenter/注释:
+    [, c space] 添加注释
+    [, c i] 切换注释
+
+7. Fugitive/Git管理: deep git integration
+    [, gs] Gstatus
+    [, gd] Gdiff
+    [, gc] Gcommit
+    [, gb] Gblame
+    [, gl] Glog
+    [, gp] Git push
+
+8. 代码折叠
+    [, f0]
+    [, f1]
+    [, f2]
+    [, f3]
+    [, f4]
+    [, f5]
+    [, f6]
+    [, f7]
+    [, f8]
+    [, f9]
+-----------------------------------------------'
+			;;
+	esac
+}
+### end
 ### pm self define
 pm.get()
 {
