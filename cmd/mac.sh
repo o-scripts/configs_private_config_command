@@ -17,6 +17,33 @@ re-bashrc()
 # end
 # mac
 ## self define
+### mac osx Finder config
+finder.cfg()
+{
+    op=$1
+    case $op in
+        *|'h'|'H'|'help'|'HELP')
+            echo '
+                HOW TO CONFIG FINDER COMMOND
+====================================================================
+1. 设置默认打开为主目录
+    defaults write com.apple.finder PathBarRootAtHome -bool TRUE
+    killall Finder
+2. Finder标题栏显示完整路径
+    defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
+    killall Finder
+3. Finder显示隐藏文件
+    defaults write com.apple.finder AppleShowAllFiles -boolean true
+    killall Finder
+4. Finder不显示隐藏文件
+    defaults write com.apple.finder AppleShowAllFiles -boolean false
+    killall Finder
+5. Space键可以任意文件预览
+--------------------------------------------------------------------'
+            ;;
+    esac
+}
+### end
 ### histoty command config
 history.cfg()
 {
@@ -119,6 +146,12 @@ mdocker()
 			echo docker version
 			docker version
 			;;
+        'stop')
+            echo boot2docker down
+            boot2docker down
+            echo docker version
+            docker version
+            ;;
         'lnmp')
             #docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
 			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
@@ -261,11 +294,32 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
             echo '
                                 DOCKER
 ============================================================================
-1. use|help|h - userguide
-2. install|i - quick install
+1. start|up - start docker-machine
+2. stop - stop docker-machine
+3. lnmp - start bash in Linux+Nging+Mysql+Php
+4. use|help|h - userguide
+5. install|i - quick install
 ----------------------------------------------------------------------------'
             ;;
     esac
+}
+### end
+### curl.h
+curl.h()
+{
+    echo -e "/usr/bin/curl\n\t--fail \n\t--progress-bar \n\t--remote-time \n\t--location \n\t--user-agent Homebrew/1.0.9 (Macintosh; Intel macOS 10.12.1) curl/7.49.1 \n\thttps://download3.vmware.com/software/fusion/file/VMware-Fusion-8.5.0-4352717.dmg \n\t-C 140956438 \n\t-o /Users/zhanggd/Library/Caches/Homebrew/Cask/vmware-fusion--8.5.0-4352717.dmg.incomplete
+    "
+}
+### end
+### renew beyond compare
+bc.new()
+{
+    old_file="registry.dat"
+    bc_config_dir="/Users/zhanggd/Library/Application Support/Beyond Compare/"
+    new_file="."${old_file}"_`datestr`"
+    cd "${bc_config_dir}"
+    mv ${old_file} ${new_file}
+    cd -
 }
 ### end
 ## end
