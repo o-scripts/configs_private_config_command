@@ -233,6 +233,11 @@ my.env()
             docker-machine version
 			#docker-machine create --driver virtualbox default
 			docker-machine ls
+			#docker-machine env default
+			sudo groupadd docker
+			sudo usermod -aG docker $USER
+			#sudo service docker start
+			#sudo docker run hello-world
             ;;
         'h'|'help'|*)
             echo "
@@ -245,6 +250,93 @@ my.env()
 ------------------------------------------------"
             ;;
     esac
+}
+### end
+### install ros
+mros()
+{
+	op=$1
+	case $op in
+		'h'|'help'|'H'|'HELP')
+			echo '
+============================================
+--------------------------------------------'
+			;;
+		'i'|'install')
+			echo '
+			HOW TO INSTALL ROS
+============================================
+1. add source to source.list
+	sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu \$(lsb_release -sc) main\" > /etc/apt/sources.list.d/ros-latest.list"
+2. add keys
+	sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 0xB01FA116
+3. install
+	3.1. sudo apt-get update
+	3.2. Install ROS
+		3.2.1. Desktop-Full Install: (Recommended) : ROS, rqt, rviz, robot-generic libraries, 2D/3D simulators, navigation and 2D/3D perception
+			sudo apt-get install ros-kinetic-desktop-full
+		3.2.2. Desktop Install: ROS, rqt, rviz, and robot-generic libraries
+			sudo apt-get install ros-kinetic-desktop
+		3.2.3. ROS-Base: (Bare Bones) ROS package, build, and communication libraries. No GUI tools.
+			sudo apt-get install ros-kinetic-ros-base
+		3.2.4. Individual Package: You can also install a specific ROS package (replace underscores with dashes of the package name):
+			sudo apt-get install ros-kinetic-PACKAGE
+			eg.
+			sudo apt-get install ros-kinetic-slam-gmapping
+			to find avaiable package can use
+				apt-cache search ros-kinetic
+	3.3. Initialize rosdep
+		sudo rosdep init
+		rosdep update
+	3.4. Environment setup
+		echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+		source ~/.bashrc
+	3.5. Getting rosinstall
+		sudo apt install python-rosinstall
+--------------------------------------------'
+			;;
+		*)
+			echo '
+		[HELP] HOW TO INSTALL ROS
+============================================
+h|help|H|Help : help infor
+i|install : install information
+--------------------------------------------'
+			;;
+	esac
+}
+### end
+### ranger
+m.ranger()
+{
+	op=$1
+	case $op in
+		'help'|'h'|*)
+			echo "
+			HOWTO FOR RANGER
+==============================================
+1. config
+1.1.显然，键绑定是可以修改的，首先，需要一个
+rc.conf 配置文件（ranger 1.5 版本后）：
+ranger --copy-config=rc
+这样会在 ～/.config/ranger/ 下生成一个 rc.conf
+文件，里面可以看到许多 map，类似 Vim 的键映射，
+可以根据需要进行修改。
+
+1.2.文件的打开程序列表也可以通过配置文件修改：
+ranger --copy-config=rifle
+以上命令在复制了一份 rifle.conf 到
+~/.config/ranger/ 目录，打开即可以编辑。
+
+2. keybinding
+f3 - 显示文件
+f4 - 编辑文件
+f5 - 复制文件
+f6 - 剪切文件
+
+----------------------------------------------"
+			;;
+	esac
 }
 ### end
 ## end
