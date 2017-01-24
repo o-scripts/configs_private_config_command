@@ -73,31 +73,54 @@ ntfs.mount()
 	origin=$1
 	point=$2
 
-	tmp=`diskutil info ${origin} | grep 'Type ' | cut -d':' -f2 | sed s/[[:space:]]//g`
-	type=${tmp}
-	echo ":$tmp:"
-	case ${type} in
-		'ntfs')
-			echo "type ist ntfs............."
-			;;
-		*)
-			echo "type ist andere............."
-			code='-1'
-			msg="ERROR:\n\tdisk: ${origin} ist ${type}"
-			origin=${code}
-			;;
-	esac
+	# tmp=`diskutil info ${origin} | grep 'Type ' | cut -d':' -f2 | sed s/[[:space:]]//g`
+	# type=${tmp}
+	# echo ":$tmp:"
+	# case ${type} in
+	# 	'ntfs')
+	# 		echo "type ist ntfs............."
+	# 		;;
+	# 	*)
+	# 		echo "type ist andere............."
+	# 		code='-1'
+	# 		msg="ERROR:\n\tdisk: ${origin} ist ${type}"
+	# 		origin=${code}
+	# 		;;
+	# esac
 
-	case ${origin} in
+    case ${origin} in
 		'-1')
 			echo -e ${msg}
 			;;
 		'h'|'-h'|'--help'|'?'|'-?')
-			echo -e "USEAGE:\n\tntfs.mount origin point\nSamples:\n\tntfsmount /dev/disk2s1 ~/zgd_cs701"
+			echo -e "USEAGE:\n\tntfs.mount origin point\nSamples:\n\tntfs.mount /dev/disk2s1 ~/zgd_cs701\nATTENTION:\n\tPLEASE UMOUNT YOUR OLDPOINT"
+			mount
 			;;
 		*)
-			echo sudo mount -v -o 'rw,auto,nobrowse' -t ntfs ${origin} ${point}
-			sudo mount -v -o 'rw,auto,nobrowse' -t ntfs ${origin} ${point}
+			tmp=`diskutil info ${origin} | grep 'Type ' | cut -d':' -f2 | sed s/[[:space:]]//g`
+			type=${tmp}
+			echo ":$tmp:"
+			case ${type} in
+				'ntfs')
+					echo "type ist ntfs............."
+					;;
+				*)
+					echo "type ist andere............."
+					code='-1'
+					msg="ERROR:\n\tdisk: ${origin} ist ${type}"
+					origin=${code}
+					;;
+			esac
+
+			is_dir=`file ${point}  | awk '{print $2}'`
+            case ${is_dir} in
+                'directory')
+        			echo sudo mount -v -o 'rw,auto,nobrowse' -t ntfs ${origin} ${point}
+		        	sudo mount -v -o 'rw,auto,nobrowse' -t ntfs ${origin} ${point}
+                    ;;
+                *)
+                    ;;
+            esac
 			;;
 	esac
 }
@@ -199,17 +222,17 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 4.2.1. boot2docker init 命令进行初始化
 从日志可以看出，初始化的过程是下载一个boot2docer.iso，然后会用ssh生成用于docker的ssh的公钥和私钥对，用于远程。
 ---------------------------------------------------------
-    shengli-mac$ boot2docker init  
-    Latest release for boot2docker/boot2docker is v1.3.2  
-    Downloading boot2docker ISO image...  
-    Success: downloaded https://github.com/boot2docker/boot2docker/releases/download/v1.3.2/boot2docker.iso  
-    to /Users/shengli/.boot2docker/boot2docker.iso  
-    Generating public/private rsa key pair.  
-    Your identification has been saved in /Users/shengli/.ssh/id_boot2docker.  
-    Your public key has been saved in /Users/shengli/.ssh/id_boot2docker.pub.  
-    The key fingerprint is:  
-    ff:7a:53:95:e6:44:27:70:e1:ac:0a:b5:02:35:72:29 shengli@192.168.2.101  
-    The key randomart image is:  
+    shengli-mac$ boot2docker init
+    Latest release for boot2docker/boot2docker is v1.3.2
+    Downloading boot2docker ISO image...
+    Success: downloaded https://github.com/boot2docker/boot2docker/releases/download/v1.3.2/boot2docker.iso
+    to /Users/shengli/.boot2docker/boot2docker.iso
+    Generating public/private rsa key pair.
+    Your identification has been saved in /Users/shengli/.ssh/id_boot2docker.
+    Your public key has been saved in /Users/shengli/.ssh/id_boot2docker.pub.
+    The key fingerprint is:
+    ff:7a:53:95:e6:44:27:70:e1:ac:0a:b5:02:35:72:29 shengli@192.168.2.101
+    The key randomart image is:
     +--[ RSA 2048]----+
     |      . +.  ..o. |
     |      E+..   +...|
@@ -320,6 +343,33 @@ bc.new()
     cd "${bc_config_dir}"
     mv ${old_file} ${new_file}
     cd -
+}
+### end
+### influxdb
+m.influx()
+{
+    op=$1
+    case $op in
+        'auto')
+            echo brew services start influxdb
+            ;;
+        'start'|'up')
+            influxd -config /Users/zhanggd/develop/branch.git/works/tool-kit/publics/homebrew/etc/influxdb.conf
+            ;;
+        'help'|'HELP'|'h'|*)
+            echo "
+            HOWTO for InfluxDB
+=============================================
+auto - lanuch by poweroff
+To have launchd start influxdb now and restart at login:
+  brew services start influxdb
+
+start|up - start with config file
+Or, if you don't want/need a background service you can just run:
+  influxd -config /Users/zhanggd/develop/branch.git/works/tool-kit/publics/homebrew/etc/influxdb.conf
+---------------------------------------------"
+            ;;
+    esac
 }
 ### end
 ## end
