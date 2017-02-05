@@ -686,5 +686,19 @@ wingding.ttf
     esac
 }
 ### end
+### timestamp
+timestamp()
+{
+    op=$1
+    case $op in
+        'sec')
+            echo `date +%s`
+            ;;
+        *)
+            echo "`date +%s`000"
+            ;;
+    esac
+}
+### end
 ## end
 # end
