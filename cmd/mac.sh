@@ -372,5 +372,34 @@ Or, if you don't want/need a background service you can just run:
     esac
 }
 ### end
+### zephyr config
+zephyr.cfg()
+{
+    op=$1
+    case $op in
+        'i'|'install')
+            echo brew install gettext qemu help2man mpfr gmp coreutils wget python3
+            brew install gettext qemu help2man mpfr gmp coreutils wget python3
+            echo brew tap homebrew/dupes
+            brew tap homebrew/dupes
+            echo brew install grep --with-default-names
+            brew install grep --with-default-names
+            echo pip3 install ply
+            pip3 install ply
+            echo brew install crosstool-ng
+            brew install crosstool-ng
+            ;;
+        'h'|'help'|*)
+            echo "
+            HOW TO CONFIG ZEPHYR
+=============================================
+ i|install - install all dependence packages
+ h|help|* - display this help
+---------------------------------------------
+            "
+            ;;
+    esac
+}
+### end
 ## end
 # end
