@@ -247,5 +247,20 @@ my.env()
     esac
 }
 ### end
+### sort and count
+m.counter()
+{
+	op=$1
+	case $op in
+		'h'|*)
+			echo '
+			HOWTO COUNT STRING TIMES
+===============================================
+sort | uniq -c
+-----------------------------------------------'
+			;;
+	esac
+}
+### end
 ## end
 # end
