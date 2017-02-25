@@ -184,6 +184,10 @@ mdocker()
 			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
 			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
 			;;
+        'zephyr')
+            echo docker run -v ~/works:/tmp/works -i -t zephyr:works su test
+            docker run -v ~/works:/tmp/works -i -t zephyr:works su test
+            ;;
         'use'|'help'|'h')
             echo '
                             HOW TO USE DOCKER
@@ -322,6 +326,8 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 3. lnmp - start bash in Linux+Nging+Mysql+Php
 4. use|help|h - userguide
 5. install|i - quick install
+6. ubuntu - run ubuntu 14.04
+7 zephyr - run to zephyr development env
 ----------------------------------------------------------------------------'
             ;;
     esac
