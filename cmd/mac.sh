@@ -163,32 +163,38 @@ mdocker()
 {
     op=$1
     case $op in
-		'start'|'up')
+		'start'|'up'|'1')
 			echo boot2docker start
 			boot2docker start
 			echo docker version
 			docker version
 			;;
-        'stop')
+        'stop'|'2')
             echo boot2docker down
             boot2docker down
             echo docker version
             docker version
             ;;
-        'lnmp')
+        'lnmp'|'3')
             #docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
 			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
 			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
             ;;
-		'ubuntu')
+		'ubuntu'|'6')
 			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
 			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
 			;;
-        'zephyr')
+        'zephyr'|'7')
             echo docker run -v ~/works:/tmp/works -i -t zephyr:works su test
             docker run -v ~/works:/tmp/works -i -t zephyr:works su test
             ;;
-        'use'|'help'|'h')
+        'ps'|'info'|'8')
+            echo docker ps
+            docker ps
+            echo docker images
+            docker images
+            ;;
+        'use'|'help'|'h'|'4')
             echo '
                             HOW TO USE DOCKER
 ============================================================================
@@ -213,7 +219,7 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 `docker commit -m "lnmp" e61884a17a10 ubuntu:lnmp`'
                 ;;
 
-        'install'|'i')
+        'install'|'i'|'5')
             echo '
                         HOW TO INSTALL DOCKER
 ============================================================================
@@ -327,7 +333,8 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 4. use|help|h - userguide
 5. install|i - quick install
 6. ubuntu - run ubuntu 14.04
-7 zephyr - run to zephyr development env
+7. zephyr - run to zephyr development env
+8. info|ps - show info of docker
 ----------------------------------------------------------------------------'
             ;;
     esac
