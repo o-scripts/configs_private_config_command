@@ -162,6 +162,7 @@ lnmp()
 mdocker()
 {
     op=$1
+    pa=$2
     case $op in
 		'start'|'up'|'1')
 			echo boot2docker start
@@ -178,15 +179,30 @@ mdocker()
         'lnmp'|'3')
             #docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
 			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+            read -p "Press to continue...."
 			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
             ;;
 		'ubuntu'|'6')
 			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
+            read -p "Press to continue...."
 			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
 			;;
         'zephyr'|'7')
-            echo docker run -v ~/works:/tmp/works -i -t zephyr:works su test
-            docker run -v ~/works:/tmp/works -i -t zephyr:works su test
+            echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -i -t zephyr:works su test
+            read -p "Press to continue...."
+            docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -i -t zephyr:works su test
+            ;;
+        'commit'|'cm'|'9')
+            echo docker ps
+            docker ps
+            cId=`docker ps | grep -v 'COMMAND' | awk '{print $1}'`
+            cName=`docker ps | grep -v 'COMMAND' | awk '{print $2}'`
+            #msg="update status"
+            #read -p "input commit id: " cId
+            #read -p "input name: " cName
+            read -p "input commit message: " msg
+            echo docker commit -m "\"${msg}\"" ${cId} ${cName}
+            docker commit -m "${msg}" ${cId} ${cName}
             ;;
         'ps'|'info'|'8')
             echo "========================================================="
@@ -347,6 +363,7 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 6. ubuntu - run ubuntu 14.04
 7. zephyr - run to zephyr development env
 8. info|ps - show info of docker
+9. commit|cm - commit this docker
 ----------------------------------------------------------------------------'
             ;;
     esac
