@@ -17,6 +17,33 @@ re-bashrc()
 # end
 # mac
 ## self define
+### mac osx Finder config
+finder.cfg()
+{
+    op=$1
+    case $op in
+        *|'h'|'H'|'help'|'HELP')
+            echo '
+                HOW TO CONFIG FINDER COMMOND
+====================================================================
+1. 设置默认打开为主目录
+    defaults write com.apple.finder PathBarRootAtHome -bool TRUE
+    killall Finder
+2. Finder标题栏显示完整路径
+    defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
+    killall Finder
+3. Finder显示隐藏文件
+    defaults write com.apple.finder AppleShowAllFiles -boolean true
+    killall Finder
+4. Finder不显示隐藏文件
+    defaults write com.apple.finder AppleShowAllFiles -boolean false
+    killall Finder
+5. Space键可以任意文件预览
+--------------------------------------------------------------------'
+            ;;
+    esac
+}
+### end
 ### histoty command config
 history.cfg()
 {
@@ -46,31 +73,54 @@ ntfs.mount()
 	origin=$1
 	point=$2
 
-	tmp=`diskutil info ${origin} | grep 'Type ' | cut -d':' -f2 | sed s/[[:space:]]//g`
-	type=${tmp}
-	echo ":$tmp:"
-	case ${type} in
-		'ntfs')
-			echo "type ist ntfs............."
-			;;
-		*)
-			echo "type ist andere............."
-			code='-1'
-			msg="ERROR:\n\tdisk: ${origin} ist ${type}"
-			origin=${code}
-			;;
-	esac
+	# tmp=`diskutil info ${origin} | grep 'Type ' | cut -d':' -f2 | sed s/[[:space:]]//g`
+	# type=${tmp}
+	# echo ":$tmp:"
+	# case ${type} in
+	# 	'ntfs')
+	# 		echo "type ist ntfs............."
+	# 		;;
+	# 	*)
+	# 		echo "type ist andere............."
+	# 		code='-1'
+	# 		msg="ERROR:\n\tdisk: ${origin} ist ${type}"
+	# 		origin=${code}
+	# 		;;
+	# esac
 
-	case ${origin} in
+    case ${origin} in
 		'-1')
 			echo -e ${msg}
 			;;
 		'h'|'-h'|'--help'|'?'|'-?')
-			echo -e "USEAGE:\n\tntfs.mount origin point\nSamples:\n\tntfsmount /dev/disk2s1 ~/zgd_cs701"
+			echo -e "USEAGE:\n\tntfs.mount origin point\nSamples:\n\tntfs.mount /dev/disk2s1 ~/zgd_cs701\nATTENTION:\n\tPLEASE UMOUNT YOUR OLDPOINT"
+			mount
 			;;
 		*)
-			echo sudo mount -v -o 'rw,auto,nobrowse' -t ntfs ${origin} ${point}
-			sudo mount -v -o 'rw,auto,nobrowse' -t ntfs ${origin} ${point}
+			tmp=`diskutil info ${origin} | grep 'Type ' | cut -d':' -f2 | sed s/[[:space:]]//g`
+			type=${tmp}
+			echo ":$tmp:"
+			case ${type} in
+				'ntfs')
+					echo "type ist ntfs............."
+					;;
+				*)
+					echo "type ist andere............."
+					code='-1'
+					msg="ERROR:\n\tdisk: ${origin} ist ${type}"
+					origin=${code}
+					;;
+			esac
+
+			is_dir=`file ${point}  | awk '{print $2}'`
+            case ${is_dir} in
+                'directory')
+        			echo sudo mount -v -o 'rw,auto,nobrowse' -t ntfs ${origin} ${point}
+		        	sudo mount -v -o 'rw,auto,nobrowse' -t ntfs ${origin} ${point}
+                    ;;
+                *)
+                    ;;
+            esac
 			;;
 	esac
 }
@@ -112,23 +162,67 @@ lnmp()
 mdocker()
 {
     op=$1
+    pa=$2
     case $op in
-		'start'|'up')
+		'start'|'up'|'1')
 			echo boot2docker start
 			boot2docker start
 			echo docker version
 			docker version
 			;;
-        'lnmp')
+        'stop'|'2')
+            echo boot2docker down
+            boot2docker down
+            echo docker version
+            docker version
+            ;;
+        'lnmp'|'3')
             #docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
 			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+            read -p "Press to continue...."
 			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
             ;;
-		'ubuntu')
+		'ubuntu'|'6')
 			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
+            read -p "Press to continue...."
 			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
 			;;
-        'use'|'help'|'h')
+        'zephyr'|'7')
+            echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -i -t zephyr:works su test
+            read -p "Press to continue...."
+            docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -i -t zephyr:works su test
+            ;;
+        'commit'|'cm'|'9')
+            echo docker ps
+            docker ps
+            cId=`docker ps | grep -v 'COMMAND' | awk '{print $1}'`
+            cName=`docker ps | grep -v 'COMMAND' | awk '{print $2}'`
+            #msg="update status"
+            #read -p "input commit id: " cId
+            #read -p "input name: " cName
+            read -p "input commit message: " msg
+            echo docker commit -m "\"${msg}\"" ${cId} ${cName}
+            docker commit -m "${msg}" ${cId} ${cName}
+            ;;
+        'ps'|'info'|'8')
+            echo "========================================================="
+            echo docker version
+            echo "---------------------------------------------------------"
+            docker version
+            echo "
+========================================================="
+            echo docker images
+            echo "---------------------------------------------------------"
+            docker images
+            echo "
+========================================================="
+            echo docker ps
+            echo "---------------------------------------------------------"
+            docker ps
+            echo "
+========================================================="
+            ;;
+        'use'|'help'|'h'|'4')
             echo '
                             HOW TO USE DOCKER
 ============================================================================
@@ -153,7 +247,7 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 `docker commit -m "lnmp" e61884a17a10 ubuntu:lnmp`'
                 ;;
 
-        'install'|'i')
+        'install'|'i'|'5')
             echo '
                         HOW TO INSTALL DOCKER
 ============================================================================
@@ -166,17 +260,17 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 4.2.1. boot2docker init 命令进行初始化
 从日志可以看出，初始化的过程是下载一个boot2docer.iso，然后会用ssh生成用于docker的ssh的公钥和私钥对，用于远程。
 ---------------------------------------------------------
-    shengli-mac$ boot2docker init  
-    Latest release for boot2docker/boot2docker is v1.3.2  
-    Downloading boot2docker ISO image...  
-    Success: downloaded https://github.com/boot2docker/boot2docker/releases/download/v1.3.2/boot2docker.iso  
-    to /Users/shengli/.boot2docker/boot2docker.iso  
-    Generating public/private rsa key pair.  
-    Your identification has been saved in /Users/shengli/.ssh/id_boot2docker.  
-    Your public key has been saved in /Users/shengli/.ssh/id_boot2docker.pub.  
-    The key fingerprint is:  
-    ff:7a:53:95:e6:44:27:70:e1:ac:0a:b5:02:35:72:29 shengli@192.168.2.101  
-    The key randomart image is:  
+    shengli-mac$ boot2docker init
+    Latest release for boot2docker/boot2docker is v1.3.2
+    Downloading boot2docker ISO image...
+    Success: downloaded https://github.com/boot2docker/boot2docker/releases/download/v1.3.2/boot2docker.iso
+    to /Users/shengli/.boot2docker/boot2docker.iso
+    Generating public/private rsa key pair.
+    Your identification has been saved in /Users/shengli/.ssh/id_boot2docker.
+    Your public key has been saved in /Users/shengli/.ssh/id_boot2docker.pub.
+    The key fingerprint is:
+    ff:7a:53:95:e6:44:27:70:e1:ac:0a:b5:02:35:72:29 shengli@192.168.2.101
+    The key randomart image is:
     +--[ RSA 2048]----+
     |      . +.  ..o. |
     |      E+..   +...|
@@ -261,9 +355,90 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
             echo '
                                 DOCKER
 ============================================================================
-1. use|help|h - userguide
-2. install|i - quick install
+1. start|up - start docker-machine
+2. stop - stop docker-machine
+3. lnmp - start bash in Linux+Nging+Mysql+Php
+4. use|help|h - userguide
+5. install|i - quick install
+6. ubuntu - run ubuntu 14.04
+7. zephyr - run to zephyr development env
+8. info|ps - show info of docker
+9. commit|cm - commit this docker
 ----------------------------------------------------------------------------'
+            ;;
+    esac
+}
+### end
+### curl.h
+curl.h()
+{
+    echo -e "/usr/bin/curl\n\t--fail \n\t--progress-bar \n\t--remote-time \n\t--location \n\t--user-agent Homebrew/1.0.9 (Macintosh; Intel macOS 10.12.1) curl/7.49.1 \n\thttps://download3.vmware.com/software/fusion/file/VMware-Fusion-8.5.0-4352717.dmg \n\t-C 140956438 \n\t-o /Users/zhanggd/Library/Caches/Homebrew/Cask/vmware-fusion--8.5.0-4352717.dmg.incomplete
+    "
+}
+### end
+### renew beyond compare
+bc.new()
+{
+    old_file="registry.dat"
+    bc_config_dir="/Users/zhanggd/Library/Application Support/Beyond Compare/"
+    new_file="."${old_file}"_`datestr`"
+    cd "${bc_config_dir}"
+    mv ${old_file} ${new_file}
+    cd -
+}
+### end
+### influxdb
+m.influx()
+{
+    op=$1
+    case $op in
+        'auto')
+            echo brew services start influxdb
+            ;;
+        'start'|'up')
+            influxd -config /Users/zhanggd/develop/branch.git/works/tool-kit/publics/homebrew/etc/influxdb.conf
+            ;;
+        'help'|'HELP'|'h'|*)
+            echo "
+            HOWTO for InfluxDB
+=============================================
+auto - lanuch by poweroff
+To have launchd start influxdb now and restart at login:
+  brew services start influxdb
+
+start|up - start with config file
+Or, if you don't want/need a background service you can just run:
+  influxd -config /Users/zhanggd/develop/branch.git/works/tool-kit/publics/homebrew/etc/influxdb.conf
+---------------------------------------------"
+            ;;
+    esac
+}
+### end
+### zephyr config
+zephyr.cfg()
+{
+    op=$1
+    case $op in
+        'i'|'install')
+            echo brew install gettext qemu help2man mpfr gmp coreutils wget python3
+            brew install gettext qemu help2man mpfr gmp coreutils wget python3
+            echo brew tap homebrew/dupes
+            brew tap homebrew/dupes
+            echo brew install grep --with-default-names
+            brew install grep --with-default-names
+            echo pip3 install ply
+            pip3 install ply
+            echo brew install crosstool-ng
+            brew install crosstool-ng
+            ;;
+        'h'|'help'|*)
+            echo "
+            HOW TO CONFIG ZEPHYR
+=============================================
+ i|install - install all dependence packages
+ h|help|* - display this help
+---------------------------------------------
+            "
             ;;
     esac
 }

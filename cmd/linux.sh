@@ -12,13 +12,13 @@ alias dir='dir --color=auto'
 # end
 
 # revalue mac.command
-re-bashrc()
+m.bashrc()
 {
 	source ~/.bashrc
 }
 ## self define
 ### histoty command config
-history.cfg()
+m.history()
 {
     op=$1
     case $op in
@@ -38,18 +38,11 @@ HISTCONTROL=ignoreboth
     esac
 }
 ### end
-### timestamp
-timestamp()
-{
-    str="`date +%Y-%m-%d\ %H:%M:%S`"
-    echo \[$str\] `date -d "${str}" +%s`
-}
-### end
 ### LNMP config
-lnmp()
+m.lnmp()
 {
     case $1 in
-        'y'|'Y'|'yes'|'Yes'|'YES')
+        '1'|'install'|'i')
             echo apt-get update
             apt-get update
             echo apt-get install nginx \
@@ -63,7 +56,7 @@ lnmp()
                 php5-mysql php5-gd php5-memcached php5-geoip memcached \
                 libmysqlclient-dev
             ;;
-        *)
+        '2'|'info')
             echo '
                 HOW TO CONFIG LNMP(Linux+Nginx+Mysql+Php)
 ===========================================================================
@@ -74,12 +67,21 @@ lnmp()
         php5-mysql php5-gd php5-memcached php5-geoip memcached \
         libmysqlclient-dev
 ---------------------------------------------------------------------------'
+			;;
+        '3'|'h'|'help'|*)
+			echo "
+			HOW TO CONFIG LNMP
+================================================
+1. instal|i - install lnmp
+2. info - display install information
+3. h|help - display help information
+------------------------------------------------"
             ;;
     esac
 }
 ### end
 ### Docker
-mdocker()
+m.docker()
 {
     op=$1
     case $op in
@@ -186,16 +188,16 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
 }
 ### end
 ### my usefully command
-my.env()
+m.env()
 {
     op=$1
     case $op in
-        't'|'tools')
+        '1'|'t'|'tools')
             sudo apt update
             sudo apt -y install vim git axel wget htop ssh sshfs \
                     wine
             ;;
-        'deb'|'p')
+        '2'|'deb'|'p')
             cd ~/hinterladen/tools/
             sudo dpkg -i \
                     google-chrome-stable_current_amd64.deb \
@@ -210,7 +212,7 @@ my.env()
                     picasa-3.0.0-build-57.4402.deb \
                     netease-cloud-music_0.9.0-2_amd64.deb
             ;;
-        'lnmp')
+        '3'|'lnmp')
             sudo apt update
             sudo apt -y install nginx \
                         php5 php5-fpm \
@@ -218,7 +220,7 @@ my.env()
                         php5-mysql php5-gd php5-memcached php5-geoip memcached \
                         libmysqlclient-dev
             ;;
-        'docker')
+        '4'|'docker')
             sudo apt-get install apt-transport-https ca-certificates
             sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 \
                         --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
@@ -239,30 +241,26 @@ my.env()
 			#sudo service docker start
 			#sudo docker run hello-world
             ;;
-        'h'|'help'|*)
+        '5'|'h'|'help'|*)
             echo "
             HOW TO CONFIG MY ENV
 ================================================
 1. t|tools - install normaly tools
 2. deb|p - install some usefull deb package
 3. lnmp - install LNMP
-4. h|help|* - display this help information
+4. docker - install docker
+5. h|help|* - display this help information
 ------------------------------------------------"
             ;;
     esac
 }
 ### end
 ### install ros
-mros()
+m.ros()
 {
 	op=$1
 	case $op in
-		'h'|'help'|'H'|'HELP')
-			echo '
-============================================
---------------------------------------------'
-			;;
-		'i'|'install')
+		'1'|'i'|'install')
 			echo '
 			HOW TO INSTALL ROS
 ============================================
@@ -295,12 +293,12 @@ mros()
 		sudo apt install python-rosinstall
 --------------------------------------------'
 			;;
-		*)
+		'2'|'h'|'help'|'HELP'|*)
 			echo '
 		[HELP] HOW TO INSTALL ROS
 ============================================
-h|help|H|Help : help infor
-i|install : install information
+1. i|install - install information
+2. h|help|HELP - help menu
 --------------------------------------------'
 			;;
 	esac
@@ -338,6 +336,21 @@ f6 - 剪切文件
 			;;
 	esac
 }
-### end
+### m.ranger end
+### sort and count
+m.counter()
+{
+	op=$1
+	case $op in
+		'h'|*)
+			echo '
+			HOWTO COUNT STRING TIMES
+===============================================
+sort | uniq -c
+-----------------------------------------------'
+			;;
+	esac
+}
+### m.counter end
 ## end
 # end
