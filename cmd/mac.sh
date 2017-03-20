@@ -162,29 +162,67 @@ lnmp()
 mdocker()
 {
     op=$1
+    pa=$2
     case $op in
-		'start'|'up')
+		'start'|'up'|'1')
 			echo boot2docker start
 			boot2docker start
 			echo docker version
 			docker version
 			;;
-        'stop')
+        'stop'|'2')
             echo boot2docker down
             boot2docker down
             echo docker version
             docker version
             ;;
-        'lnmp')
+        'lnmp'|'3')
             #docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
 			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+            read -p "Press to continue...."
 			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
             ;;
-		'ubuntu')
+		'ubuntu'|'6')
 			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
+            read -p "Press to continue...."
 			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
 			;;
-        'use'|'help'|'h')
+        'zephyr'|'7')
+            echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -i -t zephyr:works su test
+            read -p "Press to continue...."
+            docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -i -t zephyr:works su test
+            ;;
+        'commit'|'cm'|'9')
+            echo docker ps
+            docker ps
+            cId=`docker ps | grep -v 'COMMAND' | awk '{print $1}'`
+            cName=`docker ps | grep -v 'COMMAND' | awk '{print $2}'`
+            #msg="update status"
+            #read -p "input commit id: " cId
+            #read -p "input name: " cName
+            read -p "input commit message: " msg
+            echo docker commit -m "\"${msg}\"" ${cId} ${cName}
+            docker commit -m "${msg}" ${cId} ${cName}
+            ;;
+        'ps'|'info'|'8')
+            echo "========================================================="
+            echo docker version
+            echo "---------------------------------------------------------"
+            docker version
+            echo "
+========================================================="
+            echo docker images
+            echo "---------------------------------------------------------"
+            docker images
+            echo "
+========================================================="
+            echo docker ps
+            echo "---------------------------------------------------------"
+            docker ps
+            echo "
+========================================================="
+            ;;
+        'use'|'help'|'h'|'4')
             echo '
                             HOW TO USE DOCKER
 ============================================================================
@@ -209,7 +247,7 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 `docker commit -m "lnmp" e61884a17a10 ubuntu:lnmp`'
                 ;;
 
-        'install'|'i')
+        'install'|'i'|'5')
             echo '
                         HOW TO INSTALL DOCKER
 ============================================================================
@@ -322,6 +360,10 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 3. lnmp - start bash in Linux+Nging+Mysql+Php
 4. use|help|h - userguide
 5. install|i - quick install
+6. ubuntu - run ubuntu 14.04
+7. zephyr - run to zephyr development env
+8. info|ps - show info of docker
+9. commit|cm - commit this docker
 ----------------------------------------------------------------------------'
             ;;
     esac
@@ -368,6 +410,35 @@ start|up - start with config file
 Or, if you don't want/need a background service you can just run:
   influxd -config /Users/zhanggd/develop/branch.git/works/tool-kit/publics/homebrew/etc/influxdb.conf
 ---------------------------------------------"
+            ;;
+    esac
+}
+### end
+### zephyr config
+zephyr.cfg()
+{
+    op=$1
+    case $op in
+        'i'|'install')
+            echo brew install gettext qemu help2man mpfr gmp coreutils wget python3
+            brew install gettext qemu help2man mpfr gmp coreutils wget python3
+            echo brew tap homebrew/dupes
+            brew tap homebrew/dupes
+            echo brew install grep --with-default-names
+            brew install grep --with-default-names
+            echo pip3 install ply
+            pip3 install ply
+            echo brew install crosstool-ng
+            brew install crosstool-ng
+            ;;
+        'h'|'help'|*)
+            echo "
+            HOW TO CONFIG ZEPHYR
+=============================================
+ i|install - install all dependence packages
+ h|help|* - display this help
+---------------------------------------------
+            "
             ;;
     esac
 }

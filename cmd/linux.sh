@@ -12,13 +12,13 @@ alias dir='dir --color=auto'
 # end
 
 # revalue mac.command
-re-bashrc()
+m.bashrc()
 {
 	source ~/.bashrc
 }
 ## self define
 ### histoty command config
-history.cfg()
+m.history()
 {
     op=$1
     case $op in
@@ -38,18 +38,11 @@ HISTCONTROL=ignoreboth
     esac
 }
 ### end
-### timestamp
-timestamp()
-{
-    str="`date +%Y-%m-%d\ %H:%M:%S`"
-    echo \[$str\] `date -d "${str}" +%s`
-}
-### end
 ### LNMP config
-lnmp()
+m.lnmp()
 {
     case $1 in
-        'y'|'Y'|'yes'|'Yes'|'YES')
+        '1'|'install'|'i')
             echo apt-get update
             apt-get update
             echo apt-get install nginx \
@@ -63,7 +56,7 @@ lnmp()
                 php5-mysql php5-gd php5-memcached php5-geoip memcached \
                 libmysqlclient-dev
             ;;
-        *)
+        '2'|'info')
             echo '
                 HOW TO CONFIG LNMP(Linux+Nginx+Mysql+Php)
 ===========================================================================
@@ -74,12 +67,21 @@ lnmp()
         php5-mysql php5-gd php5-memcached php5-geoip memcached \
         libmysqlclient-dev
 ---------------------------------------------------------------------------'
+			;;
+        '3'|'h'|'help'|*)
+			echo "
+			HOW TO CONFIG LNMP
+================================================
+1. instal|i - install lnmp
+2. info - display install information
+3. h|help - display help information
+------------------------------------------------"
             ;;
     esac
 }
 ### end
 ### Docker
-mdocker()
+m.docker()
 {
     op=$1
     case $op in
@@ -198,16 +200,16 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
 }
 ### end
 ### my usefully command
-my.env()
+m.env()
 {
     op=$1
     case $op in
-        't'|'tools')
+        '1'|'t'|'tools')
             sudo apt update
             sudo apt -y install vim git axel wget htop ssh sshfs \
                     wine
             ;;
-        'deb'|'p')
+        '2'|'deb'|'p')
             cd ~/hinterladen/tools/
             sudo dpkg -i \
                     google-chrome-stable_current_amd64.deb \
@@ -222,7 +224,7 @@ my.env()
                     picasa-3.0.0-build-57.4402.deb \
                     netease-cloud-music_0.9.0-2_amd64.deb
             ;;
-        'lnmp')
+        '3'|'lnmp')
             sudo apt update
             sudo apt -y install nginx \
                         php5 php5-fpm \
@@ -230,7 +232,7 @@ my.env()
                         php5-mysql php5-gd php5-memcached php5-geoip memcached \
                         libmysqlclient-dev
             ;;
-        'docker')
+        '4'|'docker')
             sudo apt-get install apt-transport-https ca-certificates
             sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 \
                         --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
@@ -245,20 +247,108 @@ my.env()
             docker-machine version
 			#docker-machine create --driver virtualbox default
 			docker-machine ls
+			#docker-machine env default
+			sudo groupadd docker
+			sudo usermod -aG docker $USER
+			#sudo service docker start
+			#sudo docker run hello-world
             ;;
-        'h'|'help'|*)
+        '5'|'h'|'help'|*)
             echo "
             HOW TO CONFIG MY ENV
 ================================================
 1. t|tools - install normaly tools
 2. deb|p - install some usefull deb package
 3. lnmp - install LNMP
-4. h|help|* - display this help information
+4. docker - install docker
+5. h|help|* - display this help information
 ------------------------------------------------"
             ;;
     esac
 }
 ### end
+### install ros
+m.ros()
+{
+	op=$1
+	case $op in
+		'1'|'i'|'install')
+			echo '
+			HOW TO INSTALL ROS
+============================================
+1. add source to source.list
+	sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu \$(lsb_release -sc) main\" > /etc/apt/sources.list.d/ros-latest.list"
+2. add keys
+	sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 0xB01FA116
+3. install
+	3.1. sudo apt-get update
+	3.2. Install ROS
+		3.2.1. Desktop-Full Install: (Recommended) : ROS, rqt, rviz, robot-generic libraries, 2D/3D simulators, navigation and 2D/3D perception
+			sudo apt-get install ros-kinetic-desktop-full
+		3.2.2. Desktop Install: ROS, rqt, rviz, and robot-generic libraries
+			sudo apt-get install ros-kinetic-desktop
+		3.2.3. ROS-Base: (Bare Bones) ROS package, build, and communication libraries. No GUI tools.
+			sudo apt-get install ros-kinetic-ros-base
+		3.2.4. Individual Package: You can also install a specific ROS package (replace underscores with dashes of the package name):
+			sudo apt-get install ros-kinetic-PACKAGE
+			eg.
+			sudo apt-get install ros-kinetic-slam-gmapping
+			to find avaiable package can use
+				apt-cache search ros-kinetic
+	3.3. Initialize rosdep
+		sudo rosdep init
+		rosdep update
+	3.4. Environment setup
+		echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+		source ~/.bashrc
+	3.5. Getting rosinstall
+		sudo apt install python-rosinstall
+--------------------------------------------'
+			;;
+		'2'|'h'|'help'|'HELP'|*)
+			echo '
+		[HELP] HOW TO INSTALL ROS
+============================================
+1. i|install - install information
+2. h|help|HELP - help menu
+--------------------------------------------'
+			;;
+	esac
+}
+### end
+### ranger
+m.ranger()
+{
+	op=$1
+	case $op in
+		'help'|'h'|*)
+			echo "
+			HOWTO FOR RANGER
+==============================================
+1. config
+1.1.显然，键绑定是可以修改的，首先，需要一个
+rc.conf 配置文件（ranger 1.5 版本后）：
+ranger --copy-config=rc
+这样会在 ～/.config/ranger/ 下生成一个 rc.conf
+文件，里面可以看到许多 map，类似 Vim 的键映射，
+可以根据需要进行修改。
+
+1.2.文件的打开程序列表也可以通过配置文件修改：
+ranger --copy-config=rifle
+以上命令在复制了一份 rifle.conf 到
+~/.config/ranger/ 目录，打开即可以编辑。
+
+2. keybinding
+f3 - 显示文件
+f4 - 编辑文件
+f5 - 复制文件
+f6 - 剪切文件
+
+----------------------------------------------"
+			;;
+	esac
+}
+### m.ranger end
 ### sort and count
 m.counter()
 {
@@ -273,6 +363,6 @@ sort | uniq -c
 			;;
 	esac
 }
-### end
+### m.counter end
 ## end
 # end
