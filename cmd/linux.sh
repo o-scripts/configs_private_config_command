@@ -127,16 +127,7 @@ m.docker()
 {
     op=$1
     case $op in
-        'lnmp')
-            # docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
-			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
-			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
-            ;;
-		'ubuntu')
-			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
-			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
-			;;
-        'use'|'help'|'h')
+        'use'|'help'|'h'|'1')
             echo '
                             HOW TO USE DOCKER
 ============================================================================
@@ -159,7 +150,7 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
 `docker commit -m "lnmp" e61884a17a10 ubuntu:lnmp`'
                 ;;
 
-        'install'|'i')
+        'install'|'i'|'2')
             echo '
                         HOW TO INSTALL DOCKER
 ============================================================================
@@ -218,12 +209,33 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
     sudo docker run hello-world
 ----------------------------------------------------------------------------'
             ;;
+		'start'|'up'|'3')
+			echo sudo service docker start
+			sudo service docker start
+			;;
+		'stop'|'down'|'close'|'4')
+			echo sudo service docker stop
+			sudo service docker stop
+			;;
+		'lnmp'|'5')
+            # docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
+			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+            ;;
+		'ubuntu'|'6')
+			echo docker run -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
+			docker run -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
+			;;
         *)
             echo '
                                 DOCKER
 ============================================================================
 1. use|help|h - userguide
 2. install|i - quick install
+3. start|up - start docker
+4. stop|down|close - stop docker
+5. lnmp - runing lnmp
+6. ubuntu - start ubuntu(80,443)
 ----------------------------------------------------------------------------'
             ;;
     esac
