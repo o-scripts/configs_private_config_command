@@ -80,6 +80,48 @@ m.lnmp()
     esac
 }
 ### end
+### LNMP config
+m.lamp()
+{
+    case $1 in
+        '1'|'install'|'i')
+            echo apt-get update
+            apt-get update
+            echo apt-get install apache2 \
+                php5 php5-fpm libapache2-mod-php5 \
+                mysql-server phpmyadmin \
+                php5-mysql php5-gd php5-memcached php5-geoip memcached \
+                libmysqlclient-dev
+            apt-get install apache2 \
+                php5 php5-fpm libapache2-mod-php5 \
+                mysql-server phpmyadmin \
+                php5-mysql php5-gd php5-memcached php5-geoip memcached \
+                libmysqlclient-dev
+            ;;
+        '2'|'info')
+            echo '
+                HOW TO CONFIG LNMP(Linux+Nginx+Mysql+Php)
+===========================================================================
+1. apt-get update
+2. apt-get install apache2 \
+        php5 php5-fpm libapache2-mod-php5 \
+        mysql-server phpmyadmin \
+        php5-mysql php5-gd php5-memcached php5-geoip memcached \
+        libmysqlclient-dev
+---------------------------------------------------------------------------'
+			;;
+        '3'|'h'|'help'|*)
+			echo "
+			HOW TO CONFIG LAMP
+================================================
+1. instal|i - install lnmp
+2. info - display install information
+3. h|help - display help information
+------------------------------------------------"
+            ;;
+    esac
+}
+### end
 ### Docker
 m.docker()
 {
@@ -193,7 +235,10 @@ m.env()
     op=$1
     case $op in
         '1'|'t'|'tools')
+            echo apt update
             sudo apt update
+            echo apt -y install vim git axel wget htop ssh sshfs \
+                    wine
             sudo apt -y install vim git axel wget htop ssh sshfs \
                     wine
             ;;
@@ -211,14 +256,6 @@ m.env()
                     FoxitReader_1.1.0_i386.deb \
                     picasa-3.0.0-build-57.4402.deb \
                     netease-cloud-music_0.9.0-2_amd64.deb
-            ;;
-        '3'|'lnmp')
-            sudo apt update
-            sudo apt -y install nginx \
-                        php5 php5-fpm \
-                        mysql-server phpmyadmin \
-                        php5-mysql php5-gd php5-memcached php5-geoip memcached \
-                        libmysqlclient-dev
             ;;
         '4'|'docker')
             sudo apt-get install apt-transport-https ca-certificates
@@ -247,7 +284,6 @@ m.env()
 ================================================
 1. t|tools - install normaly tools
 2. deb|p - install some usefull deb package
-3. lnmp - install LNMP
 4. docker - install docker
 5. h|help|* - display this help information
 ------------------------------------------------"
@@ -352,5 +388,36 @@ sort | uniq -c
 	esac
 }
 ### m.counter end
+### jenkins
+m.jenkins()
+{
+	op=$1
+	case $op in
+		'2'|'config')
+			echo "
+===============================================
+
+-----------------------------------------------"
+			;;
+		'1'|'i'|'install')
+			echo "
+===============================================
+wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get update
+sudo apt-get install jenkins
+-----------------------------------------------"
+			;;
+		'0'|'h'|'help'|'HELP'|*)
+			echo "
+			HOW TO INSTALL JENKINS
+===============================================
+0. h|help|HELP - display help information
+1. i|install - display install deploy
+-----------------------------------------------"
+			;;
+	esac
+}
+### end
 ## end
 # end

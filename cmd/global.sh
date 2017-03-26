@@ -248,29 +248,37 @@ m.strlog()
 ## end
 
 ## goto
-m.cd.branch()
+m.branch()
 {
 	cd ${BRANCH_GIT}
 }
-m.cd.works()
+m.works()
 {
     cd ${LOCAL_WORKS_DIR}
 }
-m.cd.shell()
+m.shell()
 {
 	cd ${MSHELL}
 }
-m.cd.soft()
+m.soft()
 {
 	cd ${MSOFT}
 }
-m.cd.matlab()
+m.matlab()
 {
 	cd ${MATLAB_HOME}
 }
-m.cd.config()
+m.config()
 {
 	cd ${LOCAL_CONFIG_DIR}
+}
+m.command()
+{
+    cd ${LOCAL_CONFIG_DIR}/command
+}
+m.enviorment()
+{
+    cd ${LOCAL_CONFIG_DIR}/env
 }
 ## end
 
