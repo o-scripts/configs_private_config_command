@@ -229,6 +229,10 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
 			echo docker run -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
 			docker run -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
 			;;
+        'caffe'|'7')
+            echo docker run -d -ti bvlc/caffe:cpu caffe --version
+            docker run -d -ti bvlc/caffe:cpu caffe --version
+            ;;
         *)
             echo '
                                 DOCKER
@@ -239,6 +243,7 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
 4. stop|down|close - stop docker
 5. lnmp - runing lnmp
 6. ubuntu - start ubuntu(80,443)
+7. caffe - caffe.berkeleyvision.org(machine learning)
 ----------------------------------------------------------------------------'
             ;;
     esac
