@@ -440,4 +440,27 @@ sudo apt-get install jenkins
 }
 ### end m.jenkins()
 ## end
+
+## machine learning area
+### caffe install
+m.caffe()
+{
+    op=$1
+    case $op in
+        '1'|'install')
+            echo sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
+            echo sudo apt-get install --no-install-recommends libboost-all-dev
+            ;;
+        '0'|'h'|'help'|*)
+            echo "
+            HOW TO INSTALL CAFFE
+============================================
+0. h|help|* - display help
+1.
+--------------------------------------------"
+            ;;
+    esac
+}
+### end
+## end
 # end
