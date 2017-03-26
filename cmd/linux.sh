@@ -16,13 +16,15 @@ m.bashrc()
 {
 	source ~/.bashrc
 }
+# end m.bashrc()
+
 ## self define
 ### histoty command config
 m.history()
 {
     op=$1
     case $op in
-        'h'|'H')
+        'h'|'H'|*)
             echo '
                 HOW TO CONFIG HISTORY COMMOND
 ====================================================================
@@ -33,11 +35,10 @@ HISTTIMEFORMAT="[%F %T] "
 HISTCONTROL=ignoreboth
 ---------------------------------------------------------------------'
             ;;
-        *)
-            ;;
     esac
 }
-### end
+### end m.history()
+
 ### LNMP config
 m.lnmp()
 {
@@ -79,7 +80,8 @@ m.lnmp()
             ;;
     esac
 }
-### end
+### end m.lnmp()
+
 ### LNMP config
 m.lamp()
 {
@@ -121,7 +123,8 @@ m.lamp()
             ;;
     esac
 }
-### end
+### end m.lamp()
+
 ### Docker
 m.docker()
 {
@@ -240,7 +243,8 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
             ;;
     esac
 }
-### end
+### end m.docker()
+
 ### my usefully command
 m.env()
 {
@@ -302,7 +306,8 @@ m.env()
             ;;
     esac
 }
-### end
+### end m.env()
+
 ### install ros
 m.ros()
 {
@@ -351,7 +356,8 @@ m.ros()
 			;;
 	esac
 }
-### end
+### end m.ros()
+
 ### ranger
 m.ranger()
 {
@@ -384,7 +390,8 @@ f6 - 剪切文件
 			;;
 	esac
 }
-### m.ranger end
+### end m.ranger()
+
 ### sort and count
 m.counter()
 {
@@ -399,7 +406,8 @@ sort | uniq -c
 			;;
 	esac
 }
-### m.counter end
+### end m.counter()
+
 ### jenkins
 m.jenkins()
 {
@@ -430,6 +438,6 @@ sudo apt-get install jenkins
 			;;
 	esac
 }
-### end
+### end m.jenkins()
 ## end
 # end

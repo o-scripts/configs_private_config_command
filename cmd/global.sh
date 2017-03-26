@@ -1,14 +1,34 @@
 #! /bin/bash
+# 11111111111111111111111111111111111111111111111
 # normalweise Einstellungen
 # die Einstellungen fuer alle Situationen
+## version config
+m.version()
+{
+    version="v17.03.26-01"
+    author="zgd1348833@gmail.com"
+    echo ${version}
+    echo ${author}
+}
+## end m.version()
+## revalue mac.command
+m.bashrc()
+{
+    source ~/.bashrc
+}
+## end m.bashrc()
+# end 1
+
+# 111111111111111111111111111111111111111111111111
+# some varables and alias
 ## language varables settings
 alias LANGUAGE="zh_CN.UTF-8"
 alias LC_ALL="zh_CN.UTF-8"
-## end
+## end 2
 
 ## some usefull command
 alias byobu='byobu-screen'
-## end
+## end 2
 
 ## some adb short cmd
 alias adbs="adb shell"
@@ -17,6 +37,13 @@ alias adbr="adb reboot"
 alias adbcls="adb logcat -c"
 alias adblog="adb logcat -v threadtime"
 alias adbreport="adb shell bugreport"
+## end 2
+# end 1
+
+# 1111111111111111111111111111111111111111111111
+# function define area
+# @2017.03.26
+## base command
 ### bsdiff file
 m.ota()
 {
@@ -44,7 +71,10 @@ m.ota()
             ;;
     esac
 }
-### end
+### end m.ota()
+## end 2
+
+## Editor command
 ### spf13-vim short-key
 m.vim()
 {
@@ -142,7 +172,10 @@ m.vim()
             ;;
 	esac
 }
-### end
+### end m.vim()
+## end 2
+
+## android command
 ### pm self define
 m.pm()
 {
@@ -176,8 +209,20 @@ adb shell dumpsys window w | grep '\/' | grep name
 -----------------------------------------------"
     esac
 }
-### end
-## end
+### end m.pm()
+
+### android ActivityManage command
+m.am()
+{
+    op=$1
+    act=$2
+    case $op in
+        *)
+            ;;
+    esac
+}
+### end m.am()
+## end 2
 
 ## git tools configuration
 ### help menu
@@ -205,7 +250,7 @@ m.git()
     echo -e git.cls="git status -s | grep \"??\" | awk '{print $2}' | xargs rm -rvf"
     echo -e cyanogenmodsync="cat .repo/manifest.xml | grep CyanogenMod | awk '{print $2}' | cut -d'\"' -f2 | xargs -n 16 ./repo sync -j16"
 }
-### end
+### end m.git()
 
 ### some git short cmd
 alias git.l="git log --name-status --color=auto --graph"
@@ -343,7 +388,8 @@ ssh login without pwd
 ----------------------------------------------'
     esac
 }
-### end
+### end m.ssh()
+
 ### use openssl rand to create random string
 m.random()
 {
@@ -375,6 +421,8 @@ m.random()
             ;;
     esac
 }
+### end m.random()
+
 ### reset password of mysql
 m.reset()
 {
@@ -401,7 +449,8 @@ m.reset()
             ;;
     esac
 }
-### end
+### end m.reset()
+
 ### android
 # this is setting for config of android
 #-------------------------------------------------------------------------
@@ -665,7 +714,8 @@ For version 1.22, the SHA-1 checksum for repo is da0514e484f74648a890c0467d61ca4
             ;;
     esac
 }
-### end
+### end m.android()
+
 ### gollum for wiki page
 m.wiki()
 {
@@ -694,7 +744,8 @@ m.wiki()
             ;;
     esac
 }
-### end
+### end m.wiki()
+
 ### wps need fonts
 m.wps()
 {
@@ -729,7 +780,7 @@ wingding.ttf
             ;;
     esac
 }
-### end
+### end m.wps()
 ### timestamp
 m.timestamp()
 {
@@ -754,6 +805,6 @@ m.timestamp()
             ;;
     esac
 }
-### end
+### end m.timestamp()
 ## end
 # end

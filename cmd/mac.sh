@@ -10,15 +10,15 @@ alias egrep='egrep --color=auto'
 alias tailf='tail -f'
 # end
 # revalue mac.command
-re-bashrc()
+m.bashrc()
 {
     source ~/.bash_profile
 }
-# end
+# end m.bashrc()
 # mac
 ## self define
 ### mac osx Finder config
-finder.cfg()
+m.finder()
 {
     op=$1
     case $op in
@@ -43,13 +43,13 @@ finder.cfg()
             ;;
     esac
 }
-### end
+### end m.finder()
 ### histoty command config
-history.cfg()
+m.history()
 {
     op=$1
     case $op in
-        'h'|'H')
+        'h'|'H'|*)
             echo '
                 HOW TO CONFIG HISTORY COMMOND
 ====================================================================
@@ -60,13 +60,11 @@ HISTTIMEFORMAT="[%F %T] "
 HISTCONTROL=ignoreboth
 ---------------------------------------------------------------------'
             ;;
-        *)
-            ;;
     esac
 }
 ### end
 ### mount ntfs disk
-ntfs.mount()
+m.ntfs()
 {
 	code='0'
 	msg=
@@ -124,42 +122,10 @@ ntfs.mount()
 			;;
 	esac
 }
+### end m.ntfs()
 
-### LNMP config
-lnmp()
-{
-    case $1 in
-        'y'|'Y'|'yes'|'Yes'|'YES')
-            echo apt-get update
-            apt-get update
-            echo apt-get install nginx \
-                php5 php5-fpm \
-                mysql-server phpmyadmin \
-                php5-mysql php5-gd php5-memcached php5-geoip memcached \
-                libmysqlclient-dev
-            apt-get install nginx \
-                php5 php5-fpm \
-                mysql-server phpmyadmin \
-                php5-mysql php5-gd php5-memcached php5-geoip memcached \
-                libmysqlclient-dev
-            ;;
-        *)
-            echo '
-                HOW TO CONFIG LNMP(Linux+Nginx+Mysql+Php)
-===========================================================================
-1. apt-get update
-2. apt-get install nginx \
-        php5 php5-fpm \
-        mysql-server phpmyadmin \
-        php5-mysql php5-gd php5-memcached php5-geoip memcached \
-        libmysqlclient-dev
----------------------------------------------------------------------------'
-            ;;
-    esac
-}
-### end
 ### Docker
-mdocker()
+m.docker()
 {
     op=$1
     pa=$2
@@ -368,16 +334,18 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
             ;;
     esac
 }
-### end
-### curl.h
-curl.h()
+### end m.docker()
+
+### m.curl
+m.curl()
 {
     echo -e "/usr/bin/curl\n\t--fail \n\t--progress-bar \n\t--remote-time \n\t--location \n\t--user-agent Homebrew/1.0.9 (Macintosh; Intel macOS 10.12.1) curl/7.49.1 \n\thttps://download3.vmware.com/software/fusion/file/VMware-Fusion-8.5.0-4352717.dmg \n\t-C 140956438 \n\t-o /Users/zhanggd/Library/Caches/Homebrew/Cask/vmware-fusion--8.5.0-4352717.dmg.incomplete
     "
 }
-### end
+### end m.curl()
+
 ### renew beyond compare
-bc.new()
+m.bc()
 {
     old_file="registry.dat"
     bc_config_dir="/Users/zhanggd/Library/Application Support/Beyond Compare/"
@@ -386,7 +354,8 @@ bc.new()
     mv ${old_file} ${new_file}
     cd -
 }
-### end
+### end m.bc()
+
 ### influxdb
 m.influx()
 {
@@ -413,9 +382,9 @@ Or, if you don't want/need a background service you can just run:
             ;;
     esac
 }
-### end
+### end m.influx()
 ### zephyr config
-zephyr.cfg()
+m.zephyr()
 {
     op=$1
     case $op in
