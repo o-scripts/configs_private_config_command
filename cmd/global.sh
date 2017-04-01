@@ -700,5 +700,83 @@ timestamp()
     esac
 }
 ### end
+### zephyr config
+m.zephyr()
+{
+    op=$1
+    case $op in
+        '1'|'i'|'install')
+            echo brew install gettext qemu help2man mpfr gmp coreutils wget python3
+            brew install gettext qemu help2man mpfr gmp coreutils wget python3
+            echo brew tap homebrew/dupes
+            brew tap homebrew/dupes
+            echo brew install grep --with-default-names
+            brew install grep --with-default-names
+            echo pip3 install ply
+            pip3 install ply
+            echo brew install crosstool-ng
+            brew install crosstool-ng
+            ;;
+        '2'|'blinky')
+            echo nrfjprog --eraseall -f nrf52
+            nrfjprog --eraseall -f nrf52
+            sleep 1
+            echo nrfjprog --program ${ZEPHYR_BASE}/samples/basic/blinky/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            nrfjprog --program ${ZEPHYR_BASE}/samples/basic/blinky/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            sleep 1
+            echo nrfjprog --reset -f nrf52
+            nrfjprog --reset -f nrf52
+            ;;
+        '2.1'|'btn'|'button')
+            echo nrfjprog --eraseall -f nrf52
+            nrfjprog --eraseall -f nrf52
+            sleep 1
+            echo nrfjprog --program ${ZEPHYR_BASE}/samples/basic/button/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            nrfjprog --program ${ZEPHYR_BASE}/samples/basic/button/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            sleep 1
+            echo nrfjprog --reset -f nrf52
+            nrfjprog --reset -f nrf52
+            ;;
+        '2.2'|'rgb')
+            echo nrfjprog --eraseall -f nrf52
+            nrfjprog --eraseall -f nrf52
+            sleep 1
+            echo nrfjprog --program ${ZEPHYR_BASE}/samples/basic/rgb_led/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            nrfjprog --program ${ZEPHYR_BASE}/samples/basic/rgb_led/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            sleep 1
+            echo nrfjprog --reset -f nrf52
+            nrfjprog --reset -f nrf52
+            ;;
+        '3'|'reset'|'reboot')
+            echo nrfjprog --reset -f nrf52
+            nrfjprog --reset -f nrf52
+            ;;
+        '4'|'m'|'build'|'make')
+            echo make BOARD=nrf52_pca10040
+            make BOARD=nrf52_pca10040
+            ;;
+        '5'|'clean')
+            echo make BOARD=nrf52_pca10040 clean
+            make BOARD=nrf52_pca10040 clean
+            ;;
+        '0'|'h'|'help'|*)
+            echo "
+            HOW TO CONFIG ZEPHYR
+=============================================
+ 1. i|install - install all dependence packages
+ 2. blinky - flash blinky to board
+ 2.1 btn|button - button test
+ 2.2 rgb-led - disco led test
+ 3. reset - reboot board
+ 4. m|build|make - make current application
+ 5. clean - clean current application
+ ---
+ 0. h|help|* - display this help
+---------------------------------------------
+            "
+            ;;
+    esac
+}
+### end
 ## end
 # end

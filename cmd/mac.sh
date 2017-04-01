@@ -178,19 +178,19 @@ mdocker()
             ;;
         'lnmp'|'3')
             #docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
-			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:lnmp /bin/bash
             read -p "Press to continue...."
-			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:lnmp /bin/bash
             ;;
 		'ubuntu'|'6')
-			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
+			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:14.04 /bin/bash
             read -p "Press to continue...."
-			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
+			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:14.04 /bin/bash
 			;;
         'zephyr'|'7')
-            echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -i -t zephyr:works su test
+            echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -d -i -t zephyr:works su test
             read -p "Press to continue...."
-            docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -i -t zephyr:works su test
+            docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -d -i -t zephyr:works su test
             ;;
         'commit'|'cm'|'9')
             echo docker ps
@@ -419,7 +419,7 @@ zephyr.cfg()
 {
     op=$1
     case $op in
-        'i'|'install')
+        '1'|'i'|'install')
             echo brew install gettext qemu help2man mpfr gmp coreutils wget python3
             brew install gettext qemu help2man mpfr gmp coreutils wget python3
             echo brew tap homebrew/dupes
@@ -431,12 +431,32 @@ zephyr.cfg()
             echo brew install crosstool-ng
             brew install crosstool-ng
             ;;
-        'h'|'help'|*)
+        '2'|'blinky')
+            echo nrfjprog --eraseall -f nrf52
+            nrfjprog --eraseall -f nrf52
+            sleep 1
+            echo nrfjprog --program ${ZEPHYR_BASE}/samples/basic/blinky/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            nrfjprog --program ${ZEPHYR_BASE}/samples/basic/blinky/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            sleep 1
+            echo nrfjprog --reset -f nrf52
+            nrfjprog --reset -f nrf52
+            ;;
+        '3'|'reset'|'reboot')
+            echo nrfjprog --reset -f nrf52
+            nrfjprog --reset -f nrf52
+            ;;
+        '4'|'mmm')
+            make BOARD=nrf52_pca10040
+            ;;
+        '0'|'h'|'help'|*)
             echo "
             HOW TO CONFIG ZEPHYR
 =============================================
- i|install - install all dependence packages
- h|help|* - display this help
+ 1. i|install - install all dependence packages
+ 2. blinky - flash blinky to board
+ 3. reset - reboot board
+ ---
+ 0. h|help|* - display this help
 ---------------------------------------------
             "
             ;;
