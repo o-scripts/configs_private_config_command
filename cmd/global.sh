@@ -6,17 +6,45 @@ alias LANGUAGE="zh_CN.UTF-8"
 alias LC_ALL="zh_CN.UTF-8"
 ## end
 
+# ALL PLATFORM COMMAND
+## system command
+UNAME=uname
+HEAD=head
+## safe command
+case `${UNAME}` in
+    'Darwin')
+        MD5=md5;
+        ;;
+    'Linux')
+        MD5=md5sum;
+        ;;
+esac
+OPENSSL=openssl
+## end
+## android command
+ADB=adb
+## end
+# end
+
 ## some usefull command
 alias byobu='byobu-screen'
 ## end
 
+## which platform
+m.arch()
+{
+    uname
+}
+## end
+
 ## some adb short cmd
-alias adbs="adb shell"
-alias adbd="adb devices"
-alias adbr="adb reboot"
-alias adbcls="adb logcat -c"
-alias adblog="adb logcat -v threadtime"
-alias adbreport="adb shell bugreport"
+alias m.adbs="adb shell"
+alias m.adbd="adb devices"
+alias m.adbr="adb reboot"
+alias m.adbcls="adb logcat -c"
+alias m.adblog="adb logcat -v threadtime"
+alias m.adbreport="adb shell bugreport"
+
 ### bsdiff file
 m.ota()
 {
@@ -44,7 +72,8 @@ m.ota()
             ;;
     esac
 }
-### end
+### end m.ota()
+
 ### spf13-vim short-key
 m.vim()
 {
@@ -142,7 +171,8 @@ m.vim()
             ;;
 	esac
 }
-### end
+### end m.vim()
+
 ### pm self define
 m.pm()
 {
@@ -343,38 +373,8 @@ ssh login without pwd
 ----------------------------------------------'
     esac
 }
-### end
-### use openssl rand to create random string
-m.random()
-{
-    seed=$1
-    case $seed in
-        '1'|'ssl'|'openssl')
-        	openssl rand -base64 8 | md5sum
-            ;;
-        '2'|'uuid')
-            cat /proc/sys/kernel/random/uuid
-            ;;
-        '3'|'date')
-            date +%s%N | md5sum | head -c 10
-            echo ""
-            ;;
-        '4'|'urandom')
-            cat /dev/urandom | head -n 10 | md5sum | head -c 10
-            echo ""
-            ;;
-        *)
-            echo '
-                    CREATE RANDOM NUMMBER
-================================================================
-1. ssl|openssl
-2. uuid
-3. date
-4. urandom
-----------------------------------------------------------------'
-            ;;
-    esac
-}
+### end m.ssh()
+
 ### reset password of mysql
 m.reset()
 {
@@ -666,6 +666,7 @@ For version 1.22, the SHA-1 checksum for repo is da0514e484f74648a890c0467d61ca4
     esac
 }
 ### end
+
 ### gollum for wiki page
 m.wiki()
 {
@@ -695,6 +696,7 @@ m.wiki()
     esac
 }
 ### end
+
 ### wps need fonts
 m.wps()
 {
@@ -730,6 +732,7 @@ wingding.ttf
     esac
 }
 ### end
+
 ### timestamp
 m.timestamp()
 {
@@ -751,84 +754,6 @@ m.timestamp()
 2. mil - create timestamp with million seconds
 3. h|help - display infomation
 --------------------------------------------------"
-            ;;
-    esac
-}
-### end
-### zephyr config
-m.zephyr()
-{
-    op=$1
-    case $op in
-        '1'|'i'|'install')
-            echo brew install gettext qemu help2man mpfr gmp coreutils wget python3
-            brew install gettext qemu help2man mpfr gmp coreutils wget python3
-            echo brew tap homebrew/dupes
-            brew tap homebrew/dupes
-            echo brew install grep --with-default-names
-            brew install grep --with-default-names
-            echo pip3 install ply
-            pip3 install ply
-            echo brew install crosstool-ng
-            brew install crosstool-ng
-            ;;
-        '2'|'blinky')
-            echo nrfjprog --eraseall -f nrf52
-            nrfjprog --eraseall -f nrf52
-            sleep 1
-            echo nrfjprog --program ${ZEPHYR_BASE}/samples/basic/blinky/outdir/nrf52_pca10040/zephyr.hex -f nrf52
-            nrfjprog --program ${ZEPHYR_BASE}/samples/basic/blinky/outdir/nrf52_pca10040/zephyr.hex -f nrf52
-            sleep 1
-            echo nrfjprog --reset -f nrf52
-            nrfjprog --reset -f nrf52
-            ;;
-        '2.1'|'btn'|'button')
-            echo nrfjprog --eraseall -f nrf52
-            nrfjprog --eraseall -f nrf52
-            sleep 1
-            echo nrfjprog --program ${ZEPHYR_BASE}/samples/basic/button/outdir/nrf52_pca10040/zephyr.hex -f nrf52
-            nrfjprog --program ${ZEPHYR_BASE}/samples/basic/button/outdir/nrf52_pca10040/zephyr.hex -f nrf52
-            sleep 1
-            echo nrfjprog --reset -f nrf52
-            nrfjprog --reset -f nrf52
-            ;;
-        '2.2'|'rgb')
-            echo nrfjprog --eraseall -f nrf52
-            nrfjprog --eraseall -f nrf52
-            sleep 1
-            echo nrfjprog --program ${ZEPHYR_BASE}/samples/basic/rgb_led/outdir/nrf52_pca10040/zephyr.hex -f nrf52
-            nrfjprog --program ${ZEPHYR_BASE}/samples/basic/rgb_led/outdir/nrf52_pca10040/zephyr.hex -f nrf52
-            sleep 1
-            echo nrfjprog --reset -f nrf52
-            nrfjprog --reset -f nrf52
-            ;;
-        '3'|'reset'|'reboot')
-            echo nrfjprog --reset -f nrf52
-            nrfjprog --reset -f nrf52
-            ;;
-        '4'|'m'|'build'|'make')
-            echo make BOARD=nrf52_pca10040
-            make BOARD=nrf52_pca10040
-            ;;
-        '5'|'clean')
-            echo make BOARD=nrf52_pca10040 clean
-            make BOARD=nrf52_pca10040 clean
-            ;;
-        '0'|'h'|'help'|*)
-            echo "
-            HOW TO CONFIG ZEPHYR
-=============================================
- 1. i|install - install all dependence packages
- 2. blinky - flash blinky to board
- 2.1 btn|button - button test
- 2.2 rgb-led - disco led test
- 3. reset - reboot board
- 4. m|build|make - make current application
- 5. clean - clean current application
- ---
- 0. h|help|* - display this help
----------------------------------------------
-            "
             ;;
     esac
 }
