@@ -81,6 +81,7 @@ m.lnmp()
     esac
 }
 ### end
+
 ### LNMP config
 m.lamp()
 {
@@ -123,6 +124,7 @@ m.lamp()
     esac
 }
 ### end
+
 ### Docker
 m.docker()
 {
@@ -242,6 +244,7 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
     esac
 }
 ### end
+
 ### my usefully command
 m.env()
 {
@@ -304,6 +307,7 @@ m.env()
     esac
 }
 ### end
+
 ### install ros
 m.ros()
 {
@@ -353,6 +357,7 @@ m.ros()
 	esac
 }
 ### end
+
 ### ranger
 m.ranger()
 {
@@ -386,6 +391,7 @@ f6 - 剪切文件
 	esac
 }
 ### m.ranger end
+
 ### sort and count
 m.counter()
 {
@@ -401,6 +407,7 @@ sort | uniq -c
 	esac
 }
 ### m.counter end
+
 ### jenkins
 m.jenkins()
 {
