@@ -18,11 +18,11 @@ alias adbcls="adb logcat -c"
 alias adblog="adb logcat -v threadtime"
 alias adbreport="adb shell bugreport"
 ### bsdiff file
-ota.diff()
+m.ota()
 {
     op=$1
     case $op in
-        *)
+        'diff')
             echo '
             HOW CREATE OTA DIFF FILE
 ===============================================
@@ -34,11 +34,19 @@ ota.diff()
     bspatch old new_file xx.patch
 -----------------------------------------------'
             ;;
+        'h'|'help'|*)
+            echo "
+            HOW TO USE OTA
+================================================
+1. diff - create diff file
+2. h|help - display help
+------------------------------------------------"
+            ;;
     esac
 }
 ### end
 ### spf13-vim short-key
-vim.k()
+m.vim()
 {
 	op=$1
 	case $op in
@@ -70,7 +78,7 @@ vim.k()
 ===============================================
 -----------------------------------------------'
             ;;
-		*)
+		'6'|'key'|'shortkey')
             echo '
             SPF13-VIM SHORTKEY
 ===============================================
@@ -120,11 +128,23 @@ vim.k()
     [, f9]
 -----------------------------------------------'
 			;;
+        '7'|'h'|'help'|*)
+            echo "
+================================================
+1.
+2.
+3.
+4.
+5.
+6. key|shortkey - display shortkey
+7. h|help - display help
+------------------------------------------------"
+            ;;
 	esac
 }
 ### end
 ### pm self define
-pm.get()
+m.pm()
 {
     op=$1
     pkg=$2
@@ -142,7 +162,7 @@ pm.get()
             adb shell dumpsys window w | grep '\/' | grep name
             ;;
         *)
-            echo '
+            echo "
             HOW TO USE PM GET APK INFO
 ===============================================
 1. 列出系统已经安装的所有的包名
@@ -153,7 +173,7 @@ adb shell 'pm list package -f'
 adb shell 'pm path pkg'
 4. 找当前窗口的应用
 adb shell dumpsys window w | grep '\/' | grep name
------------------------------------------------'
+-----------------------------------------------"
     esac
 }
 ### end
@@ -161,25 +181,29 @@ adb shell dumpsys window w | grep '\/' | grep name
 
 ## git tools configuration
 ### help menu
-git.help()
+m.git()
 {
-	echo -e "    gl\t: git log --name-status --color=auto --graph"
-	echo -e "    ga\t: git add"
-	echo -e "    gap\t: git add -p"
-	echo -e "    gd\t: git diff --color=auto"
-	echo -e "    gup\t: git pull; git push"
-	echo -e "    gsb\t: git status -sb"
-	echo -e "    gss\t: git status -s"
-	echo -e "    gst\t: git status"
-	echo -e "    gw\t: git whatchanged"
-	echo -e "    gb\t: git branch"
-	echo -e "    gbr\t: git branch -r"
-	echo -e "    gba\t: git branch -a"
-	echo -e "    gc\t: git checkout"
-	echo -e "    gdown\t: git pull"
-	echo -e "    gcfg\t: git config -l"
-	echo -e "    gcls\t: git status -s | grep \"??\" | awk '{print $2}' | xargs rm -rvf"
-	echo -e "    cyanogenmodsync\t: cat .repo/manifest.xml | grep CyanogenMod | awk '{print $2}' | cut -d'\"' -f2 | xargs -n 16 ./repo sync -j16"
+    echo -e git.l="git log --name-status --color=auto --graph"
+    echo -e git.a="git add"
+    echo -e git.ap="git add -p"
+    echo -e git.cm="git commit"
+    echo -e git.d="git diff --color=auto"
+    echo -e git.down="git pull"
+    echo -e git.up="git pull; git push"
+    echo -e git.sb="git status -sb"
+    echo -e git.ss="git status -s"
+    echo -e git.st="git status"
+    echo -e git.w="git whatchanged"
+    echo -e git.md="git submodule"
+    echo -e git.md.a="git submodule add"
+    echo -e git.md.up="git submodule update"
+    echo -e git.b="git branch"
+    echo -e git.br="git branch -r"
+    echo -e git.ba="git branch -a"
+    echo -e git.ck="git checkout"
+    echo -e git.cfg="git config -l"
+    echo -e git.cls="git status -s | grep \"??\" | awk '{print $2}' | xargs rm -rvf"
+    echo -e cyanogenmodsync="cat .repo/manifest.xml | grep CyanogenMod | awk '{print $2}' | cut -d'\"' -f2 | xargs -n 16 ./repo sync -j16"
 }
 ### end
 
@@ -209,54 +233,62 @@ alias cyanogenmodsync="cat .repo/manifest.xml | grep CyanogenMod | awk '{print $
 ## end
 
 ## avalible for enviorment
-datestr()
+m.datestr()
 {
 	echo "`date +%Y.%m.%d.%H.%M.%S`"
 }
-zipstr()
+m.zipstr()
 {
 	echo "_gdz_`date +%Y.%m.%d_%H%M`"
 }
-strlog()
+m.strlog()
 {
 	echo "fatal|low mem|has died|activitymanager|keycode="
 }
 ## end
 
 ## goto
-cd.branch()
+m.branch()
 {
 	cd ${BRANCH_GIT}
 }
-cd.works()
+m.works()
 {
     cd ${LOCAL_WORKS_DIR}
 }
-cd.shell()
+m.shell()
 {
 	cd ${MSHELL}
 }
-cd.soft()
+m.soft()
 {
 	cd ${MSOFT}
 }
-cd.matlab()
+m.matlab()
 {
 	cd ${MATLAB_HOME}
 }
-cd.config()
+m.config()
 {
 	cd ${LOCAL_CONFIG_DIR}
+}
+m.command()
+{
+    cd ${LOCAL_CONFIG_DIR}/command
+}
+m.enviorment()
+{
+    cd ${LOCAL_CONFIG_DIR}/env
 }
 ## end
 
 ## self define command
 ### ssh login with no pw
-ssh.login()
+m.ssh()
 {
      op=$1
      case $op in
-        'rsa')
+        '1'|'rsa')
             echo '
         HOW TO USE SSH WITH RSA KEY
 ==============================================
@@ -272,7 +304,7 @@ Host pc.host.de
 ssh -v user@pc.host.de
 ----------------------------------------------'
             ;;
-        'pem')
+        '2'|'pem')
             echo '
         HOW TO USE SSH WITH PEM KEY
 ==============================================
@@ -282,7 +314,7 @@ openssl req -x509 -key path/to/key/id_rsa -nodes -days 365 -newkey rsa:2048 -out
 ssh -i path/to/key.pem -v user@pc.host.de
 ----------------------------------------------'
             ;;
-        'nopwd')
+        '3'|'nopwd')
              echo '
         HOW LOGIN SSH WITHOUT PWD
 ==============================================
@@ -313,20 +345,21 @@ ssh login without pwd
 }
 ### end
 ### use openssl rand to create random string
-function random.cli {
+m.random()
+{
     seed=$1
     case $seed in
-        'ssl'|'openssl')
+        '1'|'ssl'|'openssl')
         	openssl rand -base64 8 | md5sum
             ;;
-        'uuid')
+        '2'|'uuid')
             cat /proc/sys/kernel/random/uuid
             ;;
-        'date')
+        '3'|'date')
             date +%s%N | md5sum | head -c 10
             echo ""
             ;;
-        'urandom')
+        '4'|'urandom')
             cat /dev/urandom | head -n 10 | md5sum | head -c 10
             echo ""
             ;;
@@ -343,16 +376,10 @@ function random.cli {
     esac
 }
 ### reset password of mysql
-reset.mysql()
+m.reset()
 {
     case $1 in
-        'y'|'Y'|'yes'|'Yes'|'YES')
-            echo mysqld_safe --skip-grant-tables &
-            mysqld_safe --skip-grant-tables &
-            echo mysql -uroot
-            mysql -uroot
-            ;;
-        *)
+        '1'|'mysql')
             echo '
                HOW TO RESET PASSWORD OF MYSQL
 ================================================================
@@ -364,17 +391,25 @@ reset.mysql()
 6. quit
 ----------------------------------------------------------------'
             ;;
+        '2'|'h'|'help'|*)
+            echo "
+            HOW TO RESET CONFIG
+==========================================
+1. mysql - reset mysql password
+2. h|help - display help infomation
+------------------------------------------"
+            ;;
     esac
 }
 ### end
 ### android
 # this is setting for config of android
 #-------------------------------------------------------------------------
-android.set()
+m.android()
 {
     op=$1
     case $op in
-        'hardware'|'hw')
+        '1'|'hardware'|'hw')
             echo "
 [HARDWARE]
 - A 64-bit environment is required for Gingerbread (2.3.x) and newer versions,
@@ -385,7 +420,7 @@ android.set()
 - If you are running Linux in a virtual machine, you need at least 16GB of
   RAM/swap."
             ;;
-        'soft'|'software'|'sw')
+        '2'|'soft'|'software'|'sw')
             echo "
 [Software requirements]
 ====================================
@@ -444,7 +479,7 @@ Key packages
 - Git 1.7 or newer from git-scm.com"
             ;;
 
-        'jdk'|'java')
+        '3'|'jdk'|'java')
             echo "
 [Installing the JDK]
 ------------------------------------
@@ -478,7 +513,7 @@ Key packages
     sudo update-alternatives --config javac"
             ;;
 
-        'packages'|'pkg')
+        '4'|'packages'|'pkg')
             echo "
 - Installing required packages (Ubuntu 14.04)
 You will need a 64-bit version of Ubuntu. Ubuntu 14.04 is recommended.
@@ -515,7 +550,7 @@ You will need a 64-bit version of Ubuntu. Ubuntu 14.04 is recommended.
     sudo apt-get install libx11-dev:i386"
             ;;
 
-        'usb')
+        '5'|'usb')
             echo "
 [Configuring USB Access]
 ====================================
@@ -536,7 +571,7 @@ in the correct location:
     sudo udevadm control --reload-rules"
             ;;
 
-        'out')
+        '6'|'out')
             echo "
 [Using a separate output directory]
 ====================================
@@ -568,7 +603,7 @@ directory, with unpredictable results.
 branch."
             ;;
 
-        'mac'|'osx')
+        '7'|'mac'|'osx')
             echo "
 [Setting up a MAC OS build environment]
 ------------------------------------
@@ -601,7 +636,7 @@ with ~/android.dmg.sparseimage.
 function umountAndroid() { hdiutil detach /Volumes/android; }"
             ;;
 
-        'repo')
+        '8'|'repo')
             echo "
 [download source]
     curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
@@ -613,7 +648,7 @@ For version 1.21, the SHA-1 checksum for repo is b8bd1804f432ecf1bab730949c82b93
 For version 1.22, the SHA-1 checksum for repo is da0514e484f74648a890c0467d61ca415379f791
 ----------------------------------------------------------------------------"
             ;;
-        *)
+        '9'|'h'|'help'|*)
             echo "
                        ANDROID COMPILE CONFIG SETUP
 ============================================================================
@@ -625,13 +660,14 @@ For version 1.22, the SHA-1 checksum for repo is da0514e484f74648a890c0467d61ca4
 6. 'out'
 7. 'mac'|'osx'
 8. 'repo'
+9. h|help - display infomation
 ----------------------------------------------------------------------------"
             ;;
     esac
 }
 ### end
 ### gollum for wiki page
-wiki.config()
+m.wiki()
 {
     op=$1
     case $op in
@@ -660,11 +696,11 @@ wiki.config()
 }
 ### end
 ### wps need fonts
-wps.fonts()
+m.wps()
 {
     op=$1
     case $op in
-        *)
+        '1'|'fonts')
             echo '
               WPS NEED FONTS LIST
 =================================================
@@ -683,19 +719,38 @@ Symbol Tiger.ttf
 wingding.ttf
 -------------------------------------------------'
             ;;
+        'h'|'help'|*)
+            echo "
+            HOW TO CONFIG WPS
+=================================================
+1. fonts - config fonts
+2. h|help - display infomation
+-------------------------------------------------"
+            ;;
     esac
 }
 ### end
 ### timestamp
-timestamp()
+m.timestamp()
 {
     op=$1
     case $op in
-        'sec')
-            echo `date +%s`
+        '1'|'sec')
+            str="`date +%Y-%m-%d\ %H:%M:%S`"
+            echo \[$str\] `date -d "${str}" +%s`
             ;;
-        *)
-            echo "`date +%s`000"
+        '2'|'mil')
+            str="`date +%Y-%m-%d\ %H:%M:%S`.000"
+            echo \[$str\] `date -d "${str}" +%s`"000"
+            ;;
+        '3'|'h'|'help'|*)
+            echo "
+            HOW TO CREATE TIMESTAMP
+==================================================
+1. sec - create timestamp with seconds
+2. mil - create timestamp with million seconds
+3. h|help - display infomation
+--------------------------------------------------"
             ;;
     esac
 }
