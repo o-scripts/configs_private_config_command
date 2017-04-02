@@ -5,7 +5,7 @@
 ## version config
 m.version()
 {
-    version="v17.03.26-01"
+    version="v17.04.02-01"
     author="zgd1348833@gmail.com"
     echo ${version}
     echo ${author}
