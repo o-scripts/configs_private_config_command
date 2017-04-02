@@ -14,15 +14,22 @@ HEAD=head
 case `${UNAME}` in
     'Darwin')
         MD5=md5;
+        NRFJPROG=nrfjprog
         ;;
     'Linux')
         MD5=md5sum;
+        APT=apt
+        SERV=service
         ;;
 esac
 OPENSSL=openssl
 ## end
 ## android command
 ADB=adb
+## end
+## docker
+DOCKER=docker
+DOCKER_MACHINE=docker-machine
 ## end
 # end
 
