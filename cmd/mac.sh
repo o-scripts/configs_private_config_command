@@ -443,35 +443,35 @@ m.zephyr()
             echo nrfjprog --eraseall -f nrf52
             nrfjprog --eraseall -f nrf52
             sleep 1
-            echo nrfjprog --program ${ZEPHYR_BASE}/samples/basic/blinky/outdir/nrf52_pca10040/zephyr.hex -f nrf52
-            nrfjprog --program ${ZEPHYR_BASE}/samples/basic/blinky/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            echo ${NRFJPROG} --program ${ZEPHYR_BASE}/samples/basic/blinky/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            ${NRFJPROG} --program ${ZEPHYR_BASE}/samples/basic/blinky/outdir/nrf52_pca10040/zephyr.hex -f nrf52
             sleep 1
-            echo nrfjprog --reset -f nrf52
-            nrfjprog --reset -f nrf52
+            echo ${NRFJPROG} --reset -f nrf52
+            ${NRFJPROG} --reset -f nrf52
             ;;
         '2.1'|'btn'|'button')
-            echo nrfjprog --eraseall -f nrf52
-            nrfjprog --eraseall -f nrf52
+            echo ${NRFJPROG} --eraseall -f nrf52
+            ${NRFJPROG} --eraseall -f nrf52
             sleep 1
-            echo nrfjprog --program ${ZEPHYR_BASE}/samples/basic/button/outdir/nrf52_pca10040/zephyr.hex -f nrf52
-            nrfjprog --program ${ZEPHYR_BASE}/samples/basic/button/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            echo ${NRFJPROG} --program ${ZEPHYR_BASE}/samples/basic/button/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            ${NRFJPROG} --program ${ZEPHYR_BASE}/samples/basic/button/outdir/nrf52_pca10040/zephyr.hex -f nrf52
             sleep 1
-            echo nrfjprog --reset -f nrf52
-            nrfjprog --reset -f nrf52
+            echo ${NRFJPROG} --reset -f nrf52
+            ${NRFJPROG} --reset -f nrf52
             ;;
         '2.2'|'rgb')
-            echo nrfjprog --eraseall -f nrf52
-            nrfjprog --eraseall -f nrf52
+            echo ${NRFJPROG} --eraseall -f nrf52
+            ${NRFJPROG} --eraseall -f nrf52
             sleep 1
-            echo nrfjprog --program ${ZEPHYR_BASE}/samples/basic/rgb_led/outdir/nrf52_pca10040/zephyr.hex -f nrf52
-            nrfjprog --program ${ZEPHYR_BASE}/samples/basic/rgb_led/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            echo ${NRFJPROG} --program ${ZEPHYR_BASE}/samples/basic/rgb_led/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            ${NRFJPROG} --program ${ZEPHYR_BASE}/samples/basic/rgb_led/outdir/nrf52_pca10040/zephyr.hex -f nrf52
             sleep 1
-            echo nrfjprog --reset -f nrf52
-            nrfjprog --reset -f nrf52
+            echo ${NRFJPROG} --reset -f nrf52
+            ${NRFJPROG} --reset -f nrf52
             ;;
         '3'|'reset'|'reboot')
-            echo nrfjprog --reset -f nrf52
-            nrfjprog --reset -f nrf52
+            echo ${NRFJPROG} --reset -f nrf52
+            ${NRFJPROG} --reset -f nrf52
             ;;
         '4'|'mmm')
             make BOARD=nrf52_pca10040
@@ -500,7 +500,7 @@ m.random()
     seed=$1
     case $seed in
         '1'|'ssl'|'openssl')
-            openssl rand -base64 8 | ${MD5}
+            ${OPENSSL} rand -base64 8 | ${MD5}
             ;;
         '3'|'date')
             date +%s%N | ${MD5} | ${HEAD} -c 10

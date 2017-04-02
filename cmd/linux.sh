@@ -44,14 +44,14 @@ m.lnmp()
 {
     case $1 in
         '1'|'install'|'i')
-            echo apt-get update
-            apt-get update
-            echo apt-get install nginx \
+            echo ${APT} update
+            ${APT} update
+            echo ${APT} install nginx \
                 php5 php5-fpm \
                 mysql-server phpmyadmin \
                 php5-mysql php5-gd php5-memcached php5-geoip memcached \
                 libmysqlclient-dev
-            apt-get install nginx \
+            ${APT} install nginx \
                 php5 php5-fpm \
                 mysql-server phpmyadmin \
                 php5-mysql php5-gd php5-memcached php5-geoip memcached \
@@ -87,14 +87,14 @@ m.lamp()
 {
     case $1 in
         '1'|'install'|'i')
-            echo apt-get update
-            apt-get update
-            echo apt-get install apache2 \
+            echo ${APT} update
+            ${APT} update
+            echo ${APT} install apache2 \
                 php5 php5-fpm libapache2-mod-php5 \
                 mysql-server phpmyadmin \
                 php5-mysql php5-gd php5-memcached php5-geoip memcached \
                 libmysqlclient-dev
-            apt-get install apache2 \
+            ${APT} install apache2 \
                 php5 php5-fpm libapache2-mod-php5 \
                 mysql-server phpmyadmin \
                 php5-mysql php5-gd php5-memcached php5-geoip memcached \
@@ -213,21 +213,21 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
 ----------------------------------------------------------------------------'
             ;;
 		'start'|'up'|'3')
-			echo sudo service docker start
-			sudo service docker start
+			echo sudo ${SERV} ${DOCKER} start
+			sudo ${SERV} ${DOCKER} start
 			;;
 		'stop'|'down'|'close'|'4')
-			echo sudo service docker stop
-			sudo service docker stop
+			echo sudo ${SERV} ${DOCKER} stop
+			sudo ${SERV} ${DOCKER} stop
 			;;
 		'lnmp'|'5')
             # docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
-			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
-			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+			echo ${DOCKER} run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+			${DOCKER} run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
             ;;
 		'ubuntu'|'6')
-			echo docker run -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
-			docker run -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
+			echo ${DOCKER} run -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
+			${DOCKER} run -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
 			;;
         'caffe'|'7')
             echo docker run -d -ti bvlc/caffe:cpu caffe --version
@@ -279,14 +279,14 @@ m.env()
                     netease-cloud-music_0.9.0-2_amd64.deb
             ;;
         '4'|'docker')
-            sudo apt-get install apt-transport-https ca-certificates
+            sudo ${APT} install apt-transport-https ca-certificates
             sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 \
                         --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
             sudo touch /etc/apt/sources.list.d/docker.list
             sudo echo "deb https://apt.dockerproject.org/repo ubuntu-`lsb_release -c | awk '{print $2}' | sed s/[[:space:]]//g` main" > /etc/apt/sources.list.d/docker.list
             sudo apt update
-            sudo apt-get install -y linux-image-extra-$(uname -r)
-            sudo apt-get install -y docker-engine
+            sudo ${APT} install -y linux-image-extra-$(uname -r)
+            sudo ${APT} install -y docker-engine
             curl -L https://github.com/docker/machine/releases/download/v0.8.2/docker-machine-`uname -s`-`uname -m` > docker-machine
             sudo mv docker-machine* /usr/local/bin/docker-machine
             sudo chmod +x /usr/local/bin/docker-machine
@@ -296,7 +296,7 @@ m.env()
 			#docker-machine env default
 			sudo groupadd docker
 			sudo usermod -aG docker $USER
-			#sudo service docker start
+			#sudo ${SERV} docker start
 			#sudo docker run hello-world
             ;;
         '5'|'h'|'help'|*)
@@ -473,18 +473,6 @@ m.zephyr()
 {
     op=$1
     case $op in
-        '1'|'i'|'install')
-            echo brew install gettext qemu help2man mpfr gmp coreutils wget python3
-            brew install gettext qemu help2man mpfr gmp coreutils wget python3
-            echo brew tap homebrew/dupes
-            brew tap homebrew/dupes
-            echo brew install grep --with-default-names
-            brew install grep --with-default-names
-            echo pip3 install ply
-            pip3 install ply
-            echo brew install crosstool-ng
-            brew install crosstool-ng
-            ;;
         '4'|'m'|'build'|'make')
             echo make BOARD=nrf52_pca10040
             make BOARD=nrf52_pca10040
@@ -497,7 +485,6 @@ m.zephyr()
             echo "
             HOW TO CONFIG ZEPHYR
 =============================================
- 1. i|install - install all dependence packages
  4. m|build|make - make current application
  5. clean - clean current application
  ---
