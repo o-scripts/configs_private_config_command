@@ -247,7 +247,7 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
 ----------------------------------------------------------------------------'
             ;;
     esac
-}d
+}
 ### end m.docker()
 
 ### my usefully command
@@ -461,7 +461,7 @@ m.caffe()
             HOW TO INSTALL CAFFE
 ============================================
 0. h|help|* - display help
-1.
+1. install - install command
 --------------------------------------------"
             ;;
     esac

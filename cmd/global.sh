@@ -67,7 +67,7 @@ m.arch()
 # 1111111111111111111111111111111111111111111111
 # function define area
 # @2017.03.26
-## base command
+## some adb short cmd
 alias m.adbs="adb shell"
 alias m.adbd="adb devices"
 alias m.adbr="adb reboot"
@@ -420,39 +420,6 @@ ssh login without pwd
     esac
 }
 ### end m.ssh()
-
-### use openssl rand to create random string
-m.random()
-{
-    seed=$1
-    case $seed in
-        '1'|'ssl'|'openssl')
-        	openssl rand -base64 8 | md5sum
-            ;;
-        '2'|'uuid')
-            cat /proc/sys/kernel/random/uuid
-            ;;
-        '3'|'date')
-            date +%s%N | md5sum | head -c 10
-            echo ""
-            ;;
-        '4'|'urandom')
-            cat /dev/urandom | head -n 10 | md5sum | head -c 10
-            echo ""
-            ;;
-        *)
-            echo '
-                    CREATE RANDOM NUMMBER
-================================================================
-1. ssl|openssl
-2. uuid
-3. date
-4. urandom
-----------------------------------------------------------------'
-            ;;
-    esac
-}
-### end m.random()
 
 ### reset password of mysql
 m.reset()
