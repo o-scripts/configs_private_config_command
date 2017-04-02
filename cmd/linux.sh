@@ -247,7 +247,7 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
 ----------------------------------------------------------------------------'
             ;;
     esac
-}
+}d
 ### end m.docker()
 
 ### my usefully command
@@ -466,6 +466,80 @@ m.caffe()
             ;;
     esac
 }
-### end
+### end m.caffe()
+
+### zephyr config
+m.zephyr()
+{
+    op=$1
+    case $op in
+        '1'|'i'|'install')
+            echo brew install gettext qemu help2man mpfr gmp coreutils wget python3
+            brew install gettext qemu help2man mpfr gmp coreutils wget python3
+            echo brew tap homebrew/dupes
+            brew tap homebrew/dupes
+            echo brew install grep --with-default-names
+            brew install grep --with-default-names
+            echo pip3 install ply
+            pip3 install ply
+            echo brew install crosstool-ng
+            brew install crosstool-ng
+            ;;
+        '4'|'m'|'build'|'make')
+            echo make BOARD=nrf52_pca10040
+            make BOARD=nrf52_pca10040
+            ;;
+        '5'|'clean')
+            echo make BOARD=nrf52_pca10040 clean
+            make BOARD=nrf52_pca10040 clean
+            ;;
+        '0'|'h'|'help'|*)
+            echo "
+            HOW TO CONFIG ZEPHYR
+=============================================
+ 1. i|install - install all dependence packages
+ 4. m|build|make - make current application
+ 5. clean - clean current application
+ ---
+ 0. h|help|* - display this help
+---------------------------------------------
+            "
+            ;;
+    esac
+}
+### end m.zephyr()
+
+### use openssl rand to create random string
+m.random()
+{
+    seed=$1
+    case $seed in
+        '1'|'ssl'|'openssl')
+            openssl rand -base64 8 | ${MD5}
+            ;;
+        '2'|'uuid')
+            cat /proc/sys/kernel/random/uuid
+            ;;
+        '3'|'date')
+            date +%s%N | ${MD5} | ${HEAD} -c 10
+            echo ""
+            ;;
+        '4'|'urandom')
+            cat /dev/urandom | ${HEAD} -n 10 | ${MD5} | ${HEAD} -c 10
+            echo ""
+            ;;
+        *)
+            echo '
+                    CREATE RANDOM NUMMBER
+================================================================
+1. ssl|openssl
+2. uuid
+3. date
+4. urandom
+----------------------------------------------------------------'
+            ;;
+    esac
+}
+### end m.random()
 ## end
 # end

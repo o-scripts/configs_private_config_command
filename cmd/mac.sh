@@ -9,12 +9,14 @@ alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias tailf='tail -f'
 # end
+
 # revalue mac.command
 m.bashrc()
 {
     source ~/.bash_profile
 }
 # end m.bashrc()
+
 # mac
 ## self define
 ### mac osx Finder config
@@ -44,6 +46,7 @@ m.finder()
     esac
 }
 ### end m.finder()
+
 ### histoty command config
 m.history()
 {
@@ -62,7 +65,8 @@ HISTCONTROL=ignoreboth
             ;;
     esac
 }
-### end
+### end m.history()
+
 ### mount ntfs disk
 m.ntfs()
 {
@@ -124,6 +128,40 @@ m.ntfs()
 }
 ### end m.ntfs()
 
+### LNMP config
+m.lnmp()
+{
+    case $1 in
+        'y'|'Y'|'yes'|'Yes'|'YES')
+            echo apt-get update
+            apt-get update
+            echo apt-get install nginx \
+                php5 php5-fpm \
+                mysql-server phpmyadmin \
+                php5-mysql php5-gd php5-memcached php5-geoip memcached \
+                libmysqlclient-dev
+            apt-get install nginx \
+                php5 php5-fpm \
+                mysql-server phpmyadmin \
+                php5-mysql php5-gd php5-memcached php5-geoip memcached \
+                libmysqlclient-dev
+            ;;
+        *)
+            echo '
+                HOW TO CONFIG LNMP(Linux+Nginx+Mysql+Php)
+===========================================================================
+1. apt-get update
+2. apt-get install nginx \
+        php5 php5-fpm \
+        mysql-server phpmyadmin \
+        php5-mysql php5-gd php5-memcached php5-geoip memcached \
+        libmysqlclient-dev
+---------------------------------------------------------------------------'
+            ;;
+    esac
+}
+### end m.lnmp()
+
 ### Docker
 m.docker()
 {
@@ -144,19 +182,19 @@ m.docker()
             ;;
         'lnmp'|'3')
             #docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
-			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:lnmp /bin/bash
             read -p "Press to continue...."
-			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:lnmp /bin/bash
             ;;
 		'ubuntu'|'6')
-			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
+			echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:14.04 /bin/bash
             read -p "Press to continue...."
-			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:14.04 /bin/bash
+			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:14.04 /bin/bash
 			;;
         'zephyr'|'7')
-            echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -i -t zephyr:works su test
+            echo docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -d -i -t zephyr:works su test
             read -p "Press to continue...."
-            docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -i -t zephyr:works su test
+            docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -d -i -t zephyr:works su test
             ;;
         'commit'|'cm'|'9')
             echo docker ps
@@ -336,7 +374,7 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 }
 ### end m.docker()
 
-### m.curl
+### curl.h
 m.curl()
 {
     echo -e "/usr/bin/curl\n\t--fail \n\t--progress-bar \n\t--remote-time \n\t--location \n\t--user-agent Homebrew/1.0.9 (Macintosh; Intel macOS 10.12.1) curl/7.49.1 \n\thttps://download3.vmware.com/software/fusion/file/VMware-Fusion-8.5.0-4352717.dmg \n\t-C 140956438 \n\t-o /Users/zhanggd/Library/Caches/Homebrew/Cask/vmware-fusion--8.5.0-4352717.dmg.incomplete
@@ -349,7 +387,7 @@ m.bc()
 {
     old_file="registry.dat"
     bc_config_dir="/Users/zhanggd/Library/Application Support/Beyond Compare/"
-    new_file="."${old_file}"_`datestr`"
+    new_file="."${old_file}"_`m.datestr`"
     cd "${bc_config_dir}"
     mv ${old_file} ${new_file}
     cd -
@@ -383,12 +421,13 @@ Or, if you don't want/need a background service you can just run:
     esac
 }
 ### end m.influx()
+
 ### zephyr config
 m.zephyr()
 {
     op=$1
     case $op in
-        'i'|'install')
+        '1'|'i'|'install')
             echo brew install gettext qemu help2man mpfr gmp coreutils wget python3
             brew install gettext qemu help2man mpfr gmp coreutils wget python3
             echo brew tap homebrew/dupes
@@ -400,17 +439,88 @@ m.zephyr()
             echo brew install crosstool-ng
             brew install crosstool-ng
             ;;
-        'h'|'help'|*)
+        '2'|'blinky')
+            echo nrfjprog --eraseall -f nrf52
+            nrfjprog --eraseall -f nrf52
+            sleep 1
+            echo nrfjprog --program ${ZEPHYR_BASE}/samples/basic/blinky/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            nrfjprog --program ${ZEPHYR_BASE}/samples/basic/blinky/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            sleep 1
+            echo nrfjprog --reset -f nrf52
+            nrfjprog --reset -f nrf52
+            ;;
+        '2.1'|'btn'|'button')
+            echo nrfjprog --eraseall -f nrf52
+            nrfjprog --eraseall -f nrf52
+            sleep 1
+            echo nrfjprog --program ${ZEPHYR_BASE}/samples/basic/button/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            nrfjprog --program ${ZEPHYR_BASE}/samples/basic/button/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            sleep 1
+            echo nrfjprog --reset -f nrf52
+            nrfjprog --reset -f nrf52
+            ;;
+        '2.2'|'rgb')
+            echo nrfjprog --eraseall -f nrf52
+            nrfjprog --eraseall -f nrf52
+            sleep 1
+            echo nrfjprog --program ${ZEPHYR_BASE}/samples/basic/rgb_led/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            nrfjprog --program ${ZEPHYR_BASE}/samples/basic/rgb_led/outdir/nrf52_pca10040/zephyr.hex -f nrf52
+            sleep 1
+            echo nrfjprog --reset -f nrf52
+            nrfjprog --reset -f nrf52
+            ;;
+        '3'|'reset'|'reboot')
+            echo nrfjprog --reset -f nrf52
+            nrfjprog --reset -f nrf52
+            ;;
+        '4'|'mmm')
+            make BOARD=nrf52_pca10040
+            ;;
+        '0'|'h'|'help'|*)
             echo "
             HOW TO CONFIG ZEPHYR
 =============================================
- i|install - install all dependence packages
- h|help|* - display this help
+ 1. i|install - install all dependence packages
+ 2. blinky - flash blinky to board
+ 2.1 btn|button - button test
+ 2.2 rgb-led - disco led test
+ 3. reset - reboot board
+ ---
+ 0. h|help|* - display this help
 ---------------------------------------------
             "
             ;;
     esac
 }
-### end
+### end m.zephyr()
+
+### use openssl rand to create random string
+m.random()
+{
+    seed=$1
+    case $seed in
+        '1'|'ssl'|'openssl')
+            openssl rand -base64 8 | ${MD5}
+            ;;
+        '3'|'date')
+            date +%s%N | ${MD5} | ${HEAD} -c 10
+            echo ""
+            ;;
+        '4'|'urandom')
+            cat /dev/urandom | ${HEAD} -n 10 | ${MD5} | ${HEAD} -c 10
+            echo ""
+            ;;
+        *)
+            echo '
+                    CREATE RANDOM NUMMBER
+================================================================
+1. ssl|openssl
+3. date
+4. urandom
+----------------------------------------------------------------'
+            ;;
+    esac
+}
+### end m.random()
 ## end
 # end

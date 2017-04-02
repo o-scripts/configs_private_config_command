@@ -26,24 +26,48 @@ alias LANGUAGE="zh_CN.UTF-8"
 alias LC_ALL="zh_CN.UTF-8"
 ## end 2
 
+# ALL PLATFORM COMMAND
+## system command
+UNAME=uname
+HEAD=head
+## safe command
+case `${UNAME}` in
+    'Darwin')
+        MD5=md5;
+        ;;
+    'Linux')
+        MD5=md5sum;
+        ;;
+esac
+OPENSSL=openssl
+## end
+## android command
+ADB=adb
+## end
+# end
+
 ## some usefull command
 alias byobu='byobu-screen'
 ## end 2
 
-## some adb short cmd
-alias adbs="adb shell"
-alias adbd="adb devices"
-alias adbr="adb reboot"
-alias adbcls="adb logcat -c"
-alias adblog="adb logcat -v threadtime"
-alias adbreport="adb shell bugreport"
-## end 2
-# end 1
+## which platform
+m.arch()
+{
+    uname
+}
+## end
 
 # 1111111111111111111111111111111111111111111111
 # function define area
 # @2017.03.26
 ## base command
+alias m.adbs="adb shell"
+alias m.adbd="adb devices"
+alias m.adbr="adb reboot"
+alias m.adbcls="adb logcat -c"
+alias m.adblog="adb logcat -v threadtime"
+alias m.adbreport="adb shell bugreport"
+
 ### bsdiff file
 m.ota()
 {
@@ -781,6 +805,7 @@ wingding.ttf
     esac
 }
 ### end m.wps()
+
 ### timestamp
 m.timestamp()
 {
