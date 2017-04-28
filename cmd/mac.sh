@@ -13,7 +13,7 @@ alias tailf='tail -f'
 # revalue mac.command
 m.bashrc()
 {
-    source ~/.bash_profile
+    m.import ~/.bash_profile
 }
 # end m.bashrc()
 

@@ -14,7 +14,7 @@ alias dir='dir --color=auto'
 # revalue mac.command
 m.bashrc()
 {
-	source ~/.bashrc
+	m.import ~/.bashrc
 }
 # end m.bashrc()
 
@@ -222,16 +222,20 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
 			;;
 		'lnmp'|'5')
             # docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
-			echo ${DOCKER} run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
-			${DOCKER} run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+			echo ${DOCKER} run -d -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+			${DOCKER} run -d -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
             ;;
 		'ubuntu'|'6')
-			echo ${DOCKER} run -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
-			${DOCKER} run -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
+			echo ${DOCKER} run -d -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
+			${DOCKER} run -d -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
 			;;
         'caffe'|'7')
             echo docker run -d -ti bvlc/caffe:cpu caffe --version
             docker run -d -ti bvlc/caffe:cpu caffe --version
+            ;;
+        '0'|'info')
+            docker version
+            docker ps
             ;;
         *)
             echo '
@@ -244,6 +248,7 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
 5. lnmp - runing lnmp
 6. ubuntu - start ubuntu(80,443)
 7. caffe - caffe.berkeleyvision.org(machine learning)
+0. info - display info
 ----------------------------------------------------------------------------'
             ;;
     esac
@@ -528,5 +533,28 @@ m.random()
     esac
 }
 ### end m.random()
+### m.opencv()
+m.opencv()
+{
+    op=$1
+    case $op in
+        1|install|i)
+            echo "sudo apt-get install --assume-yes build-essential cmake git \\
+            build-essential pkg-config unzip ffmpeg qtbase5-dev python-dev python3-dev python-numpy python3-numpy \\
+            libopencv-dev libgtk-3-dev libdc1394-22 libdc1394-22-dev libjpeg-dev libpng12-dev libtiff5-dev libjasper-dev \\
+            libavcodec-dev libavformat-dev libswscale-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev \\
+            libv4l-dev libtbb-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev \\
+            libvorbis-dev libxvidcore-dev v4l-utils"
+            ;;
+        0|help|h|*)
+            echo "
+            HOWTO INSTALL OPENCV
+=========================================
+0. help|h - display help
+1. install|i - install opencv
+-----------------------------------------"
+            ;;
+    esac
+}
 ## end
 # end

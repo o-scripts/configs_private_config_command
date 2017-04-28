@@ -11,12 +11,6 @@ m.version()
     echo ${author}
 }
 ## end m.version()
-## revalue mac.command
-m.bashrc()
-{
-    source ~/.bashrc
-}
-## end m.bashrc()
 # end 1
 
 # 111111111111111111111111111111111111111111111111
