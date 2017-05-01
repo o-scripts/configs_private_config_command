@@ -131,7 +131,7 @@ m.docker()
     op=$1
     case $op in
         'use'|'help'|'h'|'1')
-            echo '
+            m.log.d '
                             HOW TO USE DOCKER
 ============================================================================
 1. create lnmp, verbinden local folder ~/tmp to virtual folder /home/sites
@@ -154,7 +154,7 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
                 ;;
 
         'install'|'i'|'2')
-            echo '
+            m.log.d '
                         HOW TO INSTALL DOCKER
 ============================================================================
 4. install docker
@@ -213,35 +213,38 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
 ----------------------------------------------------------------------------'
             ;;
 		'start'|'up'|'3')
-			echo sudo ${SERV} ${DOCKER} start
+			m.log.d "[sudo ${SERV} ${DOCKER} start]"
 			sudo ${SERV} ${DOCKER} start
 			;;
 		'stop'|'down'|'close'|'4')
-			echo sudo ${SERV} ${DOCKER} stop
+			m.log.d "[sudo ${SERV} ${DOCKER} stop]"
 			sudo ${SERV} ${DOCKER} stop
 			;;
 		'lnmp'|'5')
             # docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
-			echo ${DOCKER} run -d -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
+			m.log.d "[${DOCKER} run -d -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash]"
 			${DOCKER} run -d -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
             ;;
 		'ubuntu'|'6')
-			echo ${DOCKER} run -d -v ~/works:/var/tmp/sites -i -t ubuntu:16.04 /bin/bash
+			m.log.d "[${DOCKER} run -d -v ~/works:/var/tmp/sites -i -t ubuntu:16.04 /bin/bash]"
 			${DOCKER} run -d -v ~/works:/var/tmp/sites -i -t ubuntu:16.04 /bin/bash
 			;;
         'caffe'|'7')
-            echo docker run -d -ti bvlc/caffe:cpu caffe --version
+            m.log.d "[docker run -d -ti bvlc/caffe:cpu caffe --version]"
             docker run -d -ti bvlc/caffe:cpu caffe --version
             ;;
         '0'|'info')
+            m.log.d "[ Docker version ]"
             docker version
+            m.log.d "[ Docker images ]"
             docker images
+            m.log.d "[ Docker ps ]"
             docker ps
             ;;
         *)
-            echo '
-                                DOCKER
-============================================================================
+            m.log.v '
+                    DOCKER
+=====================================================
 1. use|help|h - userguide
 2. install|i - quick install
 3. start|up - start docker
@@ -250,7 +253,7 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
 6. ubuntu - start ubuntu(80,443)
 7. caffe - caffe.berkeleyvision.org(machine learning)
 0. info - display info
-----------------------------------------------------------------------------'
+-----------------------------------------------------'
             ;;
     esac
 }
@@ -262,9 +265,9 @@ m.env()
     op=$1
     case $op in
         '1'|'t'|'tools')
-            echo apt update
+            m.log.d apt update
             sudo apt update
-            echo apt -y install vim git axel wget htop ssh sshfs \
+            m.log.d apt -y install vim git axel wget htop ssh sshfs \
                     wine
             sudo apt -y install vim git axel wget htop ssh sshfs \
                     wine
@@ -285,28 +288,28 @@ m.env()
                     netease-cloud-music_0.9.0-2_amd64.deb
             ;;
         '4'|'docker')
-            sudo ${APT} install apt-transport-https ca-certificates
-            sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 \
+            m.log.d sudo ${APT} install apt-transport-https ca-certificates
+            m.log.d sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 \
                         --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-            sudo touch /etc/apt/sources.list.d/docker.list
-            sudo echo "deb https://apt.dockerproject.org/repo ubuntu-`lsb_release -c | awk '{print $2}' | sed s/[[:space:]]//g` main" > /etc/apt/sources.list.d/docker.list
-            sudo apt update
-            sudo ${APT} install -y linux-image-extra-$(uname -r)
-            sudo ${APT} install -y docker-engine
-            curl -L https://github.com/docker/machine/releases/download/v0.8.2/docker-machine-`uname -s`-`uname -m` > docker-machine
-            sudo mv docker-machine* /usr/local/bin/docker-machine
-            sudo chmod +x /usr/local/bin/docker-machine
-            docker-machine version
+            m.log.d sudo touch /etc/apt/sources.list.d/docker.list
+            m.log.d sudo echo "deb https://apt.dockerproject.org/repo ubuntu-`lsb_release -c | awk '{print $2}' | sed s/[[:space:]]//g` main" > /etc/apt/sources.list.d/docker.list
+            m.log.d sudo apt update
+            m.log.d sudo ${APT} install -y linux-image-extra-$(uname -r)
+            m.log.d sudo ${APT} install -y docker-engine
+            m.log.d curl -L https://github.com/docker/machine/releases/download/v0.8.2/docker-machine-`uname -s`-`uname -m` > docker-machine
+            m.log.d sudo mv docker-machine* /usr/local/bin/docker-machine
+            m.log.d sudo chmod +x /usr/local/bin/docker-machine
+            m.log.d docker-machine version
 			#docker-machine create --driver virtualbox default
-			docker-machine ls
+			m.log.d docker-machine ls
 			#docker-machine env default
-			sudo groupadd docker
-			sudo usermod -aG docker $USER
+			m.log.d sudo groupadd docker
+			m.log.d sudo usermod -aG docker $USER
 			#sudo ${SERV} docker start
 			#sudo docker run hello-world
             ;;
         '5'|'h'|'help'|*)
-            echo "
+            m.log.d "
             HOW TO CONFIG MY ENV
 ================================================
 1. t|tools - install normaly tools
@@ -325,7 +328,7 @@ m.ros()
 	op=$1
 	case $op in
 		'1'|'i'|'install')
-			echo '
+			m.log.d '
 			HOW TO INSTALL ROS
 ============================================
 1. add source to source.list
@@ -358,7 +361,7 @@ m.ros()
 --------------------------------------------'
 			;;
 		'2'|'h'|'help'|'HELP'|*)
-			echo '
+			m.log.d '
 		[HELP] HOW TO INSTALL ROS
 ============================================
 1. i|install - install information
@@ -374,8 +377,8 @@ m.ranger()
 {
 	op=$1
 	case $op in
-		'help'|'h'|*)
-			echo "
+		'0'|'help'|'h'|*)
+			m.log.d "
 			HOWTO FOR RANGER
 ==============================================
 1. config
@@ -409,7 +412,7 @@ m.counter()
 	op=$1
 	case $op in
 		'h'|*)
-			echo '
+			m.log.d '
 			HOWTO COUNT STRING TIMES
 ===============================================
 sort | uniq -c
@@ -425,13 +428,13 @@ m.jenkins()
 	op=$1
 	case $op in
 		'2'|'config')
-			echo "
+			m.log.d "
 ===============================================
 
 -----------------------------------------------"
 			;;
 		'1'|'i'|'install')
-			echo "
+			m.log.d "
 ===============================================
 wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
 sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
@@ -440,7 +443,7 @@ sudo apt-get install jenkins
 -----------------------------------------------"
 			;;
 		'0'|'h'|'help'|'HELP'|*)
-			echo "
+			m.log.d "
 			HOW TO INSTALL JENKINS
 ===============================================
 0. h|help|HELP - display help information
@@ -459,11 +462,11 @@ m.caffe()
     op=$1
     case $op in
         '1'|'install')
-            echo sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
-            echo sudo apt-get install --no-install-recommends libboost-all-dev
+            m.log.d sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
+            m.log.d sudo apt-get install --no-install-recommends libboost-all-dev
             ;;
         '0'|'h'|'help'|*)
-            echo "
+            m.log.d "
             HOW TO INSTALL CAFFE
 ============================================
 0. h|help|* - display help
@@ -480,15 +483,15 @@ m.zephyr()
     op=$1
     case $op in
         '4'|'m'|'build'|'make')
-            echo make BOARD=nrf52_pca10040
+            m.log.d make BOARD=nrf52_pca10040
             make BOARD=nrf52_pca10040
             ;;
         '5'|'clean')
-            echo make BOARD=nrf52_pca10040 clean
+            m.log.d make BOARD=nrf52_pca10040 clean
             make BOARD=nrf52_pca10040 clean
             ;;
         '0'|'h'|'help'|*)
-            echo "
+            m.log.d "
             HOW TO CONFIG ZEPHYR
 =============================================
  4. m|build|make - make current application
@@ -508,16 +511,20 @@ m.random()
     seed=$1
     case $seed in
         '1'|'ssl'|'openssl')
+            m.log.d "openssl rand -base64 8 | ${MD5}"
             openssl rand -base64 8 | ${MD5}
             ;;
         '2'|'uuid')
+            m.log.d "cat /proc/sys/kernel/random/uuid"
             cat /proc/sys/kernel/random/uuid
             ;;
         '3'|'date')
+            m.log.d date +%s%N | ${MD5} | ${HEAD} -c 10
             date +%s%N | ${MD5} | ${HEAD} -c 10
             echo ""
             ;;
         '4'|'urandom')
+            m.log.d "cat /dev/urandom | ${HEAD} -n 10 | ${MD5} | ${HEAD} -c 10"
             cat /dev/urandom | ${HEAD} -n 10 | ${MD5} | ${HEAD} -c 10
             echo ""
             ;;
@@ -540,7 +547,7 @@ m.opencv()
     op=$1
     case $op in
         1|install|i)
-            echo "sudo apt-get install --assume-yes build-essential cmake git \\
+            m.log.d "sudo apt-get install --assume-yes build-essential cmake git \\
             build-essential pkg-config unzip ffmpeg qtbase5-dev python-dev python3-dev python-numpy python3-numpy \\
             libopencv-dev libgtk-3-dev libdc1394-22 libdc1394-22-dev libjpeg-dev libpng12-dev libtiff5-dev libjasper-dev \\
             libavcodec-dev libavformat-dev libswscale-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev \\
@@ -548,7 +555,7 @@ m.opencv()
             libvorbis-dev libxvidcore-dev v4l-utils"
             ;;
         0|help|h|*)
-            echo "
+            m.log.d "
             HOWTO INSTALL OPENCV
 =========================================
 0. help|h - display help
@@ -572,7 +579,7 @@ m.mnt()
             sudo mount /dev/sda8 ${LOCAL_WORKS_DIR}/module/pro
             ;;
         0|h|help|*)
-            echo "
+            m.log.d "
             HOW TO MOUNT POINT
 =============================================
 0. h|help - display this help menu
@@ -596,7 +603,7 @@ function m.json()
     if [ $# -eq 1 ]; then
         parse_param=$1
     else
-        log_fatal "Must input params that you want to parse!"
+        m.log.e "Must input params that you want to parse!"
         return ${RET_PARAMS_ERROR}
     fi
     python -c 'import sys; import json; \
