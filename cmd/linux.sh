@@ -226,8 +226,8 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
 			${DOCKER} run -d -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
             ;;
 		'ubuntu'|'6')
-			echo ${DOCKER} run -d -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
-			${DOCKER} run -d -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
+			echo ${DOCKER} run -d -v ~/works:/var/tmp/sites -i -t ubuntu:16.04 /bin/bash
+			${DOCKER} run -d -v ~/works:/var/tmp/sites -i -t ubuntu:16.04 /bin/bash
 			;;
         'caffe'|'7')
             echo docker run -d -ti bvlc/caffe:cpu caffe --version
@@ -235,6 +235,7 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
             ;;
         '0'|'info')
             docker version
+            docker images
             docker ps
             ;;
         *)
@@ -556,5 +557,53 @@ m.opencv()
             ;;
     esac
 }
+### end
+### m.mnt()
+m.mnt()
+{
+    op=$1
+    case $op in
+        '1'|'code')
+            m.log.d sudo mount /dev/sda6 ${LOCAL_WORKS_DIR}/module/code
+            sudo mount /dev/sda6 ${LOCAL_WORKS_DIR}/module/code
+            ;;
+        '2'|'pro')
+            m.log.d sudo mount /dev/sda8 ${LOCAL_WORKS_DIR}/module/pro
+            sudo mount /dev/sda8 ${LOCAL_WORKS_DIR}/module/pro
+            ;;
+        0|h|help|*)
+            echo "
+            HOW TO MOUNT POINT
+=============================================
+0. h|help - display this help menu
+1. code - mount module/code point
+2. pro - mount module/pro
+---------------------------------------------"
+            ;;
+    esac
+}
+### end
+### m.json()
+##! @brief : parse json data
+##! @params: [$1] => param1,param2
+##! @return: see the return code list
+##! @stdin : json_data and every line has a json_data
+##! @stdout: json_ans_data
+# function parse_json_py()
+function m.json()
+{
+    local parse_param=""
+    if [ $# -eq 1 ]; then
+        parse_param=$1
+    else
+        log_fatal "Must input params that you want to parse!"
+        return ${RET_PARAMS_ERROR}
+    fi
+    python -c 'import sys; import json; \
+    j = json.loads(sys.stdin.read()); \
+    print j["'${parse_param}'"]'
+    return ${RET_RUNNING_OK}
+}
+### end
 ## end
 # end
