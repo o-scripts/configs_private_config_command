@@ -535,13 +535,28 @@ m.timestamp()
             str="`date +%Y-%m-%d\ %H:%M:%S`.000"
             echo \[$str\] `date -j -f "%Y-%m-%d %H:%M:%S" "${str}" +%s`"000"
             ;;
-        '3'|'h'|'help'|*)
+        '3'|'d2s')
+            str=$2
+            echo \[$str\] `date -j -f "%Y-%m-%d %H:%M:%S" "${str}" +%s`
+            ;;
+        '4'|'s2d')
+            timestamp=`echo $2 | cut -c 1-10`
+            echo "[`date -r ${timestamp} +%Y-%m-%d\ %H:%M:%S`] ${timestamp}"
+            ;;
+        '0'|'h'|'help'|*)
             echo "
             HOW TO CREATE TIMESTAMP
 ==================================================
 1. sec - create timestamp with seconds
+    m.timestamp 1
 2. mil - create timestamp with million seconds
-3. h|help - display infomation
+    m.timestamp 2
+3. d2s - date to sec
+    m.timestamp 3 '2012-12-01 00:00:00'
+3. s2d - timestamp to date
+    m.timestamp 4 1354291200
+0. h|help - display infomation
+    m.timestamp h
 --------------------------------------------------"
             ;;
     esac
