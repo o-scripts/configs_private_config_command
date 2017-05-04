@@ -532,8 +532,8 @@ m.timestamp()
             echo \[$str\] `date -j -f "%Y-%m-%d %H:%M:%S" "${str}" +%s`
             ;;
         '2'|'mil')
-            str="`date +%Y-%m-%d\ %H:%M:%S`.000"
-            echo \[$str\] `date -j -f "%Y-%m-%d %H:%M:%S" "${str}" +%s`"000"
+            str="`date +%Y-%m-%d\ %H:%M:%S`"
+            echo \[$str.000\] `date -j -f "%Y-%m-%d %H:%M:%S" "${str}" +%s`"000"
             ;;
         '3'|'d2s')
             str=$2
