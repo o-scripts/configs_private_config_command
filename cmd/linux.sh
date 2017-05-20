@@ -600,5 +600,36 @@ function m.json()
     return ${RET_RUNNING_OK}
 }
 ### end
+### timestamp
+m.timestamp()
+{
+    op=$1
+    case $op in
+        '1'|'sec')
+            str="`date +%Y-%m-%d\ %H:%M:%S`"
+            echo \[$str\] `date -d "${str}" +%s`
+            ;;
+        '2'|'mil')
+            str="`date +%Y-%m-%d\ %H:%M:%S`.000"
+            echo \[$str\] `date -d "${str}" +%s`"000"
+            ;;
+        '3'|'s2d')
+            timestamp=`echo $2 | cut -c 1-10`
+            str=`date -d '1970-01-01 ${timestamp} sec utc' +%Y-%m-%d\ %H:%M:%S`
+            echo "[${str}] ${timestamp}"
+            ;;
+        '0'|'h'|'help'|*)
+            echo "
+            HOW TO CREATE TIMESTAMP
+==================================================
+1. sec - create timestamp with seconds
+2. mil - create timestamp with million seconds
+3. s2d - timestamp to date
+0. h|help - display infomation
+--------------------------------------------------"
+            ;;
+    esac
+}
+### end m.timestamp()
 ## end
 # end
