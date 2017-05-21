@@ -46,9 +46,9 @@ m.lnmp()
         '1'|'install'|'i')
             m.log.v "${APT} update"
             m.log.v ${APT} install nginx \
-                        php5 php5-fpm \
+                        php php-fpm \
+                        php-mysql php-gd php-memcached php-geoip memcached \
                         mysql-server phpmyadmin \
-                        php5-mysql php5-gd php5-memcached php5-geoip memcached \
                         libmysqlclient-dev
             ;;
         '2'|'info')
@@ -83,9 +83,9 @@ m.lamp()
         '1'|'install'|'i')
             m.log.v ${APT} update
             m.log.v ${APT} install apache2 \
-                php5 php5-fpm libapache2-mod-php5 \
+                php php-fpm libapache2-mod-php \
+                php-mysql php-gd php-memcached php-geoip memcached \
                 mysql-server phpmyadmin \
-                php5-mysql php5-gd php5-memcached php5-geoip memcached \
                 libmysqlclient-dev
             ;;
         '2'|'info')
