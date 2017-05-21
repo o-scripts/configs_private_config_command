@@ -631,5 +631,24 @@ m.timestamp()
     esac
 }
 ### end m.timestamp()
+### m.vmnt()
+m.vmnt()
+{
+    op=$1
+    case $op in
+        '1'|'mnt')
+            m.log.v "mount.vboxsf works ~/works/mnt/share"
+            ;;
+        '0'|'help'|'h'|*)
+            m.log.v "
+            HOW TO MOUNT SHARE FOLDER IN VBOX
+==================================================
+0. h|help|* - display help info
+1. mnt - mount from host os
+            "
+            ;;
+    esac
+}
+### end m.vmnt()
 ## end
 # end
