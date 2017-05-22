@@ -125,126 +125,6 @@ m.lamp()
 }
 ### end
 
-### Docker
-m.docker()
-{
-    op=$1
-    case $op in
-        'use'|'help'|'h'|'1')
-            echo '
-                            HOW TO USE DOCKER
-============================================================================
-1. create lnmp, verbinden local folder ~/tmp to virtual folder /home/sites
-`docker run --name lnmp -v ~/tmp:/home/sites:ro -i -t ubuntu:14.04 /bin/bash`
-
-2. bind local port with container port
-2.1. local port 8080 verbinden mit container port 80
-docker run -p 8080:80 -v ~/tmp:/home/sites -i -t ubuntu:lnmps /bin/bash
-2.2. local port 8080 verbinden mit container port 443
-docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
-2.3. container port 80,443 auto bind with local port
-docker run -P --expose 80 --expose 443 -v ~:/root -i -t ubuntu:14.04 /bin/bash
-2.4. bind local ports 80, 443 with container ports 80, 443
-docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04 /bin/bash
-2.5. run uni-module robotik
-docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/robotics:/home/sites -it ubuntu:14.04 bash
-
-3. commit a status
-`docker commit -m "lnmp" e61884a17a10 ubuntu:lnmp`'
-                ;;
-
-        'install'|'i'|'2')
-            echo '
-                        HOW TO INSTALL DOCKER
-============================================================================
-4. install docker
-4.1. 安装 apt-transport-https 包支持 https 协议的源
-    apt-get install apt-transport-https ca-certificates
-
-4.2. 添加源的 gpg 密钥
-    apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 \
-        --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-
-4.3. 获取当前操作系统的代号
-    lsb_release -c
-
-4.4. 接下来就可以添加 Docker 的官方 apt 软件源了
-    echo deb https://apt.dockerproject.org/repo ubuntu-trusty main > /etc/apt/sources.list.d/docker.list
-
-4.5. 更新 apt 软件包缓存
-    apt-get update
-    1. 为了让 Docker 使用 aufs 存储，推荐安装 linux-image-extra 软件包
-        apt-get install -y linux-image-extra-$(uname -r)
-    2. 在 Ubuntu 14.04 或者 12.04上安装Docker，需要安装apparmor（apparmor是Linux内核的一个安全模块，新版本的Ubuntu已经被整合到内核）:
-        apt-get install apparmor
-12.04 LTS版本
-    linux-image-generic-lts-trusty （必备）
-    linux-headers-generic-lts-trusty （必备）
-    xserver-xorg-lts-trusty （带图形界面时必备）
-    libgl1-mesa-glx-lts-trusty（带图形界面时必备）
-    安装命令(根据环境和要求不同，选择安装上述软件包)，如：
-    apt-get install linux-image-generic-lts-trusty
-    apt-get install linux-headers-generic-lts-trusty
-
-4.6. 安装 Docker
-    在成功添加源之后，就可以安装最新版本的 Docker 了，软件包名称为 docker-engine
-    apt-get install -y docker-engine
-
-4.6.1. 安装docker-machine
-    curl -L https://github.com/docker/machine/releases/download/v0.8.2/docker-machine-`uname -s`-`uname -m`
-    sudo mv docker-machine* /usr/local/bin/docker-machine
-    sudo chmod +x /usr/local/bin/docker-machine
-    docker-machine version
-4.6.2. 创建一个本地VM
-    docker-machine create --driver virtualbox default
-    docker-machine ls
-4.6.3. 获取配置
-    docker-machine env default
-4.6.4. 添加docker组
-    sudo groupadd docker
-4.6.5. 添加用户到docker组
-    sudo usermod -aG docker $USER
-
-4.7. Quick Start
-4.7.1. Start the docker daemon.
-    sudo service docker start
-4.7.2. Verify docker is installed correctly.
-    sudo docker run hello-world
-----------------------------------------------------------------------------'
-            ;;
-		'start'|'up'|'3')
-			echo sudo ${SERV} ${DOCKER} start
-			sudo ${SERV} ${DOCKER} start
-			;;
-		'stop'|'down'|'close'|'4')
-			echo sudo ${SERV} ${DOCKER} stop
-			sudo ${SERV} ${DOCKER} stop
-			;;
-		'lnmp'|'5')
-            # docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
-			echo ${DOCKER} run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
-			${DOCKER} run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -i -t ubuntu:lnmp /bin/bash
-            ;;
-		'ubuntu'|'6')
-			echo ${DOCKER} run -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
-			${DOCKER} run -p 80:80 -p 443:443 -v ~/works:/var/tmp/sites -i -t ubuntu:14.04 /bin/bash
-			;;
-        *)
-            echo '
-                                DOCKER
-============================================================================
-1. use|help|h - userguide
-2. install|i - quick install
-3. start|up - start docker
-4. stop|down|close - stop docker
-5. lnmp - runing lnmp
-6. ubuntu - start ubuntu(80,443)
-----------------------------------------------------------------------------'
-            ;;
-    esac
-}
-### end
-
 ### my usefully command
 m.env()
 {
@@ -500,5 +380,7 @@ m.random()
     esac
 }
 ### end m.random()
+m.log.d "source ${COMMAND_DIR}/cmd/docker.sh"
+source ${COMMAND_DIR}/cmd/docker.sh
 ## end
 # end
