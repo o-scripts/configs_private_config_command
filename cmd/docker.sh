@@ -4,7 +4,8 @@ m.docker()
     op=$1
     pa=$2
     case $op in
-		'start'|'up'|'1')
+		## ------------------------------------------------------
+        '1'|'start'|'up')
             case `uname` in
                 'Darwin')
                     m.log.v "boot2docker start"
@@ -18,7 +19,8 @@ m.docker()
                     ;;
             esac
 			;;
-        'stop'|'down'|'close'|'2')
+        ## ------------------------------------------------------
+        '2'|'stop'|'down'|'close')
             case `uname` in
                 'Darwin')
                     m.log.v "boot2docker down"
@@ -32,35 +34,27 @@ m.docker()
                     ;;
             esac
             ;;
-        'lnmp'|'3')
+        ## ------------------------------------------------------
+        '3'|'lnmp')
             #docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
 			m.log.v "docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:lnmp /bin/bash"
             read -p "Press to continue...."
 			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:lnmp /bin/bash
             ;;
-		'ubuntu'|'6')
+        ## ------------------------------------------------------
+		'4'|'ubuntu')
 			m.log.v "docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:14.04 /bin/bash"
             read -p "Press to continue...."
 			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:14.04 /bin/bash
 			;;
-        'zephyr'|'7')
+        ## ------------------------------------------------------
+        '5'|'zephyr')
             m.log.v "docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -d -i -t zephyr:works su test"
             read -p "Press to continue...."
             docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -d -i -t zephyr:works su test
             ;;
-        'commit'|'cm'|'9')
-            m.log.v "docker ps"
-            docker ps
-            cId=`docker ps | grep -v 'COMMAND' | awk '{print $1}'`
-            cName=`docker ps | grep -v 'COMMAND' | awk '{print $2}'`
-            #msg="update status"
-            #read -p "input commit id: " cId
-            #read -p "input name: " cName
-            read -p "input commit message: " msg
-            m.log.v docker commit -m "\"${msg}\"" ${cId} ${cName}
-            docker commit -m "${msg}" ${cId} ${cName}
-            ;;
-        'ps'|'info'|'8')
+        ## ------------------------------------------------------
+        '6'|'ps'|'info')
             m.log.v "=========================================================
  docker version
 ---------------------------------------------------------"
@@ -74,7 +68,28 @@ docker ps
 ---------------------------------------------------------"
             docker ps
             ;;
-        'use'|'help'|'h'|'4')
+        ## ------------------------------------------------------
+        '7'|'commit'|'cm')
+            m.log.v "docker ps"
+            docker ps
+            cId=`docker ps | grep -v 'COMMAND' | awk '{print $1}'`
+            cName=`docker ps | grep -v 'COMMAND' | awk '{print $2}'`
+            #msg="update status"
+            #read -p "input commit id: " cId
+            #read -p "input name: " cName
+            read -p "input commit message: " msg
+            m.log.v docker commit -m "\"${msg}\"" ${cId} ${cName}
+            docker commit -m "${msg}" ${cId} ${cName}
+            ;;
+        ## ------------------------------------------------------
+        ## =====================================================================
+        'clear'|'del'|'a')
+            m.log.v "delete all not active container"
+            m.log.v "docker rm $(docker -a -q)"
+            docker rm $(docker -a -q)
+            ;;
+        ## ------------------------------------------------------
+        'use'|'help'|'h')
             case `uname` in
                 'Darwin')
                     m.log.v '
@@ -125,7 +140,7 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
             esac
             ;;
 
-        'install'|'i'|'5')
+        'install'|'i')
             case `uname` in
                 'Darwin')
                     m.log.v '
@@ -292,20 +307,22 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
                     ;;
             esac
             ;;
-        0|*)
+        *)
             m.log.v '
                                 DOCKER
 ============================================================================
-1. start|up - start docker-machine
-2. stop - stop docker-machine
-3. lnmp - start bash in Linux+Nging+Mysql+Php
-4. use|help|h - userguide
-5. install|i - quick install
-6. ubuntu - run ubuntu 14.04
-7. zephyr - run to zephyr development env
-8. info|ps - show info of docker
-9. commit|cm - commit this docker
-0. * - display this menu
+1. start|up     - start docker-machine
+2. stop         - stop docker-machine
+3. lnmp         - start bash in Linux+Nging+Mysql+Php
+4. ubuntu       - run ubuntu 14.04
+5. zephyr       - run to zephyr development env
+6. info|ps      - show info of docker
+7. commit|cm    - commit this docker
+8. clear|del    - clean all not active container
+-----------------------------------------------
+use|help|h  - userguide
+install|i   - quick install
+*           - display this menu
 ----------------------------------------------------------------------------'
             ;;
     esac
