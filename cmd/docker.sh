@@ -83,16 +83,21 @@ docker ps
             ;;
         ## ------------------------------------------------------
         ## =====================================================================
-        'clear'|'del'|'a')
-            m.log.v "delete all not active container"
-            m.log.v "docker rm $(docker -a -q)"
-            docker rm $(docker -a -q)
+        '8'|'clear'|'del')
+            case `docker ps -a -q` in
+                '')
+                    echo "no active container"
+                    ;;
+                *)
+                    m.log.v "delete all not active container"
+                    m.log.v "docker rm $(docker -a -q)"
+                    docker rm $(docker ps -a -q)
+                    ;;
+            esac
             ;;
         ## ------------------------------------------------------
-        'use'|'help'|'h')
-            case `uname` in
-                'Darwin')
-                    m.log.v '
+        10|'sample'|'guide'|'example')
+            m.log.v '
                             HOW TO USE DOCKER
 ============================================================================
 1. create lnmp, verbinden local folder ~/tmp to virtual folder /home/sites
@@ -114,33 +119,9 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 
 3. commit a status
 `docker commit -m "lnmp" e61884a17a10 ubuntu:lnmp`'
-                    ;;
-                'Linux')
-                    m.log.v '
-                            HOW TO USE DOCKER
-============================================================================
-1. create lnmp, verbinden local folder ~/tmp to virtual folder /home/sites
-`docker run --name lnmp -v ~/tmp:/home/sites:ro -i -t ubuntu:14.04 /bin/bash`
-
-2. bind local port with container port
-2.1. local port 8080 verbinden mit container port 80
-docker run -p 8080:80 -v ~/tmp:/home/sites -i -t ubuntu:lnmps /bin/bash
-2.2. local port 8080 verbinden mit container port 443
-docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
-2.3. container port 80,443 auto bind with local port
-docker run -P --expose 80 --expose 443 -v ~:/root -i -t ubuntu:14.04 /bin/bash
-2.4. bind local ports 80, 443 with container ports 80, 443
-docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04 /bin/bash
-2.5. run uni-module robotik
-docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/robotics:/home/sites -it ubuntu:14.04 bash
-
-3. commit a status
-`docker commit -m "lnmp" e61884a17a10 ubuntu:lnmp`'
-                    ;;
-            esac
             ;;
-
-        'install'|'i')
+        ## ------------------------------------------------------
+        11|'install'|'i')
             case `uname` in
                 'Darwin')
                     m.log.v '
@@ -307,7 +288,7 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
                     ;;
             esac
             ;;
-        *)
+        12|*)
             m.log.v '
                                 DOCKER
 ============================================================================
@@ -320,9 +301,9 @@ docker run -v /media/self/develop/branch.git/works/uni/private/fachrichtung/ma/r
 7. commit|cm    - commit this docker
 8. clear|del    - clean all not active container
 -----------------------------------------------
-use|help|h  - userguide
-install|i   - quick install
-*           - display this menu
+10. sample|guide|example    - userguide
+11. install|i               - quick install
+12. *                       - display this menu
 ----------------------------------------------------------------------------'
             ;;
     esac
