@@ -83,7 +83,7 @@ docker ps
             ;;
         ## ------------------------------------------------------
         ## =====================================================================
-        '8'|'clear'|'del')
+        '8'|'srv.clean')
             case `docker ps -a -q` in
                 '')
                     echo "no active container"
@@ -94,6 +94,44 @@ docker ps
                     docker rm $(docker ps -a -q)
                     ;;
             esac
+            ;;
+        ## ------------------------------------------------------
+        '91'|'one.init')
+            docker run -d -v ~/works:/var/tmp/works -it --name=one works:1604 /bin/bash
+            ;;
+        ## ------------------------------------------------------
+        '92'|'one.start')
+            docker start one;
+            ;;
+        ## ------------------------------------------------------
+        '93'|'one.stop')
+            docker stop one
+            ;;
+        ## ------------------------------------------------------
+        'a1'|'srv.init')
+            docker run -d -v ~/works:/var/tmp/works -it --name=apache works:1604 /bin/bash
+            sleep 1;
+            docker run -d -v ~/works:/var/tmp/works -it --name=nginx works:1604 /bin/bash
+            sleep 1;
+            docker run -d -v ~/works:/var/tmp/works -it --name=mysql works:1604 /bin/bash
+            ;;
+        ## ------------------------------------------------------
+        'a2'|'srv.start')
+            docker start apache;sleep 1;
+            docker start nginx;sleep 1;
+            docker start mysql;sleep 1;
+            ;;
+        ## ------------------------------------------------------
+        'a3'|'srv.stop')
+            docker stop apache
+            docker stop nginx
+            docker stop mysql
+            ;;
+
+        ## ------------------------------------------------------
+        'b'|'srv.login')
+            echo "parm: "$@
+            docker exec -it $2 /bin/bash
             ;;
         ## ------------------------------------------------------
         10|'sample'|'guide'|'example')
@@ -299,7 +337,13 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 5. zephyr       - run to zephyr development env
 6. info|ps      - show info of docker
 7. commit|cm    - commit this docker
-8. clear|del    - clean all not active container
+8. srv.clean    - clean all not active container
+91. one.init     - init web service
+92. one.start    - start web service
+93. one.stop     - stop web service
+a1. srv.init     - init web service
+a2. srv.start    - start web service
+a3. srv.stop     - stop web service
 -----------------------------------------------
 10. sample|guide|example    - userguide
 11. install|i               - quick install
