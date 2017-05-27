@@ -127,11 +127,30 @@ docker ps
             docker stop nginx
             docker stop mysql
             ;;
-
         ## ------------------------------------------------------
         'b'|'srv.login')
             echo "parm: "$@
             docker exec -it $2 /bin/bash
+            ;;
+        ## ------------------------------------------------------
+        'c1'|'cl.apache')
+            echo "parm: "$@
+            service apache2 $2
+            ;;
+        ## ------------------------------------------------------
+        'c2'|'cl.nginx')
+            echo "parm: "$@
+            service nginx $2
+            ;;
+        ## ------------------------------------------------------
+        'c3'|'cl.mysql')
+            echo "parm: "$@
+            service mysql $2
+            ;;
+        ## ------------------------------------------------------
+        'c4'|'cl.ssh')
+            echo "parm: "$@
+            service ssh $2
             ;;
         ## ------------------------------------------------------
         10|'sample'|'guide'|'example')
@@ -337,13 +356,20 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 5. zephyr       - run to zephyr development env
 6. info|ps      - show info of docker
 7. commit|cm    - commit this docker
+-----------------------------------------------
 8. srv.clean    - clean all not active container
-91. one.init     - init web service
-92. one.start    - start web service
-93. one.stop     - stop web service
-a1. srv.init     - init web service
-a2. srv.start    - start web service
-a3. srv.stop     - stop web service
+91. one.init    - init web service
+92. one.start   - start web service
+93. one.stop    - stop web service
+a1. srv.init    - init web service
+a2. srv.start   - start web service
+a3. srv.stop    - stop web service
+-----------------------------------------------
+b|srv.login     - docker exec -it $2 /bin/bash
+c1|cl.apache   - service apache2 ${2}
+c2|cl.nginx    - service nginx ${2}
+c3|cl.mysql    - service mysql ${2}
+c4|cl.ssh      - service ssh ${2}
 -----------------------------------------------
 10. sample|guide|example    - userguide
 11. install|i               - quick install
