@@ -5,7 +5,22 @@ m.docker()
     pa=$2
     case $op in
 		## ------------------------------------------------------
-        '1'|'start'|'up')
+        '0'|'init')
+            case `uname` in
+                'Darwin')
+                    m.log.v "boot2docker init"
+                    boot2docker init
+                    m.log.v "boot2docker start"
+                    boot2docker start
+                    m.log.v "docker version"
+                    docker version
+                    ;;
+                'Linux')
+                    m.log.v "this is only for mac osx"
+                    ;;
+            esac
+            ;;
+        '1'|'up')
             case `uname` in
                 'Darwin')
                     m.log.v "boot2docker start"
@@ -20,7 +35,7 @@ m.docker()
             esac
 			;;
         ## ------------------------------------------------------
-        '2'|'stop'|'down'|'close')
+        '2'|'down')
             case `uname` in
                 'Darwin')
                     m.log.v "boot2docker down"
@@ -54,7 +69,7 @@ m.docker()
             docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -d -i -t zephyr:works su test
             ;;
         ## ------------------------------------------------------
-        '6'|'ps'|'info')
+        '6'|'info')
             m.log.v "=========================================================
  docker version
 ---------------------------------------------------------"
@@ -69,19 +84,17 @@ docker ps
             docker ps
             ;;
         ## ------------------------------------------------------
-        '7'|'commit'|'cm')
-            m.log.v "docker ps"
-            docker ps
-            cId=`docker ps | grep -v 'COMMAND' | awk '{print $1}'`
-            cName=`docker ps | grep -v 'COMMAND' | awk '{print $2}'`
-            #msg="update status"
-            #read -p "input commit id: " cId
-            #read -p "input name: " cName
-            read -p "input commit message: " msg
-            m.log.v docker commit -m "\"${msg}\"" ${cId} ${cName}
-            docker commit -m "${msg}" ${cId} ${cName}
+        7|'volume'|'container'|'commit'|'start'|'stop'|'ps')
+            m.log.v "docker $@"
+            case $@ in
+                7)
+                    docker
+                    ;;
+                *)
+                    docker $@
+                    ;;
+            esac
             ;;
-        ## ------------------------------------------------------
         ## =====================================================================
         '8'|'srv.clean')
             case `docker ps -a -q` in
@@ -97,7 +110,16 @@ docker ps
             ;;
         ## ------------------------------------------------------
         '91'|'one.init')
-            docker run -d -v ~/works:/var/tmp/works -it --name=one works:1604 /bin/bash
+            case `uname` in
+                'Darwin')
+                    m.log.v "docker run -d -v ~/works:/var/tmp/works -it --name=one works:1704 /bin/bash"
+                    docker run -d -v ~/works:/var/tmp/works -it --name=one works:1704 /bin/bash
+                    ;;
+                'Linux')
+                    m.log.v "docker run -d -v ~/works:/var/tmp/works -it --name=one works:1604 /bin/bash"
+                    docker run -d -v ~/works:/var/tmp/works -it --name=one works:1604 /bin/bash
+                    ;;
+            esac
             ;;
         ## ------------------------------------------------------
         '92'|'one.start')
@@ -117,18 +139,14 @@ docker ps
             ;;
         ## ------------------------------------------------------
         'a2'|'srv.start')
-            docker start apache;sleep 1;
-            docker start nginx;sleep 1;
-            docker start mysql;sleep 1;
+            docker start apache nginx mysql;
             ;;
         ## ------------------------------------------------------
         'a3'|'srv.stop')
-            docker stop apache
-            docker stop nginx
-            docker stop mysql
+            docker stop apache nginx mysql;
             ;;
         ## ------------------------------------------------------
-        'b'|'srv.login')
+        'b'|'login')
             echo "parm: "$@
             docker exec -it $2 /bin/bash
             ;;
@@ -349,27 +367,35 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
             m.log.v '
                                 DOCKER
 ============================================================================
-1. start|up     - start docker-machine
-2. stop         - stop docker-machine
+0. init         - boot2docker init and start
+1. up           - start docker-machine
+2. down         - stop docker-machine
 3. lnmp         - start bash in Linux+Nging+Mysql+Php
 4. ubuntu       - run ubuntu 14.04
 5. zephyr       - run to zephyr development env
-6. info|ps      - show info of docker
-7. commit|cm    - commit this docker
+6. info         - show info of docker
+-----------------------------------------------
+7. some docker command(not support number):
+    volume      - docker volume $@
+    container   - docker container $@
+    commit      - docker commit $@
+    start       - docker start $@
+    stop        - docker stop $@
+    ps          - docker ps $@
 -----------------------------------------------
 8. srv.clean    - clean all not active container
-91. one.init    - init web service
+91. one.init    - init web service (OSX/Linux)
 92. one.start   - start web service
 93. one.stop    - stop web service
 a1. srv.init    - init web service
 a2. srv.start   - start web service
 a3. srv.stop    - stop web service
+b. login        - docker exec -it $2 /bin/bash
 -----------------------------------------------
-b|srv.login     - docker exec -it $2 /bin/bash
-c1|cl.apache   - service apache2 ${2}
-c2|cl.nginx    - service nginx ${2}
-c3|cl.mysql    - service mysql ${2}
-c4|cl.ssh      - service ssh ${2}
+c1. cl.apache   - service apache2 ${2} (Linux)
+c2. cl.nginx    - service nginx ${2} (Linux)
+c3. cl.mysql    - service mysql ${2} (Linux)
+c4. cl.ssh      - service ssh ${2} (Linux)
 -----------------------------------------------
 10. sample|guide|example    - userguide
 11. install|i               - quick install
