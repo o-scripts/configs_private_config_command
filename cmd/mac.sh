@@ -165,8 +165,7 @@ m.lnmp()
 ### curl.h
 m.curl()
 {
-    echo -e "/usr/bin/curl\n\t--fail \n\t--progress-bar \n\t--remote-time \n\t--location \n\t--user-agent Homebrew/1.0.9 (Macintosh; Intel macOS 10.12.1) curl/7.49.1 \n\thttps://download3.vmware.com/software/fusion/file/VMware-Fusion-8.5.0-4352717.dmg \n\t-C 140956438 \n\t-o /Users/zhanggd/Library/Caches/Homebrew/Cask/vmware-fusion--8.5.0-4352717.dmg.incomplete
-    "
+    m.log.v "/usr/bin/curl\n\t--fail \n\t--progress-bar \n\t--remote-time \n\t--location \n\t--user-agent Homebrew/1.0.9 (Macintosh; Intel macOS 10.12.1) curl/7.49.1 \n\thttps://download3.vmware.com/software/fusion/file/VMware-Fusion-8.5.0-4352717.dmg \n\t-C 140956438 \n\t-o /Users/zhanggd/Library/Caches/Homebrew/Cask/vmware-fusion--8.5.0-4352717.dmg.incomplete"
 }
 ### end m.curl()
 
@@ -281,75 +280,6 @@ m.zephyr()
     esac
 }
 ### end m.zephyr()
-
-### use openssl rand to create random string
-m.random()
-{
-    seed=$1
-    case $seed in
-        '1'|'ssl'|'openssl')
-            ${OPENSSL} rand -base64 8 | ${MD5}
-            ;;
-        '3'|'date')
-            date +%s%N | ${MD5} | ${HEAD} -c 10
-            echo ""
-            ;;
-        '4'|'urandom')
-            cat /dev/urandom | ${HEAD} -n 10 | ${MD5} | ${HEAD} -c 10
-            echo ""
-            ;;
-        *)
-            echo '
-                    CREATE RANDOM NUMMBER
-================================================================
-1. ssl|openssl
-3. date
-4. urandom
-----------------------------------------------------------------'
-            ;;
-    esac
-}
-### end m.random()
-### timestamp
-m.timestamp()
-{
-    op=$1
-    case $op in
-        '1'|'sec')
-            str="`date +%Y-%m-%d\ %H:%M:%S`"
-            echo \[$str\] `date -j -f "%Y-%m-%d %H:%M:%S" "${str}" +%s`
-            ;;
-        '2'|'mil')
-            str="`date +%Y-%m-%d\ %H:%M:%S`"
-            echo \[$str.000\] `date -j -f "%Y-%m-%d %H:%M:%S" "${str}" +%s`"000"
-            ;;
-        '3'|'d2s')
-            str=$2
-            echo \[$str\] `date -j -f "%Y-%m-%d %H:%M:%S" "${str}" +%s`
-            ;;
-        '4'|'s2d')
-            timestamp=`echo $2 | cut -c 1-10`
-            echo "[`date -r ${timestamp} +%Y-%m-%d\ %H:%M:%S`] ${timestamp}"
-            ;;
-        '0'|'h'|'help'|*)
-            echo "
-            HOW TO CREATE TIMESTAMP
-==================================================
-1. sec - create timestamp with seconds
-    m.timestamp 1
-2. mil - create timestamp with million seconds
-    m.timestamp 2
-3. d2s - date to sec
-    m.timestamp 3 '2012-12-01 00:00:00'
-3. s2d - timestamp to date
-    m.timestamp 4 1354291200
-0. h|help - display infomation
-    m.timestamp h
---------------------------------------------------"
-            ;;
-    esac
-}
-### end m.timestamp()
 m.log.d "source ${COMMAND_DIR}/cmd/docker.sh"
 source ${COMMAND_DIR}/cmd/docker.sh
 ## end

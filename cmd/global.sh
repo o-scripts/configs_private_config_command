@@ -353,96 +353,6 @@ m.enviorment()
 ## end
 
 ## self define command
-### ssh login with no pw
-m.ssh()
-{
-     op=$1
-     case $op in
-        '1'|'rsa')
-            m.log.v '
-        HOW TO USE SSH WITH RSA KEY
-==============================================
-1. 创建rsa证书
-ssh-keygen -t rsa -C "commit"
-2. 配置登录
-在~/.ssh/config添加如下内容：
-Host pc.host.de
-    HostName pc.host.de
-    User user
-    IdentityFile ~/.ssh/path/id_rsa
-3. 登录
-ssh -v user@pc.host.de
-----------------------------------------------'
-            ;;
-        '2'|'pem')
-            m.log.v '
-        HOW TO USE SSH WITH PEM KEY
-==============================================
-1. rsa证书转换为pem证书
-openssl req -x509 -key path/to/key/id_rsa -nodes -days 365 -newkey rsa:2048 -out myCert.pem
-2. 使用证书登录
-ssh -i path/to/key.pem -v user@pc.host.de
-----------------------------------------------'
-            ;;
-        '3'|'nopwd')
-             m.log.v '
-        HOW LOGIN SSH WITHOUT PWD
-==============================================
-1. 添加信任证书
-cat id_rsa.pub > authorized_keys
-2. 配置登录
-在~/.ssh/config添加如下内容：
-Host pc.host.de
-    HostName pc.host.de
-    User user
-    IdentityFile ~/.ssh/path/id_rsa
-3. 登录
-ssh -v user@pc.host.de
-----------------------------------------------'
-            ;;
-        *)
-            m.log.v '
-            HOW LOGIN SSH LOGIN
-==============================================
-1. rsa
-ssh login with rsa key
-2. pem
-ssh login with pem key
-3. nopwd
-ssh login without pwd
-----------------------------------------------'
-    esac
-}
-### end m.ssh()
-
-### reset password of mysql
-m.reset()
-{
-    case $1 in
-        '1'|'mysql')
-            m.log.v '
-               HOW TO RESET PASSWORD OF MYSQL
-================================================================
-1. mysqld_safe --skip-grant-tables &
-2. mysql -uroot
-3. use mysql
-4. update user set password=PASSWORD("newpwd") where user="root";
-5. flush privileges;
-6. quit
-----------------------------------------------------------------'
-            ;;
-        '2'|'h'|'help'|*)
-            m.log.v "
-            HOW TO RESET CONFIG
-==========================================
-1. mysql - reset mysql password
-2. h|help - display help infomation
-------------------------------------------"
-            ;;
-    esac
-}
-### end m.reset()
-
 ### gollum for wiki page
 m.wiki()
 {
@@ -536,5 +446,7 @@ m.timestamp()
 ### end
 m.log.d "source ${COMMAND_DIR}/cmd/android.sh"
 source ${COMMAND_DIR}/cmd/android.sh
+m.log.d "source ${COMMAND_DIR}/cmd/security.sh"
+source ${COMMAND_DIR}/cmd/security.sh
 ## end
 # end

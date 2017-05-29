@@ -359,42 +359,6 @@ m.zephyr()
 }
 ### end m.zephyr()
 
-### use openssl rand to create random string
-m.random()
-{
-    seed=$1
-    case $seed in
-        '1'|'ssl'|'openssl')
-            m.log.d "openssl rand -base64 8 | ${MD5}"
-            openssl rand -base64 8 | ${MD5}
-            ;;
-        '2'|'uuid')
-            m.log.d "cat /proc/sys/kernel/random/uuid"
-            cat /proc/sys/kernel/random/uuid
-            ;;
-        '3'|'date')
-            m.log.d date +%s%N | ${MD5} | ${HEAD} -c 10
-            date +%s%N | ${MD5} | ${HEAD} -c 10
-            echo ""
-            ;;
-        '4'|'urandom')
-            m.log.d "cat /dev/urandom | ${HEAD} -n 10 | ${MD5} | ${HEAD} -c 10"
-            cat /dev/urandom | ${HEAD} -n 10 | ${MD5} | ${HEAD} -c 10
-            echo ""
-            ;;
-        *)
-            echo '
-                    CREATE RANDOM NUMMBER
-================================================================
-1. ssl|openssl
-2. uuid
-3. date
-4. urandom
-----------------------------------------------------------------'
-            ;;
-    esac
-}
-### end m.random()
 ### m.opencv()
 m.opencv()
 {
