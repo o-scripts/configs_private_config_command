@@ -350,6 +350,14 @@ m.enviorment()
 {
     cd ${LOCAL_CONFIG_DIR}/env
 }
+m.alllog()
+{
+    cd ${LOCAL_WORKS_DIR}/alllog
+}
+m.tmp()
+{
+    cd ${LOCAL_WORKS_DIR}/alllog/tmp
+}
 ## end
 
 ## self define command
@@ -442,6 +450,55 @@ m.timestamp()
 --------------------------------------------------"
             ;;
     esac
+}
+### end
+
+### m.running()
+m.running()
+{
+    ret=-1
+    m.log.d "param: $#"
+    case $# in
+        0)
+            m.log.e "Have not filter!!"
+            return $ret;
+            ;;
+    esac
+    ct=`ps aux | grep -v ps | egrep "$@" | wc -l`
+    case $ct in
+        0)
+            m.log.v "$@ is not running.";
+            ret=0;
+            ;;
+        *)
+            m.log.v "$@ is running";
+            ret=$ct
+            ;;
+    esac
+    return $ret;
+}
+### end
+
+### m.brew()
+m.brew()
+{
+    op=$1
+    case $# in
+        0)
+            m.log.v cd ${LOCAL_WORKS_DIR}/tool-kit/publics/homebrew
+            cd ${LOCAL_WORKS_DIR}/tool-kit/publics/homebrew
+            m.log.d brew
+            brew
+            return ${RET_RUNNING_OK}
+            ;;
+    esac
+    case $op in
+        *)
+            m.log.v "brew $@";
+            brew $@
+            ;;
+    esac
+    return ${RET_RUNNING_OK}
 }
 ### end
 m.log.d "source ${COMMAND_DIR}/cmd/android.sh"
