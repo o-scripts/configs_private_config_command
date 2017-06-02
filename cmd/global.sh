@@ -501,6 +501,32 @@ m.brew()
     return ${RET_RUNNING_OK}
 }
 ### end
+
+### m.testing()
+m.testing()
+{
+    op=$1
+    case $op in
+        stop)
+            cd
+            m.log.v umount /Volumes/testing
+            umount /Volumes/testing
+            ;;
+        *)
+            open ${HOME}/Desktop/testing.dmg
+            m.log.v $?
+            sleep 1
+            if [[ -d /Volumes/testing ]];
+            then
+                m.log.v cd /Volumes/testing;
+                cd /Volumes/testing;
+            else
+                m.log.v "not have /Volumes/testing"
+            fi
+            ;;
+    esac
+}
+### end
 m.import ${COMMAND_DIR}/cmd/android.sh
 m.import ${COMMAND_DIR}/cmd/security.sh
 ## end
