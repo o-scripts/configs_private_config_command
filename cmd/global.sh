@@ -501,9 +501,7 @@ m.brew()
     return ${RET_RUNNING_OK}
 }
 ### end
-m.log.d "source ${COMMAND_DIR}/cmd/android.sh"
-source ${COMMAND_DIR}/cmd/android.sh
-m.log.d "source ${COMMAND_DIR}/cmd/security.sh"
-source ${COMMAND_DIR}/cmd/security.sh
+m.import ${COMMAND_DIR}/cmd/android.sh
+m.import ${COMMAND_DIR}/cmd/security.sh
 ## end
 # end

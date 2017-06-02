@@ -480,7 +480,6 @@ m.vmnt()
     esac
 }
 ### end m.vmnt()
-m.log.d "source ${COMMAND_DIR}/cmd/docker.sh"
-source ${COMMAND_DIR}/cmd/docker.sh
+m.import ${COMMAND_DIR}/cmd/docker.sh
 ## end
 # end

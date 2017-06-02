@@ -280,7 +280,6 @@ m.zephyr()
     esac
 }
 ### end m.zephyr()
-m.log.d "source ${COMMAND_DIR}/cmd/docker.sh"
-source ${COMMAND_DIR}/cmd/docker.sh
+m.import ${COMMAND_DIR}/cmd/docker.sh
 ## end
 # end
