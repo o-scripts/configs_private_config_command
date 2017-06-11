@@ -280,6 +280,13 @@ m.zephyr()
     esac
 }
 ### end m.zephyr()
+### m.lsusb()
+m.lsusb()
+{
+    # jlhonora/lsusb
+    system_profiler SPUSBDataType
+}
+### end
 m.import ${COMMAND_DIR}/cmd/docker.sh
 ## end
 # end
