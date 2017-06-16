@@ -69,6 +69,37 @@ alias m.adbcls="adb logcat -c"
 alias m.adblog="adb logcat -v threadtime"
 alias m.adbreport="adb shell bugreport"
 
+### some git short cmd
+alias git.l="git log --name-status --color=auto --graph"
+alias git.a="git add"
+alias git.ap="git add -p"
+alias git.cm="git commit"
+alias git.d="git diff --color=auto"
+alias git.down="git pull"
+alias git.up="git pull; git push"
+alias git.sb="git status -sb"
+alias git.ss="git status -s"
+alias git.st="git status"
+alias git.w="git whatchanged"
+alias git.md="git submodule"
+alias git.md.a="git submodule add"
+alias git.md.up="git submodule update"
+alias git.b="git branch"
+alias git.br="git branch -r"
+alias git.ba="git branch -a"
+alias git.ck="git checkout"
+alias git.cfg="git config -l"
+alias git.cls="git status -s | grep \"??\" | awk '{print $2}' | xargs rm -rvf"
+alias cyanogenmodsync="cat .repo/manifest.xml | grep CyanogenMod | awk '{print $2}' | cut -d'\"' -f2 | xargs -n 16 ./repo sync -j16"
+### end
+
+### mkdir
+m.mkdir()
+{
+	m.log.v "mkdir -p $@"
+	mkdir -p $@
+}
+### end
 ### bsdiff file
 m.ota()
 {
@@ -276,30 +307,6 @@ m.git()
     m.log.v cyanogenmodsync="cat .repo/manifest.xml | grep CyanogenMod | awk '{print $2}' | cut -d'\"' -f2 | xargs -n 16 ./repo sync -j16"
 }
 ### end m.git()
-
-### some git short cmd
-alias git.l="git log --name-status --color=auto --graph"
-alias git.a="git add"
-alias git.ap="git add -p"
-alias git.cm="git commit"
-alias git.d="git diff --color=auto"
-alias git.down="git pull"
-alias git.up="git pull; git push"
-alias git.sb="git status -sb"
-alias git.ss="git status -s"
-alias git.st="git status"
-alias git.w="git whatchanged"
-alias git.md="git submodule"
-alias git.md.a="git submodule add"
-alias git.md.up="git submodule update"
-alias git.b="git branch"
-alias git.br="git branch -r"
-alias git.ba="git branch -a"
-alias git.ck="git checkout"
-alias git.cfg="git config -l"
-alias git.cls="git status -s | grep \"??\" | awk '{print $2}' | xargs rm -rvf"
-alias cyanogenmodsync="cat .repo/manifest.xml | grep CyanogenMod | awk '{print $2}' | cut -d'\"' -f2 | xargs -n 16 ./repo sync -j16"
-### end
 ## end
 
 ## avalible for enviorment
