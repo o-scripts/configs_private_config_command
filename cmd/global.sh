@@ -94,11 +94,7 @@ alias cyanogenmodsync="cat .repo/manifest.xml | grep CyanogenMod | awk '{print $
 ### end
 
 ### mkdir
-m.mkdir()
-{
-	m.log.v "mkdir -p $@"
-	mkdir -p $@
-}
+alias m.mkdir='mkdir -p'
 ### end
 ### bsdiff file
 m.ota()
@@ -245,7 +241,7 @@ m.pm()
             adb shell 'pm list package'
             ;;
         'path')
-            adb shell "pm path $pkg"
+            adb shell "pm $@"
             ;;
         'cur')
             adb shell dumpsys window w | grep '\/' | grep name
@@ -288,16 +284,17 @@ m.git()
     m.log.v git.a="git add"
     m.log.v git.ap="git add -p"
     m.log.v git.cm="git commit"
-    m.log.v git.d="git diff --color=auto"
-    m.log.v git.down="git pull"
-    m.log.v git.up="git pull; git push"
+    m.log.v git.df="git diff --color=auto"
+    m.log.v git.pl="git pull"
+    m.log.v git.pu="git pull; git push"
     m.log.v git.sb="git status -sb"
-    m.log.v git.ss="git status -s"
+    m.log.v git.sts="git status -s"
     m.log.v git.st="git status"
-    m.log.v git.w="git whatchanged"
-    m.log.v git.md="git submodule"
-    m.log.v git.md.a="git submodule add"
-    m.log.v git.md.up="git submodule update"
+    m.log.v git.wc="git whatchanged"
+    m.log.v git.sw="git show"
+    m.log.v git.mo="git submodule"
+    m.log.v git.mo.a="git submodule add"
+    m.log.v git.mo.up="git submodule update"
     m.log.v git.b="git branch"
     m.log.v git.br="git branch -r"
     m.log.v git.ba="git branch -a"
