@@ -480,6 +480,31 @@ m.vmnt()
     esac
 }
 ### end m.vmnt()
+### m.startup()
+m.poweron()
+{
+    m.log.v systemd-analyze blame
+    systemd-analyze blame
+}
+### end
+### m.gerrit()
+m.gerrit()
+{
+    op=$1
+    case "${op}" in
+        1|pull)
+            m.log.v "git clone https://github.com/openfrontier/docker-gerrit.git gerrit"
+            [ -e gerrit ] || git clone https://github.com/openfrontier/docker-gerrit.git gerrit
+            m.log.v "git clone https://github.com/larrycai/docker-gerrit.git gerrit2"
+            [ -e gerrit2 ] || git clone https://github.com/larrycai/docker-gerrit.git gerrit2
+            ;;
+        0|'help'|'h'|'Help')
+            ;;
+        *)
+            ;;
+    esac
+}
+### m.gerrit() end
 m.import ${COMMAND_DIR}/cmd/docker.sh
 ## end
 # end
