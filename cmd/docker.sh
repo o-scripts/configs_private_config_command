@@ -147,28 +147,57 @@ docker ps
             ;;
         ## ------------------------------------------------------
         'b'|'login')
-            echo "parm: "$@
+            m.log.v "parm: "$@
             docker exec -it $2 /bin/bash
             ;;
         ## ------------------------------------------------------
         'c1'|'cl.apache')
-            echo "parm: "$@
+            m.log.v "parm: "$@
             service apache2 $2
             ;;
         ## ------------------------------------------------------
         'c2'|'cl.nginx')
-            echo "parm: "$@
+            m.log.v "parm: "$@
             service nginx $2
             ;;
         ## ------------------------------------------------------
         'c3'|'cl.mysql')
-            echo "parm: "$@
+            m.log.v "parm: "$@
             service mysql $2
             ;;
         ## ------------------------------------------------------
         'c4'|'cl.ssh')
-            echo "parm: "$@
+            m.log.v "parm: "$@
             service ssh $2
+            ;;
+        'd1'|'d.up')
+            case $(docker ps -a | grep betoptop | wc -l) in
+                0)
+                    m.log.v "docker run -d --name local.betoptop.com -it works:apache /bin/bash"
+                    docker run -d --name local.betoptop.com -it works:apache /bin/bash
+                    m.log.v "docker run -d --name db.betoptop.com -it works:mysql /bin/bash"
+                    docker run -d --name db.betoptop.com -it works:mysql /bin/bash
+                    ;;
+                *)
+                    m.log.v "docker start db.betoptop.com"
+                    docker start db.betoptop.com
+                    m.log.v "docker start local.betoptop.com"
+                    docker start local.betoptop.com
+                    ;;
+            esac
+            ;;
+        'd2'|'d.st')
+            case $(docker ps -a | grep betoptop | wc -l) in
+                0)
+                    m.log.v "(db|local).betoptop.com is stopped"
+                    ;;
+                *)
+                    m.log.v "docker stop db.betoptop.com"
+                    docker stop db.betoptop.com
+                    m.log.v "docker stop local.betoptop.com"
+                    docker stop local.betoptop.com
+                    ;;
+            esac
             ;;
         ## ------------------------------------------------------
         10|'sample'|'guide'|'example')
@@ -396,6 +425,8 @@ c1. cl.apache   - service apache2 ${2} (Linux)
 c2. cl.nginx    - service nginx ${2} (Linux)
 c3. cl.mysql    - service mysql ${2} (Linux)
 c4. cl.ssh      - service ssh ${2} (Linux)
+d1. d.up        - start (db|local).betoptop.com (LInux)
+d2. d.st        - stop (db|local).betoptop.com (LInux)
 -----------------------------------------------
 10. sample|guide|example    - userguide
 11. install|i               - quick install
