@@ -436,3 +436,21 @@ d2. d.st        - stop (db|local).betoptop.com (LInux)
     esac
 }
 ### end
+
+m.mysql()
+{
+    m.log.v "docker exec -it mysql /bin/bash"
+    docker exec -it mysql /bin/bash
+}
+
+m.nginx()
+{
+    m.log.v "docker exec -it nginx /bin/bash"
+    docker exec -it nginx /bin/bash
+}
+
+m.apache()
+{
+    m.log.v "docker exec -it apache /bin/bash"
+    docker exec -it apache /bin/bash
+}
