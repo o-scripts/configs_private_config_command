@@ -39,7 +39,7 @@ EOF
 	v.hosts &
 }
 
-function v.start()
+v.start()
 {
 	v.was
 	case $(ps aux | grep -v grep | grep ${gl_app} | wc -l) in
@@ -70,3 +70,33 @@ EOF
 	esac
 }
 ### end
+
+v.app()
+{
+    op=$1
+    case $op in
+        ## ------------------------------------------------------
+        'c1'|'apache')
+            m.log.v "parm: "$@
+            service apache2 $2
+            ;;
+        ## ------------------------------------------------------
+        'c2'|'nginx')
+            m.log.v "parm: "$@
+            service nginx $2
+            ;;
+        ## ------------------------------------------------------
+        'c3'|'mysql')
+            m.log.v "parm: "$@
+            service mysql $2
+            ;;
+        ## ------------------------------------------------------
+        'c4'|'ssh')
+            m.log.v "parm: "$@
+            service ssh $2
+            ;;
+        *)
+            m.log.v ""
+            ;;
+    esac
+}
