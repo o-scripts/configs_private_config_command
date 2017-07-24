@@ -9,4 +9,7 @@ case `uname` in
         m.import ${COMMAND_DIR}/cmd/linux.sh
         ;;
 esac
+#### this is only for docker cli
+m.import ${COMMAND_DIR}/cmd/docker/websrv.sh
+#### end
 ### end
