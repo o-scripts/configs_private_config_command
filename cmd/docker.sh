@@ -177,25 +177,31 @@ docker ps
                     docker run -d --name local.betoptop.com -it works:apache /bin/bash
                     m.log.v "docker run -d --name db.betoptop.com -it works:mysql /bin/bash"
                     docker run -d --name db.betoptop.com -it works:mysql /bin/bash
+                    m.log.v "docker run -d --name m.betoptop.com -it works:python /bin/bash"
+                    docker run -d --name m.betoptop.com -it works:python /bin/bash
                     ;;
                 *)
                     m.log.v "docker start db.betoptop.com"
                     docker start db.betoptop.com
                     m.log.v "docker start local.betoptop.com"
                     docker start local.betoptop.com
+                    m.log.v "docker start m.betoptop.com"
+                    docker start m.betoptop.com
                     ;;
             esac
             ;;
         'd2'|'d.st')
             case $(docker ps -a | grep betoptop | wc -l) in
                 0)
-                    m.log.v "(db|local).betoptop.com is stopped"
+                    m.log.v "(db|local|m).betoptop.com is stopped"
                     ;;
                 *)
                     m.log.v "docker stop db.betoptop.com"
                     docker stop db.betoptop.com
                     m.log.v "docker stop local.betoptop.com"
                     docker stop local.betoptop.com
+                    m.log.v "docker stop m.betoptop.com"
+                    docker stop m.betoptop.com
                     ;;
             esac
             ;;
@@ -425,8 +431,8 @@ c1. cl.apache   - service apache2 ${2} (Linux)
 c2. cl.nginx    - service nginx ${2} (Linux)
 c3. cl.mysql    - service mysql ${2} (Linux)
 c4. cl.ssh      - service ssh ${2} (Linux)
-d1. d.up        - start (db|local).betoptop.com (LInux)
-d2. d.st        - stop (db|local).betoptop.com (LInux)
+d1. d.up        - start (db|local|m).betoptop.com (LInux)
+d2. d.st        - stop (db|local|m).betoptop.com (LInux)
 -----------------------------------------------
 10. sample|guide|example    - userguide
 11. install|i               - quick install
