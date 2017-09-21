@@ -505,6 +505,13 @@ m.gerrit()
     esac
 }
 ### m.gerrit() end
+### m.pencil()
+m.pencil()
+{
+    cd ${WORK_BASE}/tool-kit/publics/ui/pencil
+    npm start &
+}
+### m.pencil() end
 m.import ${COMMAND_DIR}/cmd/docker.sh
 ## end
 # end
