@@ -117,8 +117,10 @@ m.ntfs()
 			is_dir=`file ${point}  | awk '{print $2}'`
             case ${is_dir} in
                 'directory')
-        			echo sudo mount -v -o 'rw,auto,nobrowse' -t ntfs ${origin} ${point}
-		        	sudo mount -v -o 'rw,auto,nobrowse' -t ntfs ${origin} ${point}
+        			echo sudo mount -t ntfs -v -w -o 'rw,auto,nosuid,noexec,nobrowse' ${origin} ${point}
+		        	# sudo mount -t ntfs -v -o 'rw,auto,nosuid,noexec' ${origin} ${point}
+                    # sudo mount -t ntfs -v -o 'rw,auto,nobrowse,update' ${origin} ${point}
+                    sudo mount -t ntfs -v -o 'rw,auto,nosuid,noexec,nobrowse' ${origin} ${point}
                     ;;
                 *)
                     ;;
