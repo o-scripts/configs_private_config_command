@@ -1,4 +1,94 @@
 ### Docker
+#### sub-cli for docker
+d.one()
+{
+    op=$1
+    case $op in
+        '1'|'init')
+            case `uname` in
+                'Darwin')
+                    m.log.v "docker run -d -v ~/works:/var/tmp/works -it --name=one works:1704 /bin/bash"
+                    docker run -d -v ~/works:/var/tmp/works -it --name=one works:1704 /bin/bash
+                    ;;
+                'Linux')
+                    m.log.v "docker run -d -v ~/works:/var/tmp/works -it --name=one works:1604 /bin/bash"
+                    docker run -d -v ~/works:/var/tmp/works -it --name=one works:1604 /bin/bash
+                    ;;
+            esac
+            ;;
+        ## ------------------------------------------------------
+        '2'|'start')
+            docker start one;
+            ;;
+        ## ------------------------------------------------------
+        '3'|'stop')
+            docker stop one
+            ;;
+        0|'h'|'help'|*)
+            cat << EOF
+d.one [option]
+
+option:
+    0. help|h   - display this help
+    1. init     - initlizieren this docker-machine
+    2. start    - start this docker-machine
+    3. stop     - stop this docker-machine
+EOF
+    esac
+}
+
+d.srv()
+{
+    op=$1
+    case $op in
+        '1'|'init')
+            docker run -d -v ~/works:/var/tmp/works -it --name=apache works:1604 /bin/bash
+            sleep 1;
+            docker run -d -v ~/works:/var/tmp/works -it --name=nginx works:1604 /bin/bash
+            sleep 1;
+            docker run -d -v ~/works:/var/tmp/works -it --name=mysql works:1604 /bin/bash
+            ;;
+        ## ------------------------------------------------------
+        '2'|'start')
+            docker start apache nginx mysql;
+            ;;
+        ## ------------------------------------------------------
+        '3'|'stop')
+            docker stop apache nginx mysql;
+            ;;
+        *)
+        cat << EOF
+d.srv [option]
+
+option:
+    1. init     - init server group
+    2. start    - start server group
+    3. stop     - stop server group
+EOF
+            ;;
+    esac
+}
+
+d.mysql()
+{
+    m.log.v "docker exec -it mysql /bin/bash"
+    docker exec -it mysql /bin/bash
+}
+
+d.nginx()
+{
+    m.log.v "docker exec -it nginx /bin/bash"
+    docker exec -it nginx /bin/bash
+}
+
+d.apache()
+{
+    m.log.v "docker exec -it apache /bin/bash"
+    docker exec -it apache /bin/bash
+}
+#### end
+
+#### main-cli only for docker
 m.docker()
 {
     op=$1
@@ -109,66 +199,45 @@ docker ps
             esac
             ;;
         ## ------------------------------------------------------
-        '91'|'one.init')
-            case `uname` in
-                'Darwin')
-                    m.log.v "docker run -d -v ~/works:/var/tmp/works -it --name=one works:1704 /bin/bash"
-                    docker run -d -v ~/works:/var/tmp/works -it --name=one works:1704 /bin/bash
-                    ;;
-                'Linux')
-                    m.log.v "docker run -d -v ~/works:/var/tmp/works -it --name=one works:1604 /bin/bash"
-                    docker run -d -v ~/works:/var/tmp/works -it --name=one works:1604 /bin/bash
-                    ;;
-            esac
-            ;;
-        ## ------------------------------------------------------
-        '92'|'one.start')
-            docker start one;
-            ;;
-        ## ------------------------------------------------------
-        '93'|'one.stop')
-            docker stop one
-            ;;
-        ## ------------------------------------------------------
-        'a1'|'srv.init')
-            docker run -d -v ~/works:/var/tmp/works -it --name=apache works:1604 /bin/bash
-            sleep 1;
-            docker run -d -v ~/works:/var/tmp/works -it --name=nginx works:1604 /bin/bash
-            sleep 1;
-            docker run -d -v ~/works:/var/tmp/works -it --name=mysql works:1604 /bin/bash
-            ;;
-        ## ------------------------------------------------------
-        'a2'|'srv.start')
-            docker start apache nginx mysql;
-            ;;
-        ## ------------------------------------------------------
-        'a3'|'srv.stop')
-            docker stop apache nginx mysql;
-            ;;
-        ## ------------------------------------------------------
         'b'|'login')
-            echo "parm: "$@
+            m.log.v "parm: "$@
             docker exec -it $2 /bin/bash
             ;;
         ## ------------------------------------------------------
-        'c1'|'cl.apache')
-            echo "parm: "$@
-            service apache2 $2
+        'd1'|'d.up')
+            case $(docker ps -a | grep betoptop | wc -l) in
+                0)
+                    m.log.v "docker run -d --name local.betoptop.com -it works:apache /bin/bash"
+                    docker run -d --name local.betoptop.com -it works:apache /bin/bash
+                    m.log.v "docker run -d --name db.betoptop.com -it works:mysql /bin/bash"
+                    docker run -d --name db.betoptop.com -it works:mysql /bin/bash
+                    m.log.v "docker run -d --name m.betoptop.com -it works:python /bin/bash"
+                    docker run -d --name m.betoptop.com -it works:python /bin/bash
+                    ;;
+                *)
+                    m.log.v "docker start db.betoptop.com"
+                    docker start db.betoptop.com
+                    m.log.v "docker start local.betoptop.com"
+                    docker start local.betoptop.com
+                    m.log.v "docker start m.betoptop.com"
+                    docker start m.betoptop.com
+                    ;;
+            esac
             ;;
-        ## ------------------------------------------------------
-        'c2'|'cl.nginx')
-            echo "parm: "$@
-            service nginx $2
-            ;;
-        ## ------------------------------------------------------
-        'c3'|'cl.mysql')
-            echo "parm: "$@
-            service mysql $2
-            ;;
-        ## ------------------------------------------------------
-        'c4'|'cl.ssh')
-            echo "parm: "$@
-            service ssh $2
+        'd2'|'d.st')
+            case $(docker ps -a | grep betoptop | wc -l) in
+                0)
+                    m.log.v "(db|local|m).betoptop.com is stopped"
+                    ;;
+                *)
+                    m.log.v "docker stop db.betoptop.com"
+                    docker stop db.betoptop.com
+                    m.log.v "docker stop local.betoptop.com"
+                    docker stop local.betoptop.com
+                    m.log.v "docker stop m.betoptop.com"
+                    docker stop m.betoptop.com
+                    ;;
+            esac
             ;;
         ## ------------------------------------------------------
         10|'sample'|'guide'|'example')
@@ -384,18 +453,15 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
     ps          - docker ps $@
 -----------------------------------------------
 8. srv.clean    - clean all not active container
-91. one.init    - init web service (OSX/Linux)
-92. one.start   - start web service
-93. one.stop    - stop web service
-a1. srv.init    - init web service
-a2. srv.start   - start web service
-a3. srv.stop    - stop web service
 b. login        - docker exec -it $2 /bin/bash
 -----------------------------------------------
+<<<<<<< HEAD
 c1. cl.apache   - service apache2 ${2} (Linux)
 c2. cl.nginx    - service nginx ${2} (Linux)
 c3. cl.mysql    - service mysql ${2} (Linux)
 c4. cl.ssh      - service ssh ${2} (Linux)
+d1. d.up        - start (db|local|m).betoptop.com (LInux)
+d2. d.st        - stop (db|local|m).betoptop.com (LInux)
 -----------------------------------------------
 10. sample|guide|example    - userguide
 11. install|i               - quick install

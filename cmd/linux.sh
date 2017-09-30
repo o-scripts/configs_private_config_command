@@ -505,6 +505,28 @@ m.gerrit()
     esac
 }
 ### m.gerrit() end
+### m.pencil()
+m.pencil()
+{
+    cd ${WORK_BASE}/tool-kit/publics/ui/pencil
+    npm start &
+}
+### m.pencil() end
+### m.mac()
+m.mac()
+{
+    op=$1
+    case $op in
+        1)
+            echo -n 00-60-2F; dd bs=1 count=3 if=/dev/random 2>/dev/null |hexdump -v -e '/1 "-%02X"'
+            ;;
+        2)
+            MACADDR="52:54:$(dd if=/dev/urandom count=1 2>/dev/null | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\).*$/\1:\2:\3:\4/')"
+            echo $MACADDR
+            ;;
+    esac
+}
+### m.mac() end
 m.import ${COMMAND_DIR}/cmd/docker.sh
 ## end
 # end
