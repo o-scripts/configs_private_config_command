@@ -2,21 +2,27 @@
 gl_app=''
 v.was()
 {
-	case `ifconfig | grep -E "^e" |grep HWaddr | awk '{print $5}'` in
+	# case `ifconfig | grep -E "^e" |grep HWaddr | awk '{print $5}'` in
+	case $(ifconfig | grep -E "[*:*:*:*:*:]" | grep -v ': '|awk '{print $2}') in
 		'02:42:ac:11:00:03')
-			m.log.v "nginx";
-			gl_app='nginx';
+			m.log.v "apache2";
+			gl_app='apache2';
 			;;
 		'02:42:ac:11:00:04')
 			m.log.v "mysql";
 			gl_app='mysql';
 			;;
 		'02:42:ac:11:00:02')
-			m.log.v "apache2";
-			gl_app='apache2';
+			m.log.v "nginx";
+			gl_app='nginx';
+			;;
+		'02:42:ac:11:00:05')
+			# m.log.v "python";
+			# gl_app='python';
 			;;
 		*)
 			m.log.v "host os";
+			gl_app="-1"
 			;;
 	esac
 }
@@ -59,9 +65,10 @@ v.hosts()
 		0)
 			cat >> /etc/hosts << EOF
 ## *.websrv.com
-172.17.0.2  apache.websrv.com
-172.17.0.3  nginx.websrv.com
-172.17.0.4  mysql.websrv.com
+172.17.0.2  nginx.betoptop.com
+172.17.0.3  apache.betoptop.com
+172.17.0.4  mysql.betoptop.com
+172.17.0.5  python.betoptop.com
 EOF
 			;;
 		*)
@@ -99,4 +106,10 @@ v.app()
             m.log.v ""
             ;;
     esac
+}
+
+v.apt()
+{
+	echo apt -y install iputils-ping vim htop git
+	apt -y install iputils-ping vim htop git
 }

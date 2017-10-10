@@ -164,6 +164,14 @@ m.docker()
  docker version
 ---------------------------------------------------------"
             docker version
+            case $? in
+                0)
+                    ;;
+                *)
+                    m.docker eval
+                    docker version
+                    ;;
+            esac
             m.log.v "=========================================================
 docker images
 ---------------------------------------------------------"
@@ -193,7 +201,7 @@ docker ps
                     ;;
                 *)
                     m.log.v "delete all not active container"
-                    m.log.v "docker rm $(docker -a -q)"
+                    m.log.v "docker rm $\(docker -a -q\)"
                     docker rm $(docker ps -a -q)
                     ;;
             esac
@@ -205,37 +213,46 @@ docker ps
             ;;
         ## ------------------------------------------------------
         'd1'|'d.up')
-            case $(docker ps -a | grep betoptop | wc -l) in
-                0)
-                    m.log.v "docker run -d --name local.betoptop.com -it works:apache /bin/bash"
-                    docker run -d --name local.betoptop.com -it works:apache /bin/bash
-                    m.log.v "docker run -d --name db.betoptop.com -it works:mysql /bin/bash"
-                    docker run -d --name db.betoptop.com -it works:mysql /bin/bash
-                    m.log.v "docker run -d --name m.betoptop.com -it works:python /bin/bash"
-                    docker run -d --name m.betoptop.com -it works:python /bin/bash
+            num=$(echo "$(docker ps -a | grep betoptop | grep -v grep | wc -l)" | sed 's/^[\t| ]*//g')
+            case $num in
+                0|'0')
+                    echo 'no betoptop'
+                    m.log.v "docker run -d -v ~/works:/tmp/works --name nginx.betoptop.com -it works:apache /bin/bash"
+                    docker run -d -v ~/works:/tmp/works --name nginx.betoptop.com -it works:apps /bin/bash
+                    m.log.v "docker run -d -v ~/works:/tmp/works --name apache.betoptop.com -it works:apache /bin/bash"
+                    docker run -d -v ~/works:/tmp/works --name apache.betoptop.com -it works:apps /bin/bash
+                    m.log.v "docker run -d -v ~/works:/tmp/works --name db.betoptop.com -it works:mysql /bin/bash"
+                    docker run -d -v ~/works:/tmp/works --name db.betoptop.com -it works:apps /bin/bash
+                    m.log.v "docker run -d -v ~/works:/tmp/works --name python.betoptop.com -it works:python /bin/bash"
+                    docker run -d -v ~/works:/tmp/works --name python.betoptop.com -it works:apps /bin/bash
                     ;;
                 *)
+                    echo 'have betoptop'
+                    m.log.v "docker start nginx.betoptop.com"
+                    docker start nginx.betoptop.com
+                    m.log.v "docker start apache.betoptop.com"
+                    docker start apache.betoptop.com
                     m.log.v "docker start db.betoptop.com"
                     docker start db.betoptop.com
-                    m.log.v "docker start local.betoptop.com"
-                    docker start local.betoptop.com
-                    m.log.v "docker start m.betoptop.com"
-                    docker start m.betoptop.com
+                    m.log.v "docker start python.betoptop.com"
+                    docker start python.betoptop.com
                     ;;
             esac
             ;;
         'd2'|'d.st')
             case $(docker ps -a | grep betoptop | wc -l) in
                 0)
-                    m.log.v "(db|local|m).betoptop.com is stopped"
+                    m.log.v "(db|apache|nginx|python).betoptop.com is stopped"
                     ;;
                 *)
                     m.log.v "docker stop db.betoptop.com"
                     docker stop db.betoptop.com
-                    m.log.v "docker stop local.betoptop.com"
-                    docker stop local.betoptop.com
-                    m.log.v "docker stop m.betoptop.com"
-                    docker stop m.betoptop.com
+                    m.log.v "docker stop nginx.betoptop.com"
+                    docker stop nginx.betoptop.com
+                    m.log.v "docker stop apache.betoptop.com"
+                    docker stop apache.betoptop.com
+                    m.log.v "docker stop python.betoptop.com"
+                    docker stop python.betoptop.com
                     ;;
             esac
             ;;
@@ -432,7 +449,28 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
                     ;;
             esac
             ;;
-        12|*)
+        12|eval|'eval')
+            ## docker for mac osx
+            case $(ps aux | grep boot2docker-vm | grep -v grep | wc -l) in
+                0)
+                    echo 'use docker-compose'
+                    export DOCKER_TLS_VERIFY="1"
+                    export DOCKER_HOST="tcp://192.168.99.101:2376"
+                    export DOCKER_CERT_PATH="/Users/zhanggd/.docker/machine/machines/default"
+                    export DOCKER_MACHINE_NAME="default"
+                    eval $(docker-machine env)
+                    ;;
+                *)
+                    echo 'use boot2docker'
+                    export DOCKER_HOST=tcp://192.168.59.103:2376
+                    export DOCKER_CERT_PATH=/Users/zhanggd/.boot2docker/certs/boot2docker-vm
+                    export DOCKER_TLS_VERIFY=1
+                    eval "$(boot2docker shellinit)"
+                    ;;
+            esac
+            ## end
+            ;;
+        13|*)
             m.log.v '
                                 DOCKER
 ============================================================================
@@ -455,7 +493,6 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 8. srv.clean    - clean all not active container
 b. login        - docker exec -it $2 /bin/bash
 -----------------------------------------------
-<<<<<<< HEAD
 c1. cl.apache   - service apache2 ${2} (Linux)
 c2. cl.nginx    - service nginx ${2} (Linux)
 c3. cl.mysql    - service mysql ${2} (Linux)
@@ -465,7 +502,8 @@ d2. d.st        - stop (db|local|m).betoptop.com (LInux)
 -----------------------------------------------
 10. sample|guide|example    - userguide
 11. install|i               - quick install
-12. *                       - display this menu
+12. eval                    - eval export
+13. *                       - display this menu
 ----------------------------------------------------------------------------'
             ;;
     esac
