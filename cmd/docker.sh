@@ -1,20 +1,23 @@
 ### Docker
+case `uname` in
+    'Darwin')
+        M_APPS_BASE='works:1704'
+        M_APPS_CUR='apps-v0.1.1'
+        ;;
+    'Linux')
+        M_APPS_BASE='works:1604'
+        M_APPS_CUR='apps'
+        ;;
+esac
+
 #### sub-cli for docker
 d.one()
 {
     op=$1
     case $op in
         '1'|'init')
-            case `uname` in
-                'Darwin')
-                    m.log.v "docker run -d -v ~/works:/var/tmp/works -it --name=one works:1704 /bin/bash"
-                    docker run -d -v ~/works:/var/tmp/works -it --name=one works:1704 /bin/bash
-                    ;;
-                'Linux')
-                    m.log.v "docker run -d -v ~/works:/var/tmp/works -it --name=one works:1604 /bin/bash"
-                    docker run -d -v ~/works:/var/tmp/works -it --name=one works:1604 /bin/bash
-                    ;;
-            esac
+            m.log.v "docker run -d -v ~/works:/var/tmp/works -it --name=one ${M_APPS_BASE} /bin/bash"
+            docker run -d -v ~/works:/var/tmp/works -it --name=one ${M_APPS_BASE} /bin/bash
             ;;
         ## ------------------------------------------------------
         '2'|'start')
@@ -42,11 +45,11 @@ d.srv()
     op=$1
     case $op in
         '1'|'init')
-            docker run -d -v ~/works:/var/tmp/works -it --name=apache works:1604 /bin/bash
+            docker run -d -v ~/works:/var/tmp/works -it --name=apache ${M_APPS_BASE} /bin/bash
             sleep 1;
-            docker run -d -v ~/works:/var/tmp/works -it --name=nginx works:1604 /bin/bash
+            docker run -d -v ~/works:/var/tmp/works -it --name=nginx ${M_APPS_BASE} /bin/bash
             sleep 1;
-            docker run -d -v ~/works:/var/tmp/works -it --name=mysql works:1604 /bin/bash
+            docker run -d -v ~/works:/var/tmp/works -it --name=mysql ${M_APPS_BASE} /bin/bash
             ;;
         ## ------------------------------------------------------
         '2'|'start')
@@ -130,8 +133,7 @@ m.docker()
                 'Darwin')
                     m.log.v "boot2docker down"
                     boot2docker down
-                    m.log.v "docker version"
-                    docker version
+                    m.log.v "docker is poweroff...."
                     ;;
                 'Linux')
                     m.log.v sudo ${SERV} ${DOCKER} stop
@@ -217,14 +219,16 @@ docker ps
             case $num in
                 0|'0')
                     echo 'no betoptop'
-                    m.log.v "docker run -d -v ~/works:/tmp/works --name nginx.betoptop.com -it works:apache /bin/bash"
-                    docker run -d -v ~/works:/tmp/works --name nginx.betoptop.com -it works:apps /bin/bash
-                    m.log.v "docker run -d -v ~/works:/tmp/works --name apache.betoptop.com -it works:apache /bin/bash"
-                    docker run -d -v ~/works:/tmp/works --name apache.betoptop.com -it works:apps /bin/bash
-                    m.log.v "docker run -d -v ~/works:/tmp/works --name db.betoptop.com -it works:mysql /bin/bash"
-                    docker run -d -v ~/works:/tmp/works --name db.betoptop.com -it works:apps /bin/bash
-                    m.log.v "docker run -d -v ~/works:/tmp/works --name python.betoptop.com -it works:python /bin/bash"
-                    docker run -d -v ~/works:/tmp/works --name python.betoptop.com -it works:apps /bin/bash
+                    m.log.v "docker run -d -v ~/works:/tmp/works --name nginx.betoptop.com -it ${M_APPS_CUR} /bin/bash"
+                    docker run -d -v ~/works:/tmp/works --name nginx.betoptop.com -it ${M_APPS_CUR} /bin/bash
+                    m.log.v "docker run -d -v ~/works:/tmp/works --name apache.betoptop.com -it ${M_APPS_CUR} /bin/bash"
+                    docker run -d -v ~/works:/tmp/works --name apache.betoptop.com -it ${M_APPS_CUR} /bin/bash
+                    m.log.v "docker run -d -v ~/works:/tmp/works --name db.betoptop.com -it ${M_APPS_CUR} /bin/bash"
+                    docker run -d -v ~/works:/tmp/works --name db.betoptop.com -it ${M_APPS_CUR} /bin/bash
+                    m.log.v "docker run -d -v ~/works:/tmp/works --name python.betoptop.com -it ${M_APPS_CUR} /bin/bash"
+                    docker run -d -v ~/works:/tmp/works --name python.betoptop.com -it ${M_APPS_CUR} /bin/bash
+                    m.log.v "docker run -d -v ~/works:/tmp/works --name pool.betoptop.com -it ${M_APPS_CUR} /bin/bash"
+                    docker run -d -v ~/works:/tmp/works --name pool.betoptop.com -it ${M_APPS_CUR} /bin/bash
                     ;;
                 *)
                     echo 'have betoptop'
@@ -236,6 +240,8 @@ docker ps
                     docker start db.betoptop.com
                     m.log.v "docker start python.betoptop.com"
                     docker start python.betoptop.com
+                    m.log.v "docker start pool.betoptop.com"
+                    docker start pool.betoptop.com
                     ;;
             esac
             ;;
@@ -253,6 +259,8 @@ docker ps
                     docker stop apache.betoptop.com
                     m.log.v "docker stop python.betoptop.com"
                     docker stop python.betoptop.com
+                    m.log.v "docker stop pool.betoptop.com"
+                    docker stop pool.betoptop.com
                     ;;
             esac
             ;;

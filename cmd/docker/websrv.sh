@@ -61,10 +61,10 @@ v.start()
 v.hosts()
 {
 	## import hosts info
-	case $(cat /etc/hosts | grep websrv.com | grep -v grep | wc -l) in
+	case $(cat /etc/hosts | grep betoptop.com | grep -v grep | wc -l | sed 's/^[\t| ]//g') in
 		0)
 			cat >> /etc/hosts << EOF
-## *.websrv.com
+## *.betoptop.com
 172.17.0.2  nginx.betoptop.com
 172.17.0.3  apache.betoptop.com
 172.17.0.4  mysql.betoptop.com
