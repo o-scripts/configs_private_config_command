@@ -1,12 +1,22 @@
 ### Docker
 case `uname` in
     'Darwin')
-        M_APPS_BASE='works:1704'
-        M_APPS_CUR='apps-v0.1.1'
+        M_APPS_BASE='works:apps'
+        M_APPS_CUR='works:apps-v0.1.1'
+        M_APPS_NGINX=${M_APPS_CUR}
+        M_APPS_APACHE=${M_APPS_CUR}
+        M_APPS_DB=${M_APPS_CUR}
+        M_APPS_PYTHON=${M_APPS_CUR}
+        M_APPS_POOL=${M_APPS_CUR}
         ;;
     'Linux')
         M_APPS_BASE='works:1604'
         M_APPS_CUR='apps'
+        M_APPS_NGINX=${M_APPS_CUR}
+        M_APPS_APACHE=${M_APPS_CUR}
+        M_APPS_DB=${M_APPS_CUR}
+        M_APPS_PYTHON=${M_APPS_CUR}
+        M_APPS_POOL=${M_APPS_CUR}
         ;;
 esac
 
@@ -219,16 +229,16 @@ docker ps
             case $num in
                 0|'0')
                     echo 'no betoptop'
-                    m.log.v "docker run -d -v ~/works:/tmp/works --name nginx.betoptop.com -it ${M_APPS_CUR} /bin/bash"
-                    docker run -d -v ~/works:/tmp/works --name nginx.betoptop.com -it ${M_APPS_CUR} /bin/bash
-                    m.log.v "docker run -d -v ~/works:/tmp/works --name apache.betoptop.com -it ${M_APPS_CUR} /bin/bash"
-                    docker run -d -v ~/works:/tmp/works --name apache.betoptop.com -it ${M_APPS_CUR} /bin/bash
-                    m.log.v "docker run -d -v ~/works:/tmp/works --name db.betoptop.com -it ${M_APPS_CUR} /bin/bash"
-                    docker run -d -v ~/works:/tmp/works --name db.betoptop.com -it ${M_APPS_CUR} /bin/bash
-                    m.log.v "docker run -d -v ~/works:/tmp/works --name python.betoptop.com -it ${M_APPS_CUR} /bin/bash"
-                    docker run -d -v ~/works:/tmp/works --name python.betoptop.com -it ${M_APPS_CUR} /bin/bash
-                    m.log.v "docker run -d -v ~/works:/tmp/works --name pool.betoptop.com -it ${M_APPS_CUR} /bin/bash"
-                    docker run -d -v ~/works:/tmp/works --name pool.betoptop.com -it ${M_APPS_CUR} /bin/bash
+                    m.log.v "docker run -d -v ~/works:/tmp/works --name nginx.betoptop.com -it ${M_APPS_NGINX} /bin/bash"
+                    docker run -d -v ~/works:/tmp/works --name nginx.betoptop.com -it ${M_APPS_NGINX} /bin/bash
+                    m.log.v "docker run -d -v ~/works:/tmp/works --name apache.betoptop.com -it ${M_APPS_APACHE} /bin/bash"
+                    docker run -d -v ~/works:/tmp/works --name apache.betoptop.com -it ${M_APPS_APACHE} /bin/bash
+                    m.log.v "docker run -d -v ~/works:/tmp/works --name db.betoptop.com -it ${M_APPS_DB} /bin/bash"
+                    docker run -d -v ~/works:/tmp/works --name db.betoptop.com -it ${M_APPS_DB} /bin/bash
+                    m.log.v "docker run -d -v ~/works:/tmp/works --name python.betoptop.com -it ${M_APPS_PYTHON} /bin/bash"
+                    docker run -d -v ~/works:/tmp/works --name python.betoptop.com -it ${M_APPS_PYTHON} /bin/bash
+                    m.log.v "docker run -d -v ~/works:/tmp/works --name pool.betoptop.com -it ${M_APPS_POOL} /bin/bash"
+                    docker run -d -v ~/works:/tmp/works --name pool.betoptop.com -it ${M_APPS_POOL} /bin/bash
                     ;;
                 *)
                     echo 'have betoptop'
@@ -512,7 +522,8 @@ d2. d.st        - stop (db|local|m).betoptop.com (LInux)
 11. install|i               - quick install
 12. eval                    - eval export
 13. *                       - display this menu
-----------------------------------------------------------------------------'
+----------------------------------------------------------------------------
+'
             ;;
     esac
 }
