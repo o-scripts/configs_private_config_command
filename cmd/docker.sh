@@ -1,4 +1,6 @@
 ### Docker
+LOCAL_DIR=${HOME}/works
+REMOTE_DIR=/var/works
 case `uname` in
     'Darwin')
         M_APPS_BASE='works:apps'
@@ -26,8 +28,8 @@ d.one()
     op=$1
     case $op in
         '1'|'init')
-            m.log.v "docker run -d -v ~/works:/var/tmp/works -it --name=one ${M_APPS_BASE} /bin/bash"
-            docker run -d -v ~/works:/var/tmp/works -it --name=one ${M_APPS_BASE} /bin/bash
+            m.log.v "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} -it --name=one ${M_APPS_BASE} /bin/bash"
+            docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} -it --name=one ${M_APPS_BASE} /bin/bash
             ;;
         ## ------------------------------------------------------
         '2'|'start')
@@ -55,11 +57,11 @@ d.srv()
     op=$1
     case $op in
         '1'|'init')
-            docker run -d -v ~/works:/var/tmp/works -it --name=apache ${M_APPS_BASE} /bin/bash
+            docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} -it --name=apache ${M_APPS_BASE} /bin/bash
             sleep 1;
-            docker run -d -v ~/works:/var/tmp/works -it --name=nginx ${M_APPS_BASE} /bin/bash
+            docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} -it --name=nginx ${M_APPS_BASE} /bin/bash
             sleep 1;
-            docker run -d -v ~/works:/var/tmp/works -it --name=mysql ${M_APPS_BASE} /bin/bash
+            docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} -it --name=mysql ${M_APPS_BASE} /bin/bash
             ;;
         ## ------------------------------------------------------
         '2'|'start')
@@ -107,7 +109,7 @@ m.docker()
     op=$1
     pa=$2
     case $op in
-		## ------------------------------------------------------
+        ## ------------------------------------------------------
         '0'|'init')
             case `uname` in
                 'Darwin')
@@ -136,7 +138,7 @@ m.docker()
                     sudo ${SERV} ${DOCKER} start
                     ;;
             esac
-			;;
+            ;;
         ## ------------------------------------------------------
         '2'|'down')
             case `uname` in
@@ -152,23 +154,27 @@ m.docker()
             esac
             ;;
         ## ------------------------------------------------------
-        '3'|'lnmp')
-            #docker run -p 8080:443 -v ~/mnt:/mnt -i -t lnmp.htop /bin/bash
-			m.log.v "docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:lnmp /bin/bash"
-            read -p "Press to continue...."
-			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:lnmp /bin/bash
+        '3'|'run')
+            unset vbox_name
+            vbox_name=$2
+            m.log.v "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${M_APPS_CUR} /bin/bash"
+            # docker run -d -p 80:80 -p 8080:8080 -p 443:443 -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${M_APPS_CUR} /bin/bash
+            docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${M_APPS_CUR} /bin/bash
             ;;
         ## ------------------------------------------------------
-		'4'|'ubuntu')
-			m.log.v "docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:14.04 /bin/bash"
-            read -p "Press to continue...."
-			docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/tmp:/home/sites -d -i -t ubuntu:14.04 /bin/bash
-			;;
+        '4'|'start')
+            unset vbox_name
+            vbox_name=$2
+            m.log.v "docker start ${vbox_name}"
+            docker start ${vbox_name}
+            ;;
         ## ------------------------------------------------------
-        '5'|'zephyr')
-            m.log.v "docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -d -i -t zephyr:works su test"
-            read -p "Press to continue...."
-            docker run -p 80:80 -p 8080:8080 -p 443:443 -v ~/works:/tmp/works -d -i -t zephyr:works su test
+        '5'|'exec')
+            unset vbox_name
+            vbox_name=$2
+            m.log.v "docker exec -it ${vbox_name} /bin/bash"
+            docker exec -it ${vbox_name} /bin/bash
+            #docker run -p 80:80 -p 8080:8080 -p 443:443 -v ${LOCAL_DIR}:${REMOTE_DIR} -d -i -t zephyr:works su test
             ;;
         ## ------------------------------------------------------
         '6'|'info')
@@ -206,7 +212,7 @@ docker ps
             esac
             ;;
         ## =====================================================================
-        '8'|'srv.clean')
+        '8'|'cls')
             case `docker ps -a -q` in
                 '')
                     echo "no active container"
@@ -221,7 +227,24 @@ docker ps
         ## ------------------------------------------------------
         'b'|'login')
             m.log.v "parm: "$@
-            docker exec -it $2 /bin/bash
+            unset vbox_name
+            vbox_name=$2
+            m.log.v "vbox_name: ${vbox_name}"
+            num=$(echo "$(docker ps -a | grep ${vbox_name} | grep -v grep | wc -l)" | sed 's/^[\t| ]*//g')
+            case $num in
+                0|'0')
+                    m.log.v "there isn't ${vbox_name} in container, then create a container named ${vbox_name}"
+                    m.log.v "m.docker run ${vbox_name}"
+                    m.docker run ${vbox_name}
+                    ;;
+                *)
+                    m.log.v "there is ${vbox_name} in container, just run it"
+                    m.log.v "m.docker start ${vbox_name}"
+                    m.docker start ${vbox_name}
+                    ;;
+            esac
+            m.log.v "m.docker exec ${vbox_name}"
+            m.docker exec ${vbox_name}
             ;;
         ## ------------------------------------------------------
         'd1'|'d.up')
@@ -229,29 +252,29 @@ docker ps
             case $num in
                 0|'0')
                     echo 'no betoptop'
-                    m.log.v "docker run -d -v ~/works:/tmp/works --name nginx.betoptop.com -it ${M_APPS_NGINX} /bin/bash"
-                    docker run -d -v ~/works:/tmp/works --name nginx.betoptop.com -it ${M_APPS_NGINX} /bin/bash
-                    m.log.v "docker run -d -v ~/works:/tmp/works --name apache.betoptop.com -it ${M_APPS_APACHE} /bin/bash"
-                    docker run -d -v ~/works:/tmp/works --name apache.betoptop.com -it ${M_APPS_APACHE} /bin/bash
-                    m.log.v "docker run -d -v ~/works:/tmp/works --name db.betoptop.com -it ${M_APPS_DB} /bin/bash"
-                    docker run -d -v ~/works:/tmp/works --name db.betoptop.com -it ${M_APPS_DB} /bin/bash
-                    m.log.v "docker run -d -v ~/works:/tmp/works --name python.betoptop.com -it ${M_APPS_PYTHON} /bin/bash"
-                    docker run -d -v ~/works:/tmp/works --name python.betoptop.com -it ${M_APPS_PYTHON} /bin/bash
-                    m.log.v "docker run -d -v ~/works:/tmp/works --name pool.betoptop.com -it ${M_APPS_POOL} /bin/bash"
-                    docker run -d -v ~/works:/tmp/works --name pool.betoptop.com -it ${M_APPS_POOL} /bin/bash
+                    m.log.v "m.docker run nginx.betoptop.com"
+                    m.docker run nginx.betoptop.com
+                    m.log.v "m.docker run apache.betoptop.com"
+                    m.docker run apache.betoptop.com
+                    m.log.v "m.docker run db.betoptop.com"
+                    m.docker run db.betoptop.com
+                    m.log.v "m.docker run python.betoptop.com"
+                    m.docker run python.betoptop.com
+                    m.log.v "m.docker run pool.betoptop.com"
+                    m.docker run pool.betoptop.com
                     ;;
                 *)
                     echo 'have betoptop'
-                    m.log.v "docker start nginx.betoptop.com"
-                    docker start nginx.betoptop.com
-                    m.log.v "docker start apache.betoptop.com"
-                    docker start apache.betoptop.com
-                    m.log.v "docker start db.betoptop.com"
-                    docker start db.betoptop.com
-                    m.log.v "docker start python.betoptop.com"
-                    docker start python.betoptop.com
-                    m.log.v "docker start pool.betoptop.com"
-                    docker start pool.betoptop.com
+                    m.log.v "m.docker start nginx.betoptop.com"
+                    m.docker start nginx.betoptop.com
+                    m.log.v "m.docker start apache.betoptop.com"
+                    m.docker start apache.betoptop.com
+                    m.log.v "m.docker start db.betoptop.com"
+                    m.docker start db.betoptop.com
+                    m.log.v "m.docker start python.betoptop.com"
+                    m.docker start python.betoptop.com
+                    m.log.v "m.docker start pool.betoptop.com"
+                    m.docker start pool.betoptop.com
                     ;;
             esac
             ;;
@@ -495,9 +518,9 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
 0. init         - boot2docker init and start
 1. up           - start docker-machine
 2. down         - stop docker-machine
-3. lnmp         - start bash in Linux+Nging+Mysql+Php
-4. ubuntu       - run ubuntu 14.04
-5. zephyr       - run to zephyr development env
+3. run          - run a container in background
+4. start        - start a container
+5. exec         - login a container
 6. info         - show info of docker
 -----------------------------------------------
 7. some docker command(not support number):
@@ -522,8 +545,7 @@ d2. d.st        - stop (db|local|m).betoptop.com (LInux)
 11. install|i               - quick install
 12. eval                    - eval export
 13. *                       - display this menu
-----------------------------------------------------------------------------
-'
+----------------------------------------------------------------------------'
             ;;
     esac
 }
