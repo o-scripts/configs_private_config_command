@@ -365,12 +365,21 @@ m.opencv()
     op=$1
     case $op in
         1|install|i)
-            m.log.v "sudo apt-get install --assume-yes build-essential cmake git \\
-            build-essential pkg-config unzip ffmpeg qtbase5-dev python-dev python3-dev python-numpy python3-numpy \\
-            libopencv-dev libgtk-3-dev libdc1394-22 libdc1394-22-dev libjpeg-dev libpng12-dev libtiff5-dev libjasper-dev \\
-            libavcodec-dev libavformat-dev libswscale-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev \\
-            libv4l-dev libtbb-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev \\
-            libvorbis-dev libxvidcore-dev v4l-utils"
+            case $(lsb_release -r | awk '{print $2}') in
+                '16.04')
+                    m.log.v "sudo apt-get install build-essential"
+                    m.log.v "sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev"
+                    m.log.v "sudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev"
+                    ;;
+                *)
+                    m.log.v "sudo apt-get install --assume-yes build-essential cmake git \\
+                    build-essential pkg-config unzip ffmpeg qtbase5-dev python-dev python3-dev python-numpy python3-numpy \\
+                    libopencv-dev libgtk-3-dev libdc1394-22 libdc1394-22-dev libjpeg-dev libpng12-dev libtiff5-dev libjasper-dev \\
+                    libavcodec-dev libavformat-dev libswscale-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev \\
+                    libv4l-dev libtbb-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev \\
+                    libvorbis-dev libxvidcore-dev v4l-utils"
+                    ;;
+            esac
             ;;
         0|help|h|*)
             m.log.v "
@@ -518,11 +527,11 @@ m.mac()
     op=$1
     case $op in
         1)
-            echo -n 00-60-2F; dd bs=1 count=3 if=/dev/random 2>/dev/null |hexdump -v -e '/1 "-%02X"'
+            m.log.v 00-60-2F`dd bs=1 count=3 if=/dev/random 2>/dev/null |hexdump -v -e '/1 "-%02X"'`
             ;;
         2)
             MACADDR="52:54:$(dd if=/dev/urandom count=1 2>/dev/null | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\).*$/\1:\2:\3:\4/')"
-            echo $MACADDR
+            m.log.v $MACADDR
             ;;
     esac
 }

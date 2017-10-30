@@ -13,7 +13,7 @@ case `uname` in
         ;;
     'Linux')
         M_APPS_BASE='works:1604'
-        M_APPS_CUR='apps'
+        M_APPS_CUR='works:1404'
         M_APPS_NGINX=${M_APPS_CUR}
         M_APPS_APACHE=${M_APPS_CUR}
         M_APPS_DB=${M_APPS_CUR}
