@@ -62,12 +62,27 @@ m.arch()
 # function define area
 # @2017.03.26
 ## some adb short cmd
-alias m.adbs="adb shell"
-alias m.adbd="adb devices"
-alias m.adbr="adb reboot"
-alias m.adbcls="adb logcat -c"
-alias m.adblog="adb logcat -v threadtime"
-alias m.adbreport="adb shell bugreport"
+alias adb.up="adb start-server"
+alias adb.dw="adb kill-server"
+alias adb.dev="adb devices"
+### shell
+alias adb.sh="adb shell"
+alias adb.rbt="adb reboot"
+alias adb.in="adb shell input"
+adb.am()
+{
+    m.log.v "adb shell am $@"
+    adb shell "am $@"
+}
+adb.pm()
+{
+    m.log.v "adb shell pm $@"
+    adb shell "pm $@"
+}
+### log setting
+alias adb.clc="adb logcat -c"
+alias adb.log="adb logcat -v threadtime"
+alias adb.report="adb shell bugreport"
 
 ### some git short cmd
 alias git.l="git log --name-status --color=auto --graph"
@@ -95,7 +110,7 @@ alias cyanogenmodsync="cat .repo/manifest.xml | grep CyanogenMod | awk '{print $
 ### end
 
 ### mkdir
-alias m.mkdir='mkdir -p'
+alias mkdir.p='mkdir -p'
 ### end
 ### bsdiff file
 m.ota()

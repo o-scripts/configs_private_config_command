@@ -2,6 +2,16 @@
 ### android
 # this is setting for config of android
 #-------------------------------------------------------------------------
+## m.tcpdump()
+m.tcpdump()
+{
+    m.log.v "adb shell 'tcpdump -i any -p -s 0 -w /data/local/tmp/capture.cap'"
+    # adb shell 'tcpdump -i any -p -s 0 -w /data/local/tmp/capture.cap'
+    m.log.v "adb pull /data/local/tmp/capture.cap"
+    # adb pull /data/local/tmp/capture.cap
+}
+## m.tcpdump
+## m.android
 m.android()
 {
     op=$1
