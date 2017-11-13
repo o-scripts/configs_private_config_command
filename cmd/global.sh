@@ -58,7 +58,7 @@ m.arch()
 }
 ## end
 ## filter.sp()
-filter.sp()
+m.filter.nosp()
 {
     sed s/[[:space:]]//g
 }
