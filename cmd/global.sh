@@ -81,7 +81,7 @@ m.link()
 {
     src=$1
     dest=$2
-    m.log.v "list:$@, src: ${src}, dest: ${dest}"
+    m.log.d "list:$@, src: ${src}, dest: ${dest}"
     if [[ -e ${dest} ]]; then
         m.log.d "dest is exist..."
         rm -vf ${dest}
