@@ -600,5 +600,6 @@ m.testing()
 m.import ${COMMAND_DIR}/cmd/android.sh
 m.import ${COMMAND_DIR}/cmd/security.sh
 m.import ${COMMAND_DIR}/cmd/python.sh
+m.import ${COMMAND_DIR}/cmd/docker.sh
 ## end
 # end

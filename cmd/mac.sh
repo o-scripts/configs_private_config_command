@@ -295,6 +295,5 @@ m.sweethome()
     cd ${LOCAL_WORKS_DIR}/libs/publics/SweetHome3D
     java -jar SweetHome3D-5.4.jar &
 }
-m.import ${COMMAND_DIR}/cmd/docker.sh
 ## end
 # end

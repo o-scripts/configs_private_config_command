@@ -536,6 +536,5 @@ m.mac()
     esac
 }
 ### m.mac() end
-m.import ${COMMAND_DIR}/cmd/docker.sh
 ## end
 # end
