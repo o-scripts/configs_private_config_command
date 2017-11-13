@@ -57,7 +57,12 @@ m.arch()
     uname
 }
 ## end
-
+## filter.sp()
+filter.sp()
+{
+    sed s/[[:space:]]//g
+}
+## end
 # 1111111111111111111111111111111111111111111111
 # function define area
 # @2017.03.26
@@ -69,6 +74,22 @@ alias adb.dev="adb devices"
 alias adb.sh="adb shell"
 alias adb.rbt="adb reboot"
 alias adb.in="adb shell input"
+alias adb.clc="adb logcat -c"
+
+### self define function list
+m.link()
+{
+    src=$1
+    dest=$2
+    m.log.v "list:$@, src: ${src}, dest: ${dest}"
+    if [[ -e ${dest} ]]; then
+        m.log.d "dest is exist..."
+        rm -vf ${dest}
+    else
+        m.log.d "${dest} is not exist...."
+    fi
+    ln -s $@
+}
 adb.am()
 {
     m.log.v "adb shell am $@"
@@ -79,10 +100,39 @@ adb.pm()
     m.log.v "adb shell pm $@"
     adb shell "pm $@"
 }
+
 ### log setting
-alias adb.clc="adb logcat -c"
-alias adb.log="adb logcat -v threadtime"
-alias adb.report="adb shell bugreport"
+adb.log()
+{
+    logcat_log=logcat_${USER}_`date +%Y%m%d_%H%M`.log
+    m.log.v "adb logcat -v threadtime | tee ${logcat_log}"
+    adb logcat -v threadtime > ${logcat_log}
+    m.link ${logcat_log} logcat.log
+}
+adb.report()
+{
+    bugreport_log=bugreport_${USER}_`date +%Y%m%d_%H%M`.log
+    m.log.v "adb shell bugreport | tee ${bugreport_log}"
+    adb shell bugreport | tee ${bugreport_log}
+    m.link ${bugreport_log} bugreport.log
+}
+adb.kmsg()
+{
+    op=$(adb shell 'cat /proc/kmsg > /data/local/tmp/kmgs; echo $?' | grep -v 'Permission denied' | filter.sp)
+    m.log.v "op: ,${op},"
+    kmsg_log=kmsg_${USER}_`date +%Y%m%d_%H%M`.log
+    case $op in
+        1|'1')
+            m.log.v "adb.sh 'dmesg' > ${kmsg_log}"
+            adb.sh 'dmesg' > ${kmsg_log}
+            ;;
+        *)
+            m.log.v adb pull /data/local/tmp/kmgs ${kmsg_log}
+            adb pull /data/local/tmp/kmgs ${kmsg_log}
+            ;;
+    esac
+    m.link ${kmsg_log} kmsg.log
+}
 
 ### some git short cmd
 alias git.l="git log --name-status --color=auto --graph"

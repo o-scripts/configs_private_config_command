@@ -14,10 +14,20 @@ m.py(){
 ## m.venv()
 m.venv(){
 	op=$1
+	python=$2
+	case ${python} in
+		'python3')
+			python='python3'
+			;;
+		*)
+			python='python'
+			;;
+	esac
+
 	case $op in
 		'1'|'create')
-			m.log.v "virtualenv -p $(which python) runtime"
-			virtualenv -p $(which python) runtime
+			m.log.v "virtualenv -p $(which ${python}) ${python}"
+			virtualenv -p $(which ${python}) ${python}
 			;;
 		'2'|'active')
 			m.log.v "source $(pwd)/runtime/bin/activate"

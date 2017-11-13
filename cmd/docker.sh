@@ -10,6 +10,7 @@ case `uname` in
         M_APPS_DB=${M_APPS_CUR}
         M_APPS_PYTHON=${M_APPS_CUR}
         M_APPS_POOL=${M_APPS_CUR}
+        M_JCJXPX_CUR='works:jcjxpx'
         ;;
     'Linux')
         M_APPS_BASE='works:1604'
@@ -19,6 +20,7 @@ case `uname` in
         M_APPS_DB=${M_APPS_CUR}
         M_APPS_PYTHON=${M_APPS_CUR}
         M_APPS_POOL=${M_APPS_CUR}
+        M_JCJXPX_CUR='works:jcjxpx'
         ;;
 esac
 
@@ -157,9 +159,17 @@ m.docker()
         '3'|'run')
             unset vbox_name
             vbox_name=$2
-            m.log.v "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${M_APPS_CUR} /bin/bash"
-            # docker run -d -p 80:80 -p 8080:8080 -p 443:443 -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${M_APPS_CUR} /bin/bash
-            docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${M_APPS_CUR} /bin/bash
+            case ${vbox_name} in
+                jcjxpx)
+                    image=${M_JCJXPX_CUR}
+                    ;;
+                *)
+                    image=${M_APPS_CUR}
+                    ;;
+            esac
+            m.log.v "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash"
+            # docker run -d -p 80:80 -p 8080:8080 -p 443:443 -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash
+            docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash
             ;;
         ## ------------------------------------------------------
         '4'|'start')
