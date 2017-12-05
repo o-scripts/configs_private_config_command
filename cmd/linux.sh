@@ -359,39 +359,6 @@ m.zephyr()
 }
 ### end m.zephyr()
 
-### m.opencv()
-m.opencv()
-{
-    op=$1
-    case $op in
-        1|install|i)
-            case $(lsb_release -r | awk '{print $2}') in
-                '16.04')
-                    m.log.v "sudo apt-get install build-essential"
-                    m.log.v "sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev"
-                    m.log.v "sudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev"
-                    ;;
-                *)
-                    m.log.v "sudo apt-get install --assume-yes build-essential cmake git \\
-                    build-essential pkg-config unzip ffmpeg qtbase5-dev python-dev python3-dev python-numpy python3-numpy \\
-                    libopencv-dev libgtk-3-dev libdc1394-22 libdc1394-22-dev libjpeg-dev libpng12-dev libtiff5-dev libjasper-dev \\
-                    libavcodec-dev libavformat-dev libswscale-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev \\
-                    libv4l-dev libtbb-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev \\
-                    libvorbis-dev libxvidcore-dev v4l-utils"
-                    ;;
-            esac
-            ;;
-        0|help|h|*)
-            m.log.v "
-            HOWTO INSTALL OPENCV
-=========================================
-0. help|h - display help
-1. install|i - install opencv
------------------------------------------"
-            ;;
-    esac
-}
-### end
 ### m.mnt()
 m.mnt()
 {
