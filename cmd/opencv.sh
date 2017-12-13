@@ -33,6 +33,8 @@ m.opencv()
             Note:
                 If you do not know where your opencv files are, open the Terminal
                 and type:
+
+                /usr/lib: ## just for flycap
 =========================================
 pkg-config --cflags opencv2
 -----------------------------------------
@@ -61,6 +63,9 @@ $(pkg-config --cflags opencv|xargs -n 1 echo)
                 opencv_legacy
                 opencv_flann
 
+
+                flycap ### just for flycap libraries
+
             If you don’t know where your libraries are (or you are just psychotic
             and want to make sure the path is fine), type in Terminal:
 =========================================
@@ -76,6 +81,7 @@ $(pkg-config --libs opencv|xargs -n 1 echo)
 =========================================
 0. help|h - display help
 1. install|i - install opencv
+2. cdt - cdt for eclipse
 -----------------------------------------"
             ;;
     esac
