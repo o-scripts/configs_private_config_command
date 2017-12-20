@@ -11,7 +11,7 @@ case `uname` in
         M_APPS_DB=${M_APPS_CUR}
         M_APPS_PYTHON=${M_APPS_CUR}
         M_APPS_POOL=${M_APPS_CUR}
-        M_JCJXPX_CUR='works:jcjxpx'
+        M_JCJXPX_CUR=${M_APPS_CUR}
         M_EQPLAY_CUR='i386/ubuntu:16.04'
         ;;
     'Linux')
@@ -22,7 +22,7 @@ case `uname` in
         M_APPS_DB=${M_APPS_CUR}
         M_APPS_PYTHON=${M_APPS_CUR}
         M_APPS_POOL=${M_APPS_CUR}
-        M_JCJXPX_CUR='works:jcjxpx'
+        M_JCJXPX_CUR=${M_APPS_CUR}
         M_EQPLAY_CUR='i386/ubuntu:16.04'
         ;;
 esac
@@ -539,8 +539,8 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
                     ;;
                 *)
                     echo 'use boot2docker'
-                    m.log.v "export DOCKER_HOST=tcp://192.168.59.104:2376"
-                    export DOCKER_HOST=tcp://192.168.59.104:2376
+                    m.log.v "export DOCKER_HOST=tcp://$(boot2docker ip):2376"
+                    export DOCKER_HOST="tcp://$(boot2docker ip):2376"
                     m.log.v "export DOCKER_CERT_PATH=/Users/zhanggd/.boot2docker/certs/boot2docker-vm"
                     export DOCKER_CERT_PATH=/Users/zhanggd/.boot2docker/certs/boot2docker-vm
                     m.log.v "export DOCKER_TLS_VERIFY=1"

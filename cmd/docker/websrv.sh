@@ -110,6 +110,8 @@ v.app()
 
 v.apt()
 {
+	echo apt update
+	apt update
 	echo apt -y install iputils-ping libnet-ifconfig-wrapper-perl vim htop git ssh
 	apt -y install iputils-ping libnet-ifconfig-wrapper-perl vim htop git ssh
 }
