@@ -23,6 +23,10 @@ m.import ${COMMAND_DIR}/cmd/private.sh
 m.import ${COMMAND_DIR}/cmd/docker/websrv.sh
 ### end
 
+### opencv
+m.import ${COMMAND_DIR}/cmd/opencv.sh
+### end
+
 ### rtsp video
 m.import ${COMMAND_DIR}/cmd/rtsp/video.sh
 ### end
