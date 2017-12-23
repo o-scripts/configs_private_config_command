@@ -11,6 +11,8 @@ case `uname` in
         M_APPS_PYTHON=${M_APPS_CUR}
         M_APPS_POOL=${M_APPS_CUR}
         M_JCJXPX_CUR='works:jcjxpx'
+        M_TENSORFLOW_CUR=''
+        M_CAFFE_CUR=''
         ;;
     'Linux')
         M_APPS_BASE='works:1604'
@@ -21,6 +23,8 @@ case `uname` in
         M_APPS_PYTHON=${M_APPS_CUR}
         M_APPS_POOL=${M_APPS_CUR}
         M_JCJXPX_CUR='works:jcjxpx'
+        M_TENSORFLOW_CUR=''
+        M_CAFFE_CUR=''
         ;;
 esac
 
@@ -162,6 +166,12 @@ m.docker()
             case ${vbox_name} in
                 jcjxpx)
                     image=${M_JCJXPX_CUR}
+                    ;;
+                tensorflow)
+                    image=${M_TENSORFLOW_CUR}
+                    ;;
+                caffe)
+                    image=${M_CAFFE_CUR}
                     ;;
                 *)
                     image=${M_APPS_CUR}
