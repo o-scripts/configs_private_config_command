@@ -4,8 +4,8 @@ REMOTE_DIR=/var/works
 
 case `uname` in
     'Darwin')
-        M_APPS_BASE='works:apps'
-        M_APPS_CUR='ubuntu:16.04'
+        M_APPS_BASE='ubuntu:16.04'
+        M_APPS_CUR=${M_APPS_BASE}
         M_APPS_NGINX=${M_APPS_CUR}
         M_APPS_APACHE=${M_APPS_CUR}
         M_APPS_DB=${M_APPS_CUR}
@@ -193,6 +193,7 @@ m.docker()
                     ;;
                 caffe)
                     image=${M_CAFFE_CUR}
+                    ;;
                 eqplay|'eqplay')
                     image=${M_EQPLAY_CUR}
                     ;;
