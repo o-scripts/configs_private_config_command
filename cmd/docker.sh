@@ -1,18 +1,18 @@
 ### Docker
 LOCAL_DIR=${HOME}/works
 REMOTE_DIR=/var/works
+
 case `uname` in
     'Darwin')
         M_APPS_BASE='works:apps'
-        M_APPS_CUR='works:apps-v0.1.1'
+        M_APPS_CUR='ubuntu:16.04'
         M_APPS_NGINX=${M_APPS_CUR}
         M_APPS_APACHE=${M_APPS_CUR}
         M_APPS_DB=${M_APPS_CUR}
         M_APPS_PYTHON=${M_APPS_CUR}
         M_APPS_POOL=${M_APPS_CUR}
-        M_JCJXPX_CUR='works:jcjxpx'
-        M_TENSORFLOW_CUR=''
-        M_CAFFE_CUR=''
+        M_JCJXPX_CUR=${M_APPS_CUR}
+        M_EQPLAY_CUR='i386/ubuntu:16.04'
         ;;
     'Linux')
         M_APPS_BASE='works:1604'
@@ -22,7 +22,8 @@ case `uname` in
         M_APPS_DB=${M_APPS_CUR}
         M_APPS_PYTHON=${M_APPS_CUR}
         M_APPS_POOL=${M_APPS_CUR}
-        M_JCJXPX_CUR='works:jcjxpx'
+        M_JCJXPX_CUR=${M_APPS_CUR}
+        M_EQPLAY_CUR='i386/ubuntu:16.04'
         M_TENSORFLOW_CUR=''
         M_CAFFE_CUR=''
         ;;
@@ -134,10 +135,20 @@ m.docker()
         '1'|'up')
             case `uname` in
                 'Darwin')
-                    m.log.v "boot2docker start"
-                    boot2docker start
-                    m.log.v "docker version"
-                    docker version
+                    case ${pa} in
+                        0|"docker-compose"|docker-compose)
+                            m.log.v 'use docker-compose'
+                            m.log.v "docker-machine start"
+                            docker-machine start
+                            ;;
+                        *)
+                            m.log.v "boot2docker start"
+                            boot2docker start
+                            m.log.v "docker version"
+                            docker version
+                            ;;
+                    esac
+                    m.log.v "docker is poweron...."
                     ;;
                 'Linux')
                     m.log.v sudo ${SERV} ${DOCKER} start
@@ -149,8 +160,18 @@ m.docker()
         '2'|'down')
             case `uname` in
                 'Darwin')
-                    m.log.v "boot2docker down"
-                    boot2docker down
+                    case ${pa} in
+                        0|"docker-compose"|docker-compose)
+                            m.log.v 'use docker-compose'
+                            m.log.v "docker-machine down"
+                            docker-machine stop
+                            ;;
+                        *)
+                            m.log.v 'use boot2docker'
+                            m.log.v "boot2docker down"
+                            boot2docker down
+                            ;;
+                    esac
                     m.log.v "docker is poweroff...."
                     ;;
                 'Linux')
@@ -164,7 +185,7 @@ m.docker()
             unset vbox_name
             vbox_name=$2
             case ${vbox_name} in
-                jcjxpx)
+                jcjxpx|'jcjxpx')
                     image=${M_JCJXPX_CUR}
                     ;;
                 tensorflow)
@@ -172,6 +193,8 @@ m.docker()
                     ;;
                 caffe)
                     image=${M_CAFFE_CUR}
+                eqplay|'eqplay')
+                    image=${M_EQPLAY_CUR}
                     ;;
                 *)
                     image=${M_APPS_CUR}
@@ -512,19 +535,22 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
             ;;
         12|eval|'eval')
             ## docker for mac osx
-            case $(ps aux | grep boot2docker-vm | grep -v grep | wc -l) in
-                0)
+            case ${pa} in
+                0|"docker-compose"|docker-compose)
                     echo 'use docker-compose'
                     export DOCKER_TLS_VERIFY="1"
-                    export DOCKER_HOST="tcp://192.168.99.101:2376"
+                    export DOCKER_HOST="tcp://$(docker-machine ip):2376"
                     export DOCKER_CERT_PATH="/Users/zhanggd/.docker/machine/machines/default"
                     export DOCKER_MACHINE_NAME="default"
                     eval $(docker-machine env)
                     ;;
                 *)
                     echo 'use boot2docker'
-                    export DOCKER_HOST=tcp://192.168.59.103:2376
+                    m.log.v "export DOCKER_HOST=tcp://$(boot2docker ip):2376"
+                    export DOCKER_HOST="tcp://$(boot2docker ip):2376"
+                    m.log.v "export DOCKER_CERT_PATH=/Users/zhanggd/.boot2docker/certs/boot2docker-vm"
                     export DOCKER_CERT_PATH=/Users/zhanggd/.boot2docker/certs/boot2docker-vm
+                    m.log.v "export DOCKER_TLS_VERIFY=1"
                     export DOCKER_TLS_VERIFY=1
                     eval "$(boot2docker shellinit)"
                     ;;
@@ -536,8 +562,12 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
                                 DOCKER
 ============================================================================
 0. init         - boot2docker init and start
+-----------------------------------------------
 1. up           - start docker-machine
 2. down         - stop docker-machine
+    0. docker-compose   - use docker-compose
+    *.                  - use boot2docker
+-----------------------------------------------
 3. run          - run a container in background
 4. start        - start a container
 5. exec         - login a container
