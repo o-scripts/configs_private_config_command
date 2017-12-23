@@ -172,13 +172,13 @@ m.docker()
                             boot2docker down
                             ;;
                     esac
-                    m.log.v "docker is poweroff...."
                     ;;
                 'Linux')
                     m.log.v sudo ${SERV} ${DOCKER} stop
                     sudo ${SERV} ${DOCKER} stop
                     ;;
             esac
+            m.log.v "docker is poweroff...."
             ;;
         ## ------------------------------------------------------
         '3'|'run')

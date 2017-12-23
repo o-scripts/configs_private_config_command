@@ -366,10 +366,10 @@ m.mnt()
     op=$1
     case $op in
         '1'|'code')
+            m.log.d sudo mount /dev/sda6 ${LOCAL_WORKS_DIR}/mnt/develop
+            sudo mount /dev/sda6 ${LOCAL_WORKS_DIR}/mnt/develop
             m.log.d sudo mount /dev/sda7 ${LOCAL_WORKS_DIR}/mnt/code
             sudo mount /dev/sda7 ${LOCAL_WORKS_DIR}/mnt/code
-            ;;
-        '2'|'pro')
             m.log.d sudo mount /dev/sda8 ${LOCAL_WORKS_DIR}/mnt/pro
             sudo mount /dev/sda8 ${LOCAL_WORKS_DIR}/mnt/pro
             ;;
@@ -378,8 +378,9 @@ m.mnt()
             HOW TO MOUNT POINT
 =============================================
 0. h|help - display this help menu
-1. code - mount module/code point
-2. pro - mount module/pro
+1. - mount works/mnt/code
+	 mount works/mnt/pro
+	 mount works/mnt/develop
 ---------------------------------------------"
             ;;
     esac
