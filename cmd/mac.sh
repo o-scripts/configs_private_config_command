@@ -1,6 +1,6 @@
 #! /bin/bash
 # das ist fuer OS X
-alias ls='ls --color=auto'
+alias ls='ls -G'
 alias la='ls -a'
 alias ll='ls -l'
 alias lla='ls -la'

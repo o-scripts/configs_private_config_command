@@ -1,37 +1,37 @@
 #!/bin/bash
-m.import ${COMMAND_DIR}/cmd/global.sh
+m.import ${LOCAL_COMMAND_DIR}/cmd/global.sh
 
 ### import command
 case `uname` in
     'Darwin')
-        m.import ${COMMAND_DIR}/cmd/mac.sh
+        m.import ${LOCAL_COMMAND_DIR}/cmd/mac.sh
         ;;
     'Linux')
-        m.import ${COMMAND_DIR}/cmd/linux.sh
+        m.import ${LOCAL_COMMAND_DIR}/cmd/linux.sh
         ;;
 esac
 
 ## some self defined modules
-m.import ${COMMAND_DIR}/cmd/android.sh
-m.import ${COMMAND_DIR}/cmd/security.sh
-m.import ${COMMAND_DIR}/cmd/python.sh
-m.import ${COMMAND_DIR}/cmd/docker.sh
-m.import ${COMMAND_DIR}/cmd/scan.sh
-m.import ${COMMAND_DIR}/cmd/private.sh
+m.import ${LOCAL_COMMAND_DIR}/cmd/android.sh
+m.import ${LOCAL_COMMAND_DIR}/cmd/security.sh
+m.import ${LOCAL_COMMAND_DIR}/cmd/python.sh
+m.import ${LOCAL_COMMAND_DIR}/cmd/docker.sh
+m.import ${LOCAL_COMMAND_DIR}/cmd/scan.sh
+m.import ${LOCAL_COMMAND_DIR}/cmd/private.sh
 
 ### this is only for docker cli
-m.import ${COMMAND_DIR}/cmd/docker/websrv.sh
+m.import ${LOCAL_COMMAND_DIR}/cmd/docker/websrv.sh
 ### end
 
 ### opencv
-m.import ${COMMAND_DIR}/cmd/opencv.sh
+m.import ${LOCAL_COMMAND_DIR}/cmd/opencv.sh
 ### end
 
 ### rtsp video
-m.import ${COMMAND_DIR}/cmd/rtsp/video.sh
+m.import ${LOCAL_COMMAND_DIR}/cmd/rtsp/video.sh
 ### end
 
 ### tue uebungen
-m.import ${COMMAND_DIR}/cmd/tue.sh
+m.import ${LOCAL_COMMAND_DIR}/cmd/tue.sh
 ### end
 ## end
