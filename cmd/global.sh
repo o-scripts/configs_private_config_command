@@ -140,8 +140,6 @@ alias git.a="git add"
 alias git.ap="git add -p"
 alias git.cm="git commit"
 alias git.df="git diff --color=auto"
-alias git.pl="git pull"
-alias git.pu="git pull; git push"
 alias git.sb="git status -sb"
 alias git.ss="git status -s"
 alias git.st="git status"
@@ -157,6 +155,19 @@ alias git.ck="git checkout"
 alias git.cfg="git config -l"
 alias git.cls="git status -s | grep \"??\" | awk '{print $2}' | xargs rm -rvf"
 alias cyanogenmodsync="cat .repo/manifest.xml | grep CyanogenMod | awk '{print $2}' | cut -d'\"' -f2 | xargs -n 16 ./repo sync -j16"
+
+git.pl()
+{
+    git pull origin master:master
+    # git pull github master:master
+}
+
+git.pu()
+{
+    git.pl
+    git push origin master:master
+    git push github master:master
+}
 ### end
 
 ### mkdir
