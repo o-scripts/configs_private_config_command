@@ -13,6 +13,7 @@ case `uname` in
         M_APPS_POOL=${M_APPS_CUR}
         M_JCJXPX_CUR=${M_APPS_CUR}
         M_EQPLAY_CUR='i386/ubuntu:16.04'
+        M_BS_CUR='centos:centos6'
         ;;
     'Linux')
         M_APPS_BASE='works:1604'
@@ -24,6 +25,7 @@ case `uname` in
         M_APPS_POOL=${M_APPS_CUR}
         M_JCJXPX_CUR=${M_APPS_CUR}
         M_EQPLAY_CUR='i386/ubuntu:16.04'
+        M_BS_CUR='centos:centos6'
         ;;
 esac
 
@@ -189,6 +191,9 @@ m.docker()
                 eqplay|'eqplay')
                     image=${M_EQPLAY_CUR}
                     ;;
+                bs|'bs')
+					image=${M_BS_CUR}
+					;;
                 *)
                     image=${M_APPS_CUR}
                     ;;

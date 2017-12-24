@@ -26,8 +26,9 @@ Host xxx.codeanyhost.com
 "
             ;;
         *)
-            m.log.v "ssh -v cabox@host15.codeanyhost.com -p 26725"
-            ssh -v cabox@host15.codeanyhost.com -p 26725
+            read -p "input the port: " port
+            m.log.v "ssh -v cabox@host15.codeanyhost.com -p ${port}"
+            ssh -v cabox@host15.codeanyhost.com -p $port
             ;;
     esac
 }
