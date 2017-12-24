@@ -4,8 +4,8 @@ REMOTE_DIR=/var/works
 
 case `uname` in
     'Darwin')
-        M_APPS_BASE='works:apps'
-        M_APPS_CUR='ubuntu:16.04'
+        M_APPS_BASE='ubuntu:16.04'
+        M_APPS_CUR=${M_APPS_BASE}
         M_APPS_NGINX=${M_APPS_CUR}
         M_APPS_APACHE=${M_APPS_CUR}
         M_APPS_DB=${M_APPS_CUR}
@@ -26,6 +26,8 @@ case `uname` in
         M_JCJXPX_CUR=${M_APPS_CUR}
         M_EQPLAY_CUR='i386/ubuntu:16.04'
         M_BS_CUR='centos:centos6'
+        M_TENSORFLOW_CUR=''
+        M_CAFFE_CUR=''
         ;;
 esac
 
@@ -172,13 +174,13 @@ m.docker()
                             boot2docker down
                             ;;
                     esac
-                    m.log.v "docker is poweroff...."
                     ;;
                 'Linux')
                     m.log.v sudo ${SERV} ${DOCKER} stop
                     sudo ${SERV} ${DOCKER} stop
                     ;;
             esac
+            m.log.v "docker is poweroff...."
             ;;
         ## ------------------------------------------------------
         '3'|'run')
@@ -187,6 +189,12 @@ m.docker()
             case ${vbox_name} in
                 jcjxpx|'jcjxpx')
                     image=${M_JCJXPX_CUR}
+                    ;;
+                tensorflow)
+                    image=${M_TENSORFLOW_CUR}
+                    ;;
+                caffe)
+                    image=${M_CAFFE_CUR}
                     ;;
                 eqplay|'eqplay')
                     image=${M_EQPLAY_CUR}
