@@ -546,7 +546,7 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
                     echo 'use docker-compose'
                     export DOCKER_TLS_VERIFY="1"
                     export DOCKER_HOST="tcp://$(docker-machine ip):2376"
-                    export DOCKER_CERT_PATH="/Users/zhanggd/.docker/machine/machines/default"
+                    export DOCKER_CERT_PATH="${HOME}/.docker/machine/machines/default"
                     export DOCKER_MACHINE_NAME="default"
                     eval $(docker-machine env)
                     ;;
@@ -554,8 +554,8 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
                     echo 'use boot2docker'
                     m.log.v "export DOCKER_HOST=tcp://$(boot2docker ip):2376"
                     export DOCKER_HOST="tcp://$(boot2docker ip):2376"
-                    m.log.v "export DOCKER_CERT_PATH=/Users/zhanggd/.boot2docker/certs/boot2docker-vm"
-                    export DOCKER_CERT_PATH=/Users/zhanggd/.boot2docker/certs/boot2docker-vm
+                    m.log.v "export DOCKER_CERT_PATH=${HOME}/.boot2docker/certs/boot2docker-vm"
+                    export DOCKER_CERT_PATH=${HOME}/.boot2docker/certs/boot2docker-vm
                     m.log.v "export DOCKER_TLS_VERIFY=1"
                     export DOCKER_TLS_VERIFY=1
                     eval "$(boot2docker shellinit)"
