@@ -34,4 +34,9 @@ m.import ${LOCAL_COMMAND_DIR}/cmd/rtsp/video.sh
 ### tue uebungen
 m.import ${LOCAL_COMMAND_DIR}/cmd/tue.sh
 ### end
+
+### vagrant virtual machine manager
+m.import ${LOCAL_COMMAND_DIR}/cmd/vagrant.sh
+### end
+
 ## end
