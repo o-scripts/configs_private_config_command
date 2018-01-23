@@ -295,5 +295,25 @@ m.sweethome()
     cd ${LOCAL_WORKS_DIR}/libs/publics/SweetHome3D
     java -jar SweetHome3D-5.4.jar &
 }
-## end
+### end
+### m.composer()
+m.composer()
+{
+    op=$1
+    proj=$2
+    case $op in
+        0|h|help)
+            m.log.v ""
+            ;;
+        1|create)
+            m.log.v "composer create-project --prefer-dist laravel/laravel ${proj}"
+            composer create-project --prefer-dist laravel/laravel ${proj}
+            ;;
+        *)
+            m.log.v "php ${LOCAL_WORKS_DIR}/tool-kit/publics/php/composer/composer.phar $@"
+            php ${LOCAL_WORKS_DIR}/tool-kit/publics/php/composer/composer.phar $@
+            ;;
+    esac
+}
+### end
 # end

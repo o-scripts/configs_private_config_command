@@ -115,3 +115,11 @@ v.apt()
 	echo apt -y install iputils-ping libnet-ifconfig-wrapper-perl vim htop git ssh
 	apt -y install iputils-ping libnet-ifconfig-wrapper-perl vim htop git ssh
 }
+
+v.php()
+{
+	sudo apt-get install python-software-properties
+	sudo add-apt-repository ppa:ondrej/php
+	sudo apt-get update
+	sudo apt-get install -y php5.6
+}
