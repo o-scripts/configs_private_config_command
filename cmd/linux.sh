@@ -587,6 +587,32 @@ m.info()
     esac
 }
 ### end
+### m.apt()
+m.apt()
+{
+    op=$1
+    m.log.v sudo apt update
+    sudo apt update
+    case $op in
+        1|normal)
+            m.log.v sudo apt install iputils-ping libnet-ifconfig-wrapper-perl \
+                    vim htop git screen byobu ssh curl axel
+            sudo apt install iputils-ping libnet-ifconfig-wrapper-perl \
+                    vim htop git screen byobu ssh curl axel
+            ;;
+        2|dev)
+            m.log.v sudo apt install python-virtualenv python python-pip
+            sudo apt install python-virtualenv python python-pip
+            ;;
+        *)
+            m.log.v sudo apt upgrade
+            sudo apt upgrade
+            m.log.v sudo apt autoremove
+            sudo apt autoremove
+            ;;
+    esac
+}
+### end
 ### m.mac()
 m.mac()
 {
