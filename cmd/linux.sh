@@ -25,10 +25,34 @@ m.history()
 {
     op=$1
     case $op in
+        1|install)
+            case $(grep 'setting_history' ${HOME}/.bashrc | wc -l) in
+                0)
+                    echo "#======================================" >> ${HOME}/.bashrc
+                    echo "# setting_history begin" >> ${HOME}/.bashrc
+                    echo "unset HISTSIZE" >> ${HOME}/.bashrc
+                    echo "unset HISTFILESIZE" >> ${HOME}/.bashrc
+                    echo "export HISTSIZE=100000000" >> ${HOME}/.bashrc
+                    echo "export HISTFILESIZE=200000000" >> ${HOME}/.bashrc
+                    echo "export HISTTIMEFORMAT='[%F %T] '" >> ${HOME}/.bashrc
+                    echo "export HISTCONTROL=ignorespace" >> ${HOME}/.bashrc
+                    echo "# setting history end" >> ${HOME}/.bashrc
+                    ;;
+                *)
+                    m.log.v "history setting have installed...."
+                    ;;
+            esac
+            ;;
         'h'|'H'|*)
             m.log.v '
                 HOW TO CONFIG HISTORY COMMOND
 ====================================================================
+m.history [option]
+1|install - to install settings
+h|H|* - to display this help information
+
+samples:
+------------------------
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000000000
 HISTFILESIZE=2000000000
