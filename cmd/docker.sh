@@ -26,6 +26,7 @@ case `uname` in
         M_JCJXPX_CUR=${M_APPS_CUR}
         M_EQPLAY_CUR='i386/ubuntu:16.04'
         M_BS_CUR='centos:centos6'
+        M_DEHUA_CUR=${M_APPS_CUR}
         M_TENSORFLOW_CUR=''
         M_CAFFE_CUR=''
         ;;
@@ -195,6 +196,9 @@ m.docker()
                     ;;
                 caffe)
                     image=${M_CAFFE_CUR}
+                    ;;
+                dehua)
+                    image=${M_DEHUA_CUR}
                     ;;
                 eqplay|'eqplay')
                     image=${M_EQPLAY_CUR}
