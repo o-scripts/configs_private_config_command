@@ -135,7 +135,9 @@ adb.kmsg()
 }
 
 ### some git short cmd
-alias git.l="git log --name-status --color=auto --graph"
+alias git.rv="git remote -v"
+alias git.l="git log --color=auto --graph"
+alias git.lf="git log --color=auto --graph --name-status"
 alias git.a="git add"
 alias git.ap="git add -p"
 alias git.cm="git commit"
