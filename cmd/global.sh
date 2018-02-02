@@ -167,8 +167,21 @@ git.pl()
 git.pu()
 {
     git.pl
-    git push origin master:master
-    git push github master:master
+    for i in $(git remote); do
+        case ${i} in
+            origin)
+                m.log.v git push origin master:master
+                git push origin master:master
+                ;;
+            github)
+                m.log.v git push github master:master
+                git push github master:master
+                ;;
+            *)
+                m.log.v this branch is ${i} .....
+                ;;
+        esac
+    done
 }
 ### end
 
