@@ -160,8 +160,10 @@ alias cyanogenmodsync="cat .repo/manifest.xml | grep CyanogenMod | awk '{print $
 
 git.pl()
 {
-    git pull origin master:master
-    # git pull github master:master
+    for i in $(git remote); do
+        m.log.v "git pull $i"
+        git pull $i
+    done
 }
 
 git.pu()
