@@ -177,6 +177,9 @@ git.pu()
                 m.log.v git push github master:master
                 git push github master:master
                 ;;
+            wangshub)
+                m.log.v this is wangshub, and will not push
+                ;;
             *)
                 m.log.v this branch is ${i} .....
                 ;;

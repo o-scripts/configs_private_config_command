@@ -1,6 +1,9 @@
 m.vagrant()
 {
 	op=$1
+	vagrant_path=${LOCAL_WORKS_DIR}/uni/company/dehua/dehuaDev
+	cd ${vagrant_path}
+
 	case $op in
 		1|'init')
 			m.log.v vagrant box add base https://github.com/sepetrov/trusty64/releases/download/v0.0.5/trusty64.box
