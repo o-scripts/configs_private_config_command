@@ -39,4 +39,8 @@ m.import ${LOCAL_COMMAND_DIR}/cmd/tue.sh
 m.import ${LOCAL_COMMAND_DIR}/cmd/vagrant.sh
 ### end
 
+### cmus
+m.import ${LOCAL_COMMAND_DIR}/cmd/cmus.sh
+### end
+
 ## end
