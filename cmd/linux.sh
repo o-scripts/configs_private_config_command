@@ -632,7 +632,7 @@ m.mac()
 ### display git branch in Terminal
 function m.git()
 {
-    git.b 2>/dev/null | grep \* | awk '{print $2" *"}'
+    git branch 2>/dev/null | grep \* | awk '{print $2" *"}'
 }
 ### end
 ## end
