@@ -27,8 +27,15 @@ Host xxx.codeanyhost.com
             ;;
         *)
             read -p "input the port: " port
-            m.log.v "ssh -v cabox@host15.codeanyhost.com -p ${port}"
-            ssh -v cabox@host15.codeanyhost.com -p $port
+            read -p "input the host: " host_name
+            m.log.v "ssh -v cabox@${host_name}.codeanyhost.com -p ${port}"
+            ssh -v cabox@${host_name}.codeanyhost.com -p ${port}
             ;;
     esac
+}
+
+m.tue()
+{
+    m.log.v "cd ${LOCAL_WORKS_DIR}/uni/private/fachrichtung/ma/uni_tue_exercise"
+    cd ${LOCAL_WORKS_DIR}/uni/private/fachrichtung/ma/uni_tue_exercise
 }
