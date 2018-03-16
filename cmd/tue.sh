@@ -36,6 +36,6 @@ Host xxx.codeanyhost.com
 
 m.tue()
 {
-    m.log.v "cd ${LOCAL_WORKS_DIR}/uni/private/fachrichtung/ma/uni_tue_exercise"
+    m.log.d "cd ${LOCAL_WORKS_DIR}/uni/private/fachrichtung/ma/uni_tue_exercise"
     cd ${LOCAL_WORKS_DIR}/uni/private/fachrichtung/ma/uni_tue_exercise
 }

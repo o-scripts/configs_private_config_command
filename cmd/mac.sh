@@ -296,4 +296,44 @@ m.sweethome()
     java -jar SweetHome3D-5.4.jar &
 }
 ### end
+### timestamp
+m.timestamp()
+{
+    op=$1
+    case $op in
+        '1'|'sec')
+            str="`date +%Y-%m-%d\ %H:%M:%S`"
+            echo \[$str\] `date -j -f "%Y-%m-%d %H:%M:%S" "${str}" +%s`
+            ;;
+        '2'|'mil')
+            str="`date +%Y-%m-%d\ %H:%M:%S`"
+            echo \[$str.000\] `date -j -f "%Y-%m-%d %H:%M:%S" "${str}" +%s`"000"
+            ;;
+        '3'|'d2s')
+            str=$2
+            echo \[$str\] `date -j -f "%Y-%m-%d %H:%M:%S" "${str}" +%s`
+            ;;
+        '4'|'s2d')
+            timestamp=`echo $2 | cut -c 1-10`
+            echo "[`date -r ${timestamp} +%Y-%m-%d\ %H:%M:%S`] ${timestamp}"
+            ;;
+        '0'|'h'|'help'|*)
+            echo "
+            HOW TO CREATE TIMESTAMP
+==================================================
+1. sec - create timestamp with seconds
+    m.timestamp 1
+2. mil - create timestamp with million seconds
+    m.timestamp 2
+3. d2s - date to sec
+    m.timestamp 3 '2012-12-01 00:00:00'
+4. s2d - timestamp to date
+    m.timestamp 4 1354291200
+0. h|help - display infomation
+    m.timestamp h
+--------------------------------------------------"
+            ;;
+    esac
+}
+### end m.timestamp()
 # end

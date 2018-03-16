@@ -437,26 +437,35 @@ m.timestamp()
 {
     op=$1
     case $op in
-        '1'|'sec')
+        1 | sec )
             str="`date +%Y-%m-%d\ %H:%M:%S`"
             echo \[$str\] `date -d "${str}" +%s`
             ;;
-        '2'|'mil')
+        2 | mil )
             str="`date +%Y-%m-%d\ %H:%M:%S`.000"
             echo \[$str\] `date -d "${str}" +%s`"000"
             ;;
-        '3'|'s2d')
+        3 | s2d )
             timestamp=`echo $2 | cut -c 1-10`
-            str=`date -d '1970-01-01 ${timestamp} sec utc' +%Y-%m-%d\ %H:%M:%S`
+            str=`date -d "1970-01-01 ${timestamp} sec utc" +%Y-%m-%d\ %H:%M:%S`
             echo "[${str}] ${timestamp}"
             ;;
-        '0'|'h'|'help'|*)
+        4 | d2s )
+            datestr=$2
+            echo "[${datestr}] `date -d "${datestr}" +%s`"
+            ;;
+        0 | h | help | * )
             echo "
             HOW TO CREATE TIMESTAMP
 ==================================================
 1. sec - create timestamp with seconds
+        m.timestamp 1
 2. mil - create timestamp with million seconds
+        m.timestamp 2
 3. s2d - timestamp to date
+        m.timestamp 3 1421201515
+4. d2s - date to timestamp
+        m.timestamp 4 '2015-01-14 03:11:55'
 0. h|help - display infomation
 --------------------------------------------------"
             ;;

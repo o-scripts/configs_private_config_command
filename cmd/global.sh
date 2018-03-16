@@ -528,32 +528,6 @@ wingding.ttf
 }
 ### end m.wps()
 
-### timestamp
-m.timestamp()
-{
-    op=$1
-    case $op in
-        '1'|'sec')
-            str="`date +%Y-%m-%d\ %H:%M:%S`"
-            m.log.v \[$str\] `date -d "${str}" +%s`
-            ;;
-        '2'|'mil')
-            str="`date +%Y-%m-%d\ %H:%M:%S`.000"
-            m.log.v \[$str\] `date -d "${str}" +%s`"000"
-            ;;
-        '3'|'h'|'help'|*)
-            m.log.v "
-            HOW TO CREATE TIMESTAMP
-==================================================
-1. sec - create timestamp with seconds
-2. mil - create timestamp with million seconds
-3. h|help - display infomation
---------------------------------------------------"
-            ;;
-    esac
-}
-### end
-
 ### m.running()
 m.running()
 {
