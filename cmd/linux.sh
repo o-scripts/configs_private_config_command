@@ -622,6 +622,33 @@ m.apt()
     esac
 }
 ### end
+### m.matlab
+m.matlab()
+{
+    op=$1
+    linkdir=${HOME}/code/tool-kit
+    cd ${linkdir}
+
+    case $op in
+        2017 )
+            rm matlab_cur;
+            ln -s matlab_2017b matlab_cur;
+            ;;
+        2018 )
+            rm matlab_cur;
+            ln -s matlab_2018a matlab_cur;
+            ;;
+        * )
+            m.log.v "
+            HOWTO SETTING MATLAB
+---------------------------------------
+2017 - set to matlab_2017b
+2018 - set to matlab_2018a
+"
+            ;;
+    esac
+}
+### end
 ### m.mac()
 m.mac()
 {
