@@ -16,7 +16,7 @@ case `uname` in
         M_BS_CUR='centos:centos6'
         ;;
     'Linux')
-        M_APPS_BASE='works:1604'
+        M_APPS_BASE='ubuntu:16.04'
         M_APPS_CUR=${M_APPS_BASE}
         M_APPS_NGINX=${M_APPS_CUR}
         M_APPS_APACHE=${M_APPS_CUR}
@@ -131,7 +131,25 @@ m.docker()
                     docker version
                     ;;
                 'Linux')
-                    m.log.v "this is only for mac osx"
+                    # m.log.v "this is only for mac osx"
+                    m.log.v "use docker-machine to create a docker machine, and it's based on virtualbox"
+                    m.log.v "docker-machine create --driver virtualbox docker-machine"
+                    docker-machine create --driver virtualbox docker-machine
+                    m.log.v "docker-machine ls"
+                    docker-machine ls
+                    m.log.v "docker-machine env default"
+                    docker-machine env default
+                    # if not add docker group, then add
+                    if [[ -e /tmp/eaf8b4cc2ec7fde3fbaa233ee3af2e4b ]]; then
+                        m.log.v "already add group"
+                    else
+                        # add flag to show that have add docker group
+                        m.log.v "sudo groupadd docker"
+                        sudo groupadd docker
+                        m.log.v "sudo usermod -aG docker $USER"
+                        sudo usermod -aG docker $USER
+                        echo > /tmp/eaf8b4cc2ec7fde3fbaa233ee3af2e4b
+                    fi
                     ;;
             esac
             ;;
