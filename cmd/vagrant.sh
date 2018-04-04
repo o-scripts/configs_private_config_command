@@ -10,10 +10,12 @@ m.vtest()
 			vagrant box add base https://github.com/sepetrov/trusty64/releases/download/v0.0.5/trusty64.box
 			m.log.v vagrant init
 			vagrant init
+			m.log.v "vagrant machine is initialized ....."
 			;;
 		2|'start')
 			m.log.v vagrant up --provider=virtualbox --color
 			vagrant up --provider=virtualbox --color
+			m.log.v "vagrant machine is started....."
 			;;
 		3|ssh|login)
 			m.log.v vagrant ssh
@@ -22,6 +24,7 @@ m.vtest()
 		4|halt|stop)
 			m.log.v vagrant halt
 			vagrant halt
+			m.log.v "halt finished....."
 			;;
 		5|requirements)
 			m.log.v "

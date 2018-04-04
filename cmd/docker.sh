@@ -133,8 +133,8 @@ m.docker()
                 'Linux')
                     # m.log.v "this is only for mac osx"
                     m.log.v "use docker-machine to create a docker machine, and it's based on virtualbox"
-                    m.log.v "docker-machine create --driver virtualbox docker-machine"
-                    docker-machine create --driver virtualbox docker-machine
+                    m.log.v "docker-machine create --driver virtualbox default"
+                    docker-machine create --driver virtualbox default
                     m.log.v "docker-machine ls"
                     docker-machine ls
                     m.log.v "docker-machine env default"
@@ -174,6 +174,8 @@ m.docker()
                 'Linux')
                     m.log.v sudo ${SERV} ${DOCKER} start
                     sudo ${SERV} ${DOCKER} start
+                    m.log.v "docker-machine start default"
+                    docker-machine start default
                     ;;
             esac
             ;;
@@ -195,7 +197,9 @@ m.docker()
                     esac
                     ;;
                 'Linux')
-                    m.log.v sudo ${SERV} ${DOCKER} stop
+                    m.log.v "docker-machine stop default"
+                    docker-machine stop default
+                    m.log.v "sudo ${SERV} ${DOCKER} stop"
                     sudo ${SERV} ${DOCKER} stop
                     ;;
             esac
@@ -301,6 +305,8 @@ docker ps
             unset vbox_name
             vbox_name=$2
             m.log.v "vbox_name: ${vbox_name}"
+            m.log.v "m.docker eval"
+            m.docker eval
             num=$(echo "$(docker ps -a | grep ${vbox_name} | grep -v grep | wc -l)" | sed 's/^[\t| ]*//g')
             case $num in
                 0|'0')
@@ -563,29 +569,41 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
             ;;
         12|eval|'eval')
             ## docker for mac osx
-            case ${pa} in
-                0|"docker-compose"|docker-compose)
-                    echo 'use docker-compose'
-                    export DOCKER_TLS_VERIFY="1"
-                    export DOCKER_HOST="tcp://$(docker-machine ip):2376"
-                    export DOCKER_CERT_PATH="${HOME}/.docker/machine/machines/default"
-                    export DOCKER_MACHINE_NAME="default"
-                    eval $(docker-machine env)
+            case `uname` in
+                Darwin )
+                    case ${pa} in
+                        0|"docker-compose"|docker-compose)
+                            echo 'use docker-compose'
+                            export DOCKER_TLS_VERIFY="1"
+                            export DOCKER_HOST="tcp://$(docker-machine ip):2376"
+                            export DOCKER_CERT_PATH="${HOME}/.docker/machine/machines/default"
+                            export DOCKER_MACHINE_NAME="default"
+                            eval $(docker-machine env)
+                            ;;
+                        *)
+                            echo 'use boot2docker'
+                            m.log.v "export DOCKER_HOST=tcp://$(boot2docker ip):2376"
+                            export DOCKER_HOST="tcp://$(boot2docker ip):2376"
+                            m.log.v "export DOCKER_CERT_PATH=${HOME}/.boot2docker/certs/boot2docker-vm"
+                            export DOCKER_CERT_PATH=${HOME}/.boot2docker/certs/boot2docker-vm
+                            m.log.v "export DOCKER_TLS_VERIFY=1"
+                            export DOCKER_TLS_VERIFY=1
+                            eval "$(boot2docker shellinit)"
+                            ;;
+                    esac
                     ;;
-                *)
-                    echo 'use boot2docker'
-                    m.log.v "export DOCKER_HOST=tcp://$(boot2docker ip):2376"
-                    export DOCKER_HOST="tcp://$(boot2docker ip):2376"
-                    m.log.v "export DOCKER_CERT_PATH=${HOME}/.boot2docker/certs/boot2docker-vm"
-                    export DOCKER_CERT_PATH=${HOME}/.boot2docker/certs/boot2docker-vm
-                    m.log.v "export DOCKER_TLS_VERIFY=1"
-                    export DOCKER_TLS_VERIFY=1
-                    eval "$(boot2docker shellinit)"
+                Linux )
+                    m.log.v 'eval $(docker-machine env default)'
+                    eval $(docker-machine env default)
                     ;;
             esac
             ## end
             ;;
-        13|*)
+        13 )
+            m.log.v "sudo service systemd-networkd start"
+            sudo service systemd-networkd start
+            ;;
+        14 | * )
             m.log.v '
                                 DOCKER
 ============================================================================
@@ -622,7 +640,9 @@ d2. d.st        - stop (db|local|m).betoptop.com (LInux)
 10. sample|guide|example    - userguide
 11. install|i               - quick install
 12. eval                    - eval export
-13. *                       - display this menu
+13.                         - start systemd-networkd
+                              then docker can connect with internet
+14. *                       - display this menu
 ----------------------------------------------------------------------------'
             ;;
     esac
