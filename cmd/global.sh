@@ -554,29 +554,6 @@ m.running()
 }
 ### end
 
-### m.brew()
-m.brew()
-{
-    op=$1
-    case $# in
-        0)
-            m.log.v cd ${LOCAL_WORKS_DIR}/tool-kit/publics/homebrew
-            cd ${LOCAL_WORKS_DIR}/tool-kit/publics/homebrew
-            m.log.d brew
-            brew
-            return ${RET_RUNNING_OK}
-            ;;
-    esac
-    case $op in
-        *)
-            m.log.v "brew $@";
-            brew $@
-            ;;
-    esac
-    return ${RET_RUNNING_OK}
-}
-### end
-
 ### m.testing()
 m.testing()
 {

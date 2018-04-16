@@ -305,8 +305,8 @@ docker ps
             unset vbox_name
             vbox_name=$2
             m.log.v "vbox_name: ${vbox_name}"
-            m.log.v "m.docker eval"
-            m.docker eval
+            # m.log.v "m.docker eval"
+            # m.docker eval
             num=$(echo "$(docker ps -a | grep ${vbox_name} | grep -v grep | wc -l)" | sed 's/^[\t| ]*//g')
             case $num in
                 0|'0')
