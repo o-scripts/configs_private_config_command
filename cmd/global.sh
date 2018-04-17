@@ -164,6 +164,12 @@ git.pl()
     for i in $(git remote); do
         m.log.v "git pull $i"
         git pull $i
+        case $i in
+            assignments )
+                m.log.v "git pull assignments master"
+                git pull assignments master
+                ;;
+        esac
     done
 }
 
@@ -182,6 +188,9 @@ git.pu()
                 ;;
             wangshub)
                 m.log.v this is wangshub, and will not push
+                ;;
+            assignments)
+                m.log.v "assignments will not push"
                 ;;
             *)
                 m.log.v this branch is ${i} .....
