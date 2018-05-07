@@ -36,6 +36,22 @@ Host xxx.codeanyhost.com
 
 m.tue()
 {
+    op=$1
+
+    # goto work dir
     m.log.d "cd ${LOCAL_WORKS_DIR}/uni/private/fachrichtung/ma/uni_tue_exercise"
     cd ${LOCAL_WORKS_DIR}/uni/private/fachrichtung/ma/uni_tue_exercise
+
+    case $op in
+        py )
+            m.log.d "source python/bin/activate"
+            source python/bin/activate
+            ;;
+        py3 )
+            m.log.d "source python3/bin/activate"
+            source python3/bin/activate
+            ;;
+        * )
+            ;;
+    esac
 }
