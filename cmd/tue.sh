@@ -39,17 +39,45 @@ m.tue()
     op=$1
 
     # goto work dir
-    m.log.d "cd ${LOCAL_WORKS_DIR}/uni/private/fachrichtung/ma/uni_tue_exercise"
-    cd ${LOCAL_WORKS_DIR}/uni/private/fachrichtung/ma/uni_tue_exercise
+    OLD_DIR=$(pwd)
+    TUE_DIR=${LOCAL_WORKS_DIR}/uni/private/fachrichtung/ma/uni_tue_exercise
 
     case $op in
         py )
+            m.log.v "cd ${TUE_DIR}"
+            cd ${TUE_DIR}
             m.log.d "source python/bin/activate"
             source python/bin/activate
+            cd ${OLD_DIR}
             ;;
         py3 )
+            m.log.v "cd ${TUE_DIR}"
+            cd ${TUE_DIR}
             m.log.d "source python3/bin/activate"
             source python3/bin/activate
+            cd ${OLD_DIR}
+            ;;
+        db2 )
+            cd ${TUE_DIR}/INF4141/db2-ss18-yzx-zgd-2
+            m.log.v "systemctl start monetdbd.service"
+            systemctl start monetdbd.service
+            m.log.v "systemctl start postgresql.service"
+            systemctl start postgresql.service
+            ;;
+        dnn )
+            cd ${TUE_DIR}/INF4182
+            ;;
+        statistik )
+            cd ${TUE_DIR}/INF4151
+            ;;
+        ml )
+            cd ${TUE_DIR}/INF4491
+            ;;
+        algorithmik )
+            cd ${TUE_DIR}/INF4419
+            ;;
+        mobile )
+            cd ${TUE_DIR}/INF4361
             ;;
         * )
             ;;
