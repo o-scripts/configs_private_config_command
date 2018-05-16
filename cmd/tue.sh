@@ -44,14 +44,12 @@ m.tue()
 
     case $op in
         py )
-            m.log.v "cd ${TUE_DIR}"
             cd ${TUE_DIR}
             m.log.d "source python/bin/activate"
             source python/bin/activate
             cd ${OLD_DIR}
             ;;
         py3 )
-            m.log.v "cd ${TUE_DIR}"
             cd ${TUE_DIR}
             m.log.d "source python3/bin/activate"
             source python3/bin/activate
@@ -80,6 +78,7 @@ m.tue()
             cd ${TUE_DIR}/INF4361
             ;;
         * )
+            cd ${TUE_DIR}
             ;;
     esac
 }
