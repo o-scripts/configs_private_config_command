@@ -671,5 +671,12 @@ function m.git()
     git branch 2>/dev/null | grep \* | awk '{print $2" *"}'
 }
 ### end
+### m.ecryptfs()
+m.ecryptfs()
+{
+    m.log.v "update the ecryptfs wrapped-passphrase"
+    ecryptfs-rewrap-passphrase /home/.ecryptfs/${USER}/.ecryptfs/wrapped-passphrase
+}
+### m.ecryptfs() end
 ## end
 # end

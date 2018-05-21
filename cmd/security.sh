@@ -1,35 +1,4 @@
 #!/bin/bash
-m.password()
-{
-	op=$1
-	m.log.v "m.password $@"
-	case ${op} in
-		''|h|help)
-			m.log.v '
-			CREATE PASSWORD
-==============================================
-m.sec [easy rememaber key] [length]
-{
-	"key": "key",
-	"password": "password"
-}
-----------------------------------------------'
-			;;
-		*)
-			key=$1
-			len=$2
-			case $len in
-				'')
-					m.log.v "{\n    'key': '${key}',\n    'password': '"`echo ${key} | shasum -a 256 | base64`"'\n}"
-					;;
-				*)
-					m.log.v "{\n    'key': '${key}',\n    'password': '"`echo ${key} | shasum -a 256 | base64 | cut -c 1-$len`"'\n}"
-					;;
-			esac
-			;;
-	esac
-}
-
 ### ssh login with no pw
 m.ssh()
 {
