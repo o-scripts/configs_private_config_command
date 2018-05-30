@@ -41,6 +41,7 @@ m.tue()
     # goto work dir
     OLD_DIR=$(pwd)
     TUE_DIR=${LOCAL_WORKS_DIR}/uni/private/fachrichtung/ma/uni_tue_exercise
+    SEMESTER=18ss
 
     case $op in
         py )
@@ -53,32 +54,54 @@ m.tue()
             cd ${TUE_DIR}
             m.log.d "source python3/bin/activate"
             source python3/bin/activate
-            cd ${OLD_DIR}
+            op_nb=$2
+            case ${op_nb} in
+                nb )
+                    cd ${TUE_DIR}/${SEMESTER}
+                    jupyter notebook
+                    ;;
+                * )
+                    cd ${OLD_DIR}
+                    ;;
+            esac
             ;;
         db2 )
-            cd ${TUE_DIR}/INF4141/db2-ss18-yzx-zgd-2
-            m.log.v "systemctl start monetdbd.service"
-            systemctl start monetdbd.service
-            m.log.v "systemctl start postgresql.service"
-            systemctl start postgresql.service
+            op_db=$2
+            case ${op_db} in
+                on )
+                    m.log.v "systemctl start monetdbd.service"
+                    systemctl start monetdbd.service
+                    m.log.v "systemctl start postgresql.service"
+                    systemctl start postgresql.service
+                    ;;
+                off )
+                    m.log.v "systemctl stop monetdbd.service"
+                    systemctl stop monetdbd.service
+                    m.log.v "systemctl stop postgresql.service"
+                    systemctl stop postgresql.service
+                    ;;
+                * )
+                    ;;
+            esac
+            cd ${TUE_DIR}/${SEMESTER}/INF4141/db2-ss18-yzx-zgd-2
             ;;
         dnn )
-            cd ${TUE_DIR}/INF4182
+            cd ${TUE_DIR}/${SEMESTER}/INF4182
             ;;
         statistik )
-            cd ${TUE_DIR}/INF4151
+            cd ${TUE_DIR}/${SEMESTER}/INF4151
             ;;
         ml )
-            cd ${TUE_DIR}/INF4491
+            cd ${TUE_DIR}/${SEMESTER}/INF4491
             ;;
         algorithmik )
-            cd ${TUE_DIR}/INF4419
+            cd ${TUE_DIR}/${SEMESTER}/INF4419
             ;;
         mobile )
-            cd ${TUE_DIR}/INF4361
+            cd ${TUE_DIR}/${SEMESTER}/INF4361
             ;;
         * )
-            cd ${TUE_DIR}
+            cd ${TUE_DIR}/${SEMESTER}
             ;;
     esac
 }
