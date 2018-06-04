@@ -68,13 +68,13 @@ m.tue()
         db2 )
             op_db=$2
             case ${op_db} in
-                on )
+                on|up|start )
                     m.log.v "systemctl start monetdbd.service"
                     systemctl start monetdbd.service
                     m.log.v "systemctl start postgresql.service"
                     systemctl start postgresql.service
                     ;;
-                off )
+                off|down|stop|halt|poweroff )
                     m.log.v "systemctl stop monetdbd.service"
                     systemctl stop monetdbd.service
                     m.log.v "systemctl stop postgresql.service"
