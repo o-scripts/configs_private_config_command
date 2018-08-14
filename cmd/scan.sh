@@ -11,15 +11,15 @@ m.scan()
 
 	## nmap
 	m.log.v "nmap -v -A ${ipdomain} | tee ${ipdomain}_nmap${out_tail}"
-	nmap -v -A ${ipdomain} | tee "${ipdomain}_nmap_${out_tail}"
+	nmap -v -A ${ipdomain} | tee "${ipdomain}_nmap_${out_tail}" &
 
 	## whois
 	m.log.v "whois ${ipdomain} | tee ${ipdomain}_whois_${out_tail}"
-	whois ${ipdomain} | tee "${ipdomain}_whois_${out_tail}"
+	whois ${ipdomain} | tee "${ipdomain}_whois_${out_tail}" &
 
 	## dig
 	m.log.v "dig ${ipdomain} | tee ${ipdomain}_dig_${out_tail}"
-	dig ${ipdomain} | tee "${ipdomain}_dig_${out_tail}"
+	dig ${ipdomain} | tee "${ipdomain}_dig_${out_tail}" &
 
 	## ping
 	m.log.v "ping -c 4 ${ipdomain} | tee ${ipdomain}_ping_${out_tail}"

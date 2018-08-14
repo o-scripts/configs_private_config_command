@@ -45,13 +45,13 @@ m.tue()
 
     case $op in
         py )
-            cd ${TUE_DIR}
+            cd ${LOCAL_WORKS_DIR}/uni/publics/runtime
             m.log.d "source python/bin/activate"
             source python/bin/activate
             cd ${OLD_DIR}
             ;;
         py3 )
-            cd ${TUE_DIR}
+            cd ${LOCAL_WORKS_DIR}/uni/publics/runtime
             m.log.d "source python3/bin/activate"
             source python3/bin/activate
             op_nb=$2

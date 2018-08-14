@@ -172,10 +172,10 @@ m.docker()
                     m.log.v "docker is poweron...."
                     ;;
                 'Linux')
-                    m.log.v sudo ${SERV} ${DOCKER} start
-                    sudo ${SERV} ${DOCKER} start
-                    m.log.v "docker-machine start default"
-                    docker-machine start default
+                    m.log.v systemctl start docker.service
+                    systemctl start docker.service
+                    # m.log.v "docker-machine start default"
+                    # docker-machine start default
                     ;;
             esac
             ;;
@@ -208,7 +208,10 @@ m.docker()
         ## ------------------------------------------------------
         '3'|'run')
             unset vbox_name
+            unset img_name
             vbox_name=$2
+            img_name=$3
+            m.log.d "vbox_name: ${vbox_name}, img_name: ${img_name}"
             case ${vbox_name} in
                 jcjxpx|'jcjxpx')
                     image=${M_JCJXPX_CUR}
@@ -232,8 +235,15 @@ m.docker()
                     image=${M_APPS_CUR}
                     ;;
             esac
-            m.log.v "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash"
+
+            if [[ "abc" != "abc$img_name" ]]; then
+                image=${img_name}
+            else
+                m.log.d "else ---> ${img_name}"
+            fi
+
             # docker run -d -p 80:80 -p 8080:8080 -p 443:443 -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash
+            m.log.v "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash"
             docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash
             ;;
         ## ------------------------------------------------------
@@ -304,6 +314,7 @@ docker ps
             m.log.v "parm: "$@
             unset vbox_name
             vbox_name=$2
+            img_name=$3
             m.log.v "vbox_name: ${vbox_name}"
             # m.log.v "m.docker eval"
             # m.docker eval
@@ -311,8 +322,8 @@ docker ps
             case $num in
                 0|'0')
                     m.log.v "there isn't ${vbox_name} in container, then create a container named ${vbox_name}"
-                    m.log.v "m.docker run ${vbox_name}"
-                    m.docker run ${vbox_name}
+                    m.log.v "m.docker run ${vbox_name} ${img_name}"
+                    m.docker run ${vbox_name} ${img_name}
                     ;;
                 *)
                     m.log.v "there is ${vbox_name} in container, just run it"
@@ -593,15 +604,28 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
                     esac
                     ;;
                 Linux )
-                    m.log.v 'eval $(docker-machine env default)'
-                    eval $(docker-machine env default)
+                    m.log.v "this is removed"
                     ;;
             esac
             ## end
             ;;
-        13 )
-            m.log.v "sudo service systemd-networkd start"
-            sudo service systemd-networkd start
+        13 | net | network )
+            vbox_name=$2
+            # m.log.v "sudo service systemd-networkd start"
+            m.log.v "docker network ls -f driver=bridge"
+            docker network ls -f driver=bridge
+            docker network prune
+            brg=$(docker network ls -f driver=bridge | grep 'vbox' | wc -l docker network ls -f driver=bridge | grep 'docker01' | wc -l)
+            case ${brg} in
+                0 )
+                    m.log.v "docker network create vbox"
+                    docker network create vbox
+                    ;;
+            esac
+            m.log.v "docker network disconnect bridge ${vbox_name}"
+            docker network disconnect bridge ${vbox_name}
+            m.log.v "docker network connect vbox ${vbox_name}"
+            docker network connect vbox ${vbox_name}
             ;;
         14 | * )
             m.log.v '
