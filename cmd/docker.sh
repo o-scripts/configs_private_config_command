@@ -197,8 +197,8 @@ m.docker()
                     esac
                     ;;
                 'Linux')
-                    m.log.v "docker-machine stop default"
-                    docker-machine stop default
+                    # m.log.v "docker-machine stop default"
+                    # docker-machine stop default
                     m.log.v "sudo ${SERV} ${DOCKER} stop"
                     sudo ${SERV} ${DOCKER} stop
                     ;;

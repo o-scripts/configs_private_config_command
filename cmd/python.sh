@@ -19,9 +19,6 @@ m.venv(){
 		'python3')
 			python='python3'
 			;;
-		*)
-			python='python'
-			;;
 	esac
 
 	case $op in

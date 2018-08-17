@@ -65,6 +65,21 @@ m.tue()
                     ;;
             esac
             ;;
+        py37 )
+            cd ${LOCAL_WORKS_DIR}/uni/publics/runtime
+            m.log.d "source python3.7/bin/activate"
+            source python3.7/bin/activate
+            op_nb=$2
+            case ${op_nb} in
+                nb )
+                    cd ${TUE_DIR}/${SEMESTER}
+                    jupyter notebook
+                    ;;
+                * )
+                    cd ${OLD_DIR}
+                    ;;
+            esac
+            ;;
         db2 )
             op_db=$2
             case ${op_db} in

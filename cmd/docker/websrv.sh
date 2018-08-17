@@ -112,8 +112,8 @@ v.apt()
 {
 	echo apt update
 	apt update
-	echo apt -y install iputils-ping libnet-ifconfig-wrapper-perl vim htop git ssh
-	apt -y install iputils-ping libnet-ifconfig-wrapper-perl vim htop git ssh
+	echo apt -y install iputils-ping libnet-ifconfig-wrapper-perl vim htop git ssh lsb-release
+	apt -y install iputils-ping libnet-ifconfig-wrapper-perl vim htop git ssh lsb-release
 }
 
 v.php()
