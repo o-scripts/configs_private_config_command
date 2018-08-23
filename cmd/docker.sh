@@ -615,7 +615,7 @@ docker run -p 127.0.0.1:80:80 -p 127.0.0.1:443:443 -v ~:/root -i -t ubuntu:14.04
             m.log.v "docker network ls -f driver=bridge"
             docker network ls -f driver=bridge
             docker network prune
-            brg=$(docker network ls -f driver=bridge | grep 'vbox' | wc -l docker network ls -f driver=bridge | grep 'docker01' | wc -l)
+            brg=$(docker network ls -f driver=bridge | grep 'vbox' | wc -l)
             case ${brg} in
                 0 )
                     m.log.v "docker network create vbox"
