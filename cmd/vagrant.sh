@@ -84,6 +84,12 @@ sudo apt install git zip unzip
 	esac
 }
 
+m.deh()
+{
+	vagrant_path=${LOCAL_WORKS_DIR}/uni/company/dehua/dehuaDev
+	cd ${vagrant_path}
+}
+
 m.vagrant()
 {
 	op=$1
