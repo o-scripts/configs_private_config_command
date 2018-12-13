@@ -14,6 +14,10 @@ m.tcpdump()
 ## m.android
 m.android()
 {
+    APP_DIR=${HOME}/android/sdk
+    JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+    PATH=${JAVA_HOME}/bin:${PATH}
+
     op=$1
     case $op in
         '1'|'hardware'|'hw')
@@ -255,7 +259,7 @@ For version 1.21, the SHA-1 checksum for repo is b8bd1804f432ecf1bab730949c82b93
 For version 1.22, the SHA-1 checksum for repo is da0514e484f74648a890c0467d61ca415379f791
 ----------------------------------------------------------------------------"
             ;;
-        '9'|'h'|'help'|*)
+        '9'|'h'|'help')
             m.log.v "
                        ANDROID COMPILE CONFIG SETUP
 ============================================================================
@@ -269,6 +273,10 @@ For version 1.22, the SHA-1 checksum for repo is da0514e484f74648a890c0467d61ca4
 8. 'repo'
 9. h|help - display infomation
 ----------------------------------------------------------------------------"
+            ;;
+        *)
+            cd ${APP_DIR}/tools
+            ./android $@
             ;;
     esac
 }
