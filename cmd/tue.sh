@@ -41,24 +41,59 @@ m.tue()
     # goto work dir
     OLD_DIR=$(pwd)
     TUE_DIR=${LOCAL_WORKS_DIR}/uni/private/fachrichtung/ma/uni_tue_exercise
-    SEMESTER=18ss
+    SEMESTER=18ws
+    case $(lsb_release -r|awk '{print $2}') in
+        18.04 )
+            ip=$(ifconfig | grep inet | grep -v inet6 | awk '{print $2}' | grep '172.20')
+            # ip=127.0.0.1
+            ;;
+        16.04 )
+            # ip=$(ifconfig | grep inet| cut -d':' -f 2| awk '{print $1}' | grep -v '127')
+            ip=$(ifconfig |grep 172. | grep inet| cut -d':' -f 2| awk '{print $1}')
+            ;;
+    esac
 
     case $op in
         py )
             cd ${LOCAL_WORKS_DIR}/uni/publics/runtime
             m.log.d "source python/bin/activate"
             source python/bin/activate
-            cd ${OLD_DIR}
-            ;;
-        py3 )
-            cd ${LOCAL_WORKS_DIR}/uni/publics/runtime
-            m.log.d "source python3/bin/activate"
-            source python3/bin/activate
             op_nb=$2
             case ${op_nb} in
                 nb )
-                    cd ${TUE_DIR}/${SEMESTER}
-                    jupyter notebook
+                    # cd ${TUE_DIR}/${SEMESTER}
+                    jupyter notebook --ip ${pp} --no-browser --allow-root ${TUE_DIR}/${SEMESTER}
+                    ;;
+                * )
+                    cd ${OLD_DIR}
+                    ;;
+            esac
+            ;;
+        py35 )
+            cd ${LOCAL_WORKS_DIR}/uni/publics/runtime
+            m.log.d "source python3.5/bin/activate"
+            source python3.5/bin/activate
+            op_nb=$2
+            case ${op_nb} in
+                nb )
+                    # cd ${TUE_DIR}/${SEMESTER}
+                    echo "jupyter notebook --ip ${pp} --no-browser --allow-root ${TUE_DIR}/${SEMESTER}"
+                    jupyter notebook --ip ${ip} --no-browser --allow-root ${TUE_DIR}/${SEMESTER}
+                    ;;
+                * )
+                    cd ${OLD_DIR}
+                    ;;
+            esac
+            ;;
+        py36 )
+            cd ${LOCAL_WORKS_DIR}/uni/publics/runtime
+            m.log.d "source python3.6/bin/activate"
+            source python3.6/bin/activate
+            op_nb=$2
+            case ${op_nb} in
+                nb )
+                    # cd ${TUE_DIR}/${SEMESTER}
+                    jupyter notebook --ip ${ip} --no-browser --allow-root ${TUE_DIR}/${SEMESTER}
                     ;;
                 * )
                     cd ${OLD_DIR}
@@ -72,13 +107,26 @@ m.tue()
             op_nb=$2
             case ${op_nb} in
                 nb )
-                    cd ${TUE_DIR}/${SEMESTER}
-                    jupyter notebook
+                    # cd ${TUE_DIR}/${SEMESTER}
+                    jupyter notebook --ip ${ip} --no-browser --allow-root ${TUE_DIR}/${SEMESTER}
                     ;;
                 * )
                     cd ${OLD_DIR}
                     ;;
             esac
+            ;;
+        nb )
+            op=$2
+            work_dir=${TUE_DIR}/${SEMESTER}
+            if [[ "abc${op}" != "abc" ]]; then
+                work_dir=$op
+            fi
+            for pp in ${ip};
+            do
+                echo "jupyter notebook --ip ${pp} --no-browser --allow-root ${work_dir}"
+                jupyter notebook --ip ${pp} --no-browser --allow-root ${work_dir}
+                break;
+            done
             ;;
         db2 )
             op_db=$2
