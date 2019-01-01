@@ -199,8 +199,8 @@ m.docker()
                 'Linux')
                     # m.log.v "docker-machine stop default"
                     # docker-machine stop default
-                    m.log.v "sudo ${SERV} ${DOCKER} stop"
-                    sudo ${SERV} ${DOCKER} stop
+                    m.log.v "systemctl start docker.service"
+                    systemctl stop docker.service
                     ;;
             esac
             m.log.v "docker is poweroff...."
@@ -211,6 +211,7 @@ m.docker()
             unset img_name
             vbox_name=$2
             img_name=$3
+            inet=$4
             m.log.d "vbox_name: ${vbox_name}, img_name: ${img_name}"
             case ${vbox_name} in
                 jcjxpx|'jcjxpx')
@@ -241,10 +242,9 @@ m.docker()
             else
                 m.log.d "else ---> ${img_name}"
             fi
-
             # docker run -d -p 80:80 -p 8080:8080 -p 443:443 -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash
-            m.log.v "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash"
-            docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash
+            m.log.v "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash"
+            docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash
             ;;
         ## ------------------------------------------------------
         '4'|'start')
@@ -311,6 +311,15 @@ docker ps
             ;;
         ## ------------------------------------------------------
         'b'|'login')
+            case $(systemctl status docker.service | grep running | wc -l) in
+                0 )
+                    echo 'docker is not running, so start docker.service';
+                    m.docker up
+                    ;;
+                * )
+                    echo $(systemctl status docker.service | grep running)
+                    ;;
+            esac
             m.log.v "parm: "$@
             unset vbox_name
             vbox_name=$2

@@ -140,6 +140,7 @@ alias git.l="git log --color=auto --graph"
 alias git.lf="git log --color=auto --graph --name-status"
 alias git.a="git add"
 alias git.ap="git add -p"
+alias git.cl='git clone'
 alias git.cm="git commit"
 alias git.cmr="git commit --amend"
 alias git.df="git diff --color=auto"
@@ -175,16 +176,17 @@ git.pl()
 
 git.pu()
 {
+    br=$(git branch | grep '*' | awk '{print $2}')
     git.pl
     for i in $(git remote); do
         case ${i} in
             origin)
-                m.log.v git push origin master:master
-                git push origin master:master
+                m.log.v git push origin ${br}:${br}
+                git push origin ${br}:${br}
                 ;;
             github)
-                m.log.v git push github master:master
-                git push github master:master
+                m.log.v git push github ${br}:${br}
+                git push github ${br}:${br}
                 ;;
             wangshub)
                 m.log.v this is wangshub, and will not push

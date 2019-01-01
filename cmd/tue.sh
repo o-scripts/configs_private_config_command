@@ -40,7 +40,7 @@ m.tue()
 
     # goto work dir
     OLD_DIR=$(pwd)
-    TUE_DIR=${LOCAL_WORKS_DIR}/uni/private/fachrichtung/ma/uni_tue_exercise
+    TUE_DIR=${HOME}/uni_tue_exercise
     SEMESTER=18ws
     case $(lsb_release -r|awk '{print $2}') in
         18.04 )
@@ -85,7 +85,7 @@ m.tue()
                     ;;
             esac
             ;;
-        py36 )
+        py3 | py36 )
             cd ${LOCAL_WORKS_DIR}/uni/publics/runtime
             m.log.d "source python3.6/bin/activate"
             source python3.6/bin/activate
@@ -123,8 +123,16 @@ m.tue()
             fi
             for pp in ${ip};
             do
-                echo "jupyter notebook --ip ${pp} --no-browser --allow-root ${work_dir}"
-                jupyter notebook --ip ${pp} --no-browser --allow-root ${work_dir}
+                case $(whoami) in
+                    root )
+                        echo "jupyter notebook --ip ${pp} --no-browser --allow-root ${work_dir}"
+                        jupyter notebook --ip ${pp} --no-browser --allow-root ${work_dir}
+                        ;;
+                    * )
+                        echo "jupyter notebook --ip ${pp} --no-browser ${work_dir}"
+                        jupyter notebook --ip ${pp} --no-browser  ${work_dir}
+                        ;;
+                esac
                 break;
             done
             ;;
