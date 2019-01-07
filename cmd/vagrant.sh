@@ -86,7 +86,7 @@ sudo apt install git zip unzip
 
 m.deh()
 {
-	vagrant_path=${LOCAL_WORKS_DIR}/uni/company/dehua/dehuaDev
+	vagrant_path=${LOCAL_WORKING}/dehua
 	cd ${vagrant_path}
 }
 

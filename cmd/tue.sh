@@ -40,7 +40,7 @@ m.tue()
 
     # goto work dir
     OLD_DIR=$(pwd)
-    TUE_DIR=${HOME}/uni_tue_exercise
+    TUE_DIR=${HOME}/working/tue
     SEMESTER=18ws
     case $(lsb_release -r|awk '{print $2}') in
         18.04 )
@@ -136,6 +136,19 @@ m.tue()
                 break;
             done
             ;;
+        pdf|tex )
+            type_files=$1
+            jupyter_files=$2
+            echo "jupyter nbconvert --to ${type_files} ${jupyter_files}"
+            jupyter nbconvert --to ${type_files} ${jupyter_files}
+            ;;
+        pdfs )
+            cmd=$2
+            for i in $($cmd); do
+                echo -e "\n[ jupyter nbconvert --to pdf $i ]"
+                jupyter nbconvert --to pdf $i;
+            done
+            ;;
         db2 )
             op_db=$2
             case ${op_db} in
@@ -176,3 +189,4 @@ m.tue()
             ;;
     esac
 }
+

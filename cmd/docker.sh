@@ -16,19 +16,11 @@ case `uname` in
         M_BS_CUR='centos:centos6'
         ;;
     'Linux')
-        M_APPS_BASE='ubuntu:16.04'
+        M_APPS_BASE='ubuntu:16.04-base'
         M_APPS_CUR=${M_APPS_BASE}
-        M_APPS_NGINX=${M_APPS_CUR}
-        M_APPS_APACHE=${M_APPS_CUR}
-        M_APPS_DB=${M_APPS_CUR}
-        M_APPS_PYTHON=${M_APPS_CUR}
-        M_APPS_POOL=${M_APPS_CUR}
         M_JCJXPX_CUR=${M_APPS_CUR}
-        M_EQPLAY_CUR='i386/ubuntu:16.04'
         M_BS_CUR='centos:centos6'
-        M_DEHUA_CUR=${M_APPS_CUR}
-        M_TENSORFLOW_CUR=''
-        M_CAFFE_CUR=''
+        M_APPS_WORKS='ubuntu:18.12.22'
         ;;
 esac
 
@@ -217,34 +209,30 @@ m.docker()
                 jcjxpx|'jcjxpx')
                     image=${M_JCJXPX_CUR}
                     ;;
-                tensorflow)
-                    image=${M_TENSORFLOW_CUR}
+                tensorflow|caffe|works|'works')
+                    # set default image
+                    image=${M_APPS_WORKS}
+                    # if image has img_name, then use img_name
+                    if [[ "abc" != "abc$img_name" ]]; then
+                        image=${img_name}
+                    else
+                        m.log.d "else ---> ${img_name}"
+                    fi
+                    m.log.v "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash"
+                    docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash
                     ;;
-                caffe)
-                    image=${M_CAFFE_CUR}
-                    ;;
-                dehua)
-                    image=${M_DEHUA_CUR}
-                    ;;
-                eqplay|'eqplay')
-                    image=${M_EQPLAY_CUR}
-                    ;;
-                bs|'bs')
-					image=${M_BS_CUR}
-					;;
                 *)
                     image=${M_APPS_CUR}
+                    if [[ "abc" != "abc$img_name" ]]; then
+                        image=${img_name}
+                    else
+                        m.log.d "else ---> ${img_name}"
+                    fi
+                    m.log.v "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash"
+                    docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash
                     ;;
             esac
 
-            if [[ "abc" != "abc$img_name" ]]; then
-                image=${img_name}
-            else
-                m.log.d "else ---> ${img_name}"
-            fi
-            # docker run -d -p 80:80 -p 8080:8080 -p 443:443 -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash
-            m.log.v "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash"
-            docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash
             ;;
         ## ------------------------------------------------------
         '4'|'start')
