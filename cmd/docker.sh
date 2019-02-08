@@ -204,10 +204,17 @@ m.docker()
             vbox_name=$2
             img_name=$3
             inet=$4
-            m.log.d "vbox_name: ${vbox_name}, img_name: ${img_name}"
+            m.log.v "vbox_name: ${vbox_name}, img_name: ${img_name}"
             case ${vbox_name} in
                 jcjxpx|'jcjxpx')
                     image=${M_JCJXPX_CUR}
+                    if [[ "abc" != "abc$img_name" ]]; then
+                        image=${img_name}
+                    else
+                        m.log.d "else ---> ${img_name}"
+                    fi
+                    m.log.w "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash"
+                    docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash
                     ;;
                 tensorflow|caffe|works|'works')
                     # set default image
@@ -218,7 +225,7 @@ m.docker()
                     else
                         m.log.d "else ---> ${img_name}"
                     fi
-                    m.log.v "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash"
+                    m.log.w "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash"
                     docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash
                     ;;
                 *)
@@ -228,8 +235,8 @@ m.docker()
                     else
                         m.log.d "else ---> ${img_name}"
                     fi
-                    m.log.v "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash"
-                    docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash
+                    m.log.w "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash"
+                    docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash
                     ;;
             esac
 
@@ -301,30 +308,30 @@ docker ps
         'b'|'login')
             case $(systemctl status docker.service | grep running | wc -l) in
                 0 )
-                    echo 'docker is not running, so start docker.service';
+                    m.log.w 'docker is not running, so start docker.service';
                     m.docker up
                     ;;
                 * )
-                    echo $(systemctl status docker.service | grep running)
+                    m.log.v $(systemctl status docker.service | grep running)
                     ;;
             esac
             m.log.v "parm: "$@
             unset vbox_name
             vbox_name=$2
             img_name=$3
-            m.log.v "vbox_name: ${vbox_name}"
+            m.log.v "vbox_name: ${vbox_name}, images name: ${img_name}"
             # m.log.v "m.docker eval"
             # m.docker eval
             num=$(echo "$(docker ps -a | grep ${vbox_name} | grep -v grep | wc -l)" | sed 's/^[\t| ]*//g')
             case $num in
                 0|'0')
                     m.log.v "there isn't ${vbox_name} in container, then create a container named ${vbox_name}"
-                    m.log.v "m.docker run ${vbox_name} ${img_name}"
+                    m.log.w "m.docker run ${vbox_name} ${img_name}"
                     m.docker run ${vbox_name} ${img_name}
                     ;;
                 *)
                     m.log.v "there is ${vbox_name} in container, just run it"
-                    m.log.v "m.docker start ${vbox_name}"
+                    m.log.w "m.docker start ${vbox_name}"
                     m.docker start ${vbox_name}
                     ;;
             esac
