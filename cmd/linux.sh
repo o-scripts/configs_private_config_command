@@ -680,5 +680,80 @@ m.ecryptfs()
     ecryptfs-rewrap-passphrase /home/.ecryptfs/${USER}/.ecryptfs/wrapped-passphrase
 }
 ### m.ecryptfs() end
+### m.tracker()
+m.tracker()
+{
+    echo -e "\nHidden=true\n" | sudo tee --append /etc/xdg/autostart/tracker-extract.desktop > /dev/null
+    echo -e "\nHidden=true\n" | sudo tee --append /etc/xdg/autostart/tracker-miner-apps.desktop > /dev/null
+    echo -e "\nHidden=true\n" | sudo tee --append /etc/xdg/autostart/tracker-miner-fs.desktop > /dev/null
+    echo -e "\nHidden=true\n" | sudo tee --append /etc/xdg/autostart/tracker-miner-user-guides.desktop > /dev/null
+    echo -e "\nHidden=true\n" | sudo tee --append /etc/xdg/autostart/tracker-store.desktop > /dev/null
+    # old
+    #gsettings set org.freedesktop.Tracker.Miner.Files crawling-interval -1
+    #gsettings set org.freedesktop.Tracker.Miner.Files enable-monitors true
+    # new
+    gsettings set org.freedesktop.Tracker.Miner.Files crawling-interval -2
+    gsettings set org.freedesktop.Tracker.Miner.Files enable-monitors false
+    tracker reset --hard
+}
+### m.tracker() end
+### m.pdftk()
+m.pdftk()
+{
+    # author: abu
+    # date:   May 12 2018
+    # description: bash script to install pdftk on Ubuntu 18.04 for amd64 machines
+    ##############################################################################
+    #
+    # change to /tmp directory
+    cd /tmp
+    # download packages
+    wget http://mirrors.kernel.org/ubuntu/pool/main/g/gcc-6/libgcj17_6.4.0-8ubuntu1_amd64.deb \
+        http://mirrors.kernel.org/ubuntu/pool/main/g/gcc-defaults/libgcj-common_6.4-3ubuntu1_all.deb \
+        http://mirrors.kernel.org/ubuntu/pool/universe/p/pdftk/pdftk_2.02-4build1_amd64.deb \
+        http://mirrors.kernel.org/ubuntu/pool/universe/p/pdftk/pdftk-dbg_2.02-4build1_amd64.deb
+    echo -e "Packages for pdftk downloaded\n\n"
+    # install packages
+    echo -e "\n\n Installing pdftk: \n\n"
+    sudo apt install ./libgcj17_6.4.0-8ubuntu1_amd64.deb \
+        ./libgcj-common_6.4-3ubuntu1_all.deb \
+        ./pdftk_2.02-4build1_amd64.deb \
+        ./pdftk-dbg_2.02-4build1_amd64.deb
+    echo -e "\n\n pdftk installed\n"
+    echo -e "   try it in shell with: > pdftk \n"
+    # delete deb files in /tmp directory
+    rm ./libgcj17_6.4.0-8ubuntu1_amd64.deb
+    rm ./libgcj-common_6.4-3ubuntu1_all.deb
+    rm ./pdftk_2.02-4build1_amd64.deb
+    rm ./pdftk-dbg_2.02-4build1_amd64.deb
+}
+### end
+### m.emma()
+m.emma()
+{
+    in=$1
+    cd ${LOCAL_WORKS_DIR}/libs/publics/jar/emma
+    java -cp maven-emma-plugin-0.6.jar emmarun -r html -jar ${in}
+}
+m.dex2jar()
+{
+    in=$1
+    cd ${HOME}/shell/sh
+    ./dex2jar.sh
+}
+### end
+### m.monkeyrunner
+m.monkeyrunner()
+{
+    #export JAVA_HOME=/usr/lib/jvm/java-6-sun
+    export JAVA_HOME=/usr/lib/jvm/default-java
+    #export JAVA_HOME=/usr/lib/jvm/openjdk-7-amd64
+    # JRE, classpath
+    export JRE_HOME=${JAVA_HOME}/jre
+    export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+    export PATH=${JAVA_HOME}/bin:${PATH}
+    monkeyrunner $@
+}
+### end
 ## end
 # end
