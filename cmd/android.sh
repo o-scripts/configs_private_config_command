@@ -281,3 +281,14 @@ For version 1.22, the SHA-1 checksum for repo is da0514e484f74648a890c0467d61ca4
     esac
 }
 ### end
+### m.uiautomatorviewer
+m.uiautomatorviewer()
+{
+    export JAVA_HOME=/usr/lib/jvm/default-java;
+    export JRE_HOME=${JAVA_HOME}/jre;
+    export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar;
+    export PATH=${JAVA_HOME}/bin:${PATH};
+    uiautomatorviewer $@
+}
+## end
+

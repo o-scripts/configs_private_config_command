@@ -213,8 +213,8 @@ m.docker()
                     else
                         m.log.d "else ---> ${img_name}"
                     fi
-                    m.log.w "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash"
-                    docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash
+                    m.log.w "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash"
+                    docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash
                     ;;
                 tensorflow|caffe|works|'works')
                     # set default image
@@ -225,8 +225,9 @@ m.docker()
                     else
                         m.log.d "else ---> ${img_name}"
                     fi
-                    m.log.w "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash"
-                    docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash
+                    m.log.w "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash"
+                    #docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash
+                    docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash
                     ;;
                 *)
                     image=${M_APPS_CUR}
@@ -235,8 +236,10 @@ m.docker()
                     else
                         m.log.d "else ---> ${img_name}"
                     fi
-                    m.log.w "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash"
-                    docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --net host --name ${vbox_name} -it ${image} /bin/bash
+                    m.log.w "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash"
+                    docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash
+                    #m.log.w "docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash"
+                    #docker run -d -v ${LOCAL_DIR}:${REMOTE_DIR} --name ${vbox_name} -it ${image} /bin/bash
                     ;;
             esac
 

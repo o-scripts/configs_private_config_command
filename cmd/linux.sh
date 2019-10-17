@@ -13,9 +13,16 @@ alias dir='dir --color=auto'
 # end
 
 # revalue mac.command
-m.bashrc()
+m.shrc()
 {
-	m.import ~/.bashrc
+    case $(grep -i name /proc/$$/status | awk '{print $2}') in
+        zsh )
+            m.import ~/.zshrc
+            ;;
+        bash)
+	        m.import ~/.bashrc
+            ;;
+    esac
 }
 # end m.bashrc()
 

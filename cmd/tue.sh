@@ -41,7 +41,7 @@ m.tue()
     # goto work dir
     OLD_DIR=$(pwd)
     TUE_DIR=${HOME}/working/tue
-    SEMESTER=18ws
+    SEMESTER=19ws
     case $(lsb_release -r|awk '{print $2}') in
         18.04 )
             ip=$(ifconfig | grep inet | grep -v inet6 | awk '{print $2}' | grep '172.20')
@@ -115,26 +115,38 @@ m.tue()
                     ;;
             esac
             ;;
+        base )
+            echo conda activate base;
+            conda activate base;
+            ;;
         nb )
             op=$2
             work_dir=${TUE_DIR}/${SEMESTER}
             if [[ "abc${op}" != "abc" ]]; then
                 work_dir=$op
             fi
-            for pp in ${ip};
-            do
-                case $(whoami) in
-                    root )
+            case $(whoami) in
+                root )
+                    for pp in ${ip};
+                    do
                         echo "jupyter notebook --ip ${pp} --no-browser --allow-root ${work_dir}"
                         jupyter notebook --ip ${pp} --no-browser --allow-root ${work_dir}
-                        ;;
-                    * )
+                        break;
+                    done
+                    ;;
+                self|zz )
+                    echo "jupyter notebook --no-browser ${work_dir}"
+                    jupyter notebook --no-browser  ${work_dir}
+                    ;;
+                * )
+                    for pp in ${ip};
+                    do
                         echo "jupyter notebook --ip ${pp} --no-browser ${work_dir}"
                         jupyter notebook --ip ${pp} --no-browser  ${work_dir}
-                        ;;
-                esac
-                break;
-            done
+                        break;
+                    done
+                    ;;
+            esac
             ;;
         pdf|tex )
             type_files=$1
