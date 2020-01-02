@@ -762,5 +762,40 @@ m.monkeyrunner()
     monkeyrunner $@
 }
 ### end
+### m.dex2jar
+m.dex2jar()
+{
+
+    dexFolder=${PWD}
+    dexFile=${dexFolder}/classes.dex
+    dexLib=${LOCAL_CONFIG_DIR}/dex2jar-0.0.9.15
+    rm -vf ${dexLib}/classes.dex
+    ln -s ${dexFile} ${dexLib}/classes.dex
+    cd ${dexLib}
+    ./dex2jar.sh classes.dex
+    cp -vf classes_dex2jar.jar ${dexFolder}/
+    cd ${dexFolder}
+    ${LOCAL_CONFIG_DIR}/jd-gui/jd-gui classes_dex2jar.jar &
+}
+###end
+### m.flutter
+m.vbox()
+{
+    # ver
+    ver=$1
+    echo VBoxManage modifyvm "${ver}" --cpuidset 00000001 000106e5 00100800 0098e3fd bfebfbff
+    VBoxManage modifyvm "${ver}" --cpuidset 00000001 000106e5 00100800 0098e3fd bfebfbff
+    echo VBoxManage setextradata "${ver}" "VBoxInternal/Devices/efi/0/Config/DmiSystemProduct" "iMac11,3"
+    VBoxManage setextradata "${ver}" "VBoxInternal/Devices/efi/0/Config/DmiSystemProduct" "iMac11,3"
+    echo VBoxManage setextradata "${ver}" "VBoxInternal/Devices/efi/0/Config/DmiSystemVersion" "1.0"
+    VBoxManage setextradata "${ver}" "VBoxInternal/Devices/efi/0/Config/DmiSystemVersion" "1.0"
+    echo VBoxManage setextradata "${ver}" "VBoxInternal/Devices/efi/0/Config/DmiBoardProduct" "Iloveapple"
+    VBoxManage setextradata "${ver}" "VBoxInternal/Devices/efi/0/Config/DmiBoardProduct" "Iloveapple"
+    echo VBoxManage setextradata "${ver}" "VBoxInternal/Devices/smc/0/Config/DeviceKey" "ourhardworkbythesewordsguardedpleasedontsteal(c)AppleComputerInc"
+    VBoxManage setextradata "${ver}" "VBoxInternal/Devices/smc/0/Config/DeviceKey" "ourhardworkbythesewordsguardedpleasedontsteal(c)AppleComputerInc"
+    echo VBoxManage setextradata "${ver}" "VBoxInternal/Devices/smc/0/Config/GetKeyFromRealSMC" 1
+    VBoxManage setextradata "${ver}" "VBoxInternal/Devices/smc/0/Config/GetKeyFromRealSMC" 1
+}
+### end
 ## end
 # end

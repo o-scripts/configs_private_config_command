@@ -115,9 +115,9 @@ m.tue()
                     ;;
             esac
             ;;
-        base )
-            echo conda activate base;
-            conda activate base;
+        base|tf1 )
+            echo conda activate $@;
+            conda activate $@;
             ;;
         nb )
             op=$2

@@ -679,3 +679,19 @@ d2. d.st        - stop (db|local|m).betoptop.com (LInux)
     esac
 }
 ### end
+### m.scm
+m.scm()
+{
+    docker run --detach \
+        --hostname gitlab.me.com \
+        --publish 443:443 \
+        --publish 8081:8081 \
+        --publish 22:22 \
+        --name scm \
+        --restart always \
+        --volume ${HOME}/working/gitlab/config:/etc/gitlab \
+        --volume ${HOME}/working/gitlab/logs:/var/log/gitlab \
+        --volume ${HOME}/working/gitlab/data:/var/opt/gitlab \
+        gitlab/gitlab-ce
+}
+### end

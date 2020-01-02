@@ -43,4 +43,8 @@ m.import ${LOCAL_COMMAND_DIR}/cmd/vagrant.sh
 m.import ${LOCAL_COMMAND_DIR}/cmd/cmus.sh
 ### end
 
+### latex
+m.import ${LOCAL_COMMAND_DIR}/cmd/latex.sh
+### end
+
 ## end
