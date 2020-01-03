@@ -42,14 +42,21 @@ m.tue()
     OLD_DIR=$(pwd)
     TUE_DIR=${HOME}/working/tue
     SEMESTER=19ws
-    case $(lsb_release -r|awk '{print $2}') in
-        18.04 )
-            ip=$(ifconfig | grep inet | grep -v inet6 | awk '{print $2}' | grep '172.20')
-            # ip=127.0.0.1
+
+    case $(uname) in
+        Darwin )
             ;;
-        16.04 )
-            # ip=$(ifconfig | grep inet| cut -d':' -f 2| awk '{print $1}' | grep -v '127')
-            ip=$(ifconfig |grep 172. | grep inet| cut -d':' -f 2| awk '{print $1}')
+        Linux )
+            case $(lsb_release -r|awk '{print $2}') in
+                18.04 )
+                    ip=$(ifconfig | grep inet | grep -v inet6 | awk '{print $2}' | grep '172.20')
+                    # ip=127.0.0.1
+                    ;;
+                16.04 )
+                    # ip=$(ifconfig | grep inet| cut -d':' -f 2| awk '{print $1}' | grep -v '127')
+                    ip=$(ifconfig |grep 172. | grep inet| cut -d':' -f 2| awk '{print $1}')
+                    ;;
+            esac
             ;;
     esac
 
