@@ -61,6 +61,9 @@ m.tue()
     esac
 
     case $op in
+        s | simg )
+            singularity exec ${HOME}/working/TCML-Cuda10_0Tensorflow2_0_0.simg /bin/bash
+            ;;
         py )
             cd ${LOCAL_WORKS_DIR}/uni/publics/runtime
             m.log.d "source python/bin/activate"

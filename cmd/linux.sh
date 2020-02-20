@@ -397,14 +397,8 @@ m.mnt()
     op=$1
     case $op in
         '1'|'code')
-            m.log.d sudo mount /dev/sda7 ${LOCAL_WORKS_DIR}/mnt/develop
-            sudo mount /dev/sda7 ${LOCAL_WORKS_DIR}/mnt/develop
-            m.log.d sudo mount /dev/sda8 ${LOCAL_WORKS_DIR}/mnt/code
-            sudo mount /dev/sda8 ${LOCAL_WORKS_DIR}/mnt/code
-            m.log.d sudo mount /dev/sda11 ${LOCAL_WORKS_DIR}/mnt/pro
-            sudo mount /dev/sda11 ${LOCAL_WORKS_DIR}/mnt/pro
             m.log.d sudo mount /dev/sda6 ${LOCAL_WORKS_DIR}/mnt/osx
-            sudo mount /dev/sda6 ${LOCAL_WORKS_DIR}/mnt/osx
+            sudo mount /dev/sdb1 ${LOCAL_WORKS_DIR}/mnt/osx
             ;;
         0|h|help|*)
             m.log.v "
@@ -658,6 +652,19 @@ m.matlab()
     esac
 }
 ### end
+### m.w3m()
+m.w3m()
+{
+    op=$1
+    case $op in
+        * )
+            menu="\n*以网址启动w3m\nw3m www.baidu.com\n这样打开w3m，并且以网页打开。（如果提示不能浏览框架，试试提示中的链接） ,注意,如果机器需要代理上网,那么应该设置一个变量:http_proxy ,设置的方法: 'export http_proxy=http://user:password@ip.com'.这里,user就是用户名,password就是该用户的密码,ip就是代理服务器的ip地址.\n\n*支持简体中文的启动：\nw3m http://www.\nbaidu.com -o display_charset=GB2312\n这里，时候网页无法显示中文，那么可以尝试用这种方法启动。\n\n*\n*进入w3m之后的操作\n这里简单介绍浏览\n网页时候常用的一些操作，如果想要知道更多的操作，请查看交互状态下，'H'命令之后显示的帮助信息。\n\n*显示帮助信息：\n输入: H\n\n*返回上次页面：\n输入: B\n这里包括帮助页面，上次的网址等等。\n\n*查看历史url:\n输入: [Ctrl]h\n这样会查看你访问过的页面，输入B可以返回。\n\n*输入指定网址：\n输入: U\n这是在启动w3m之后进行的，输入之后，可以在底部输入你想要访问的网址。\n\n*屏幕上一页：\n输入: b\n\n*屏幕下一页：\n输入: [空格]\n\n*添加书签：\n输入: [Es\nc]a\n\n*列出书签:\n输入: [Esc]b\n\n*建立新的标签：\n输入: T\n这样会新开一个标签，内容和当前的网页一样。\n\n*在新的标签中打开链接：\n输入: [Ctrl]t\n这里，需要先停在相应的链接上面。会新开一个标签，并且在其中显示对应的网页，适合想要同时显示多个网页的情况。\n\n*切换到上一个标签：\n输入: {\n\n*切换到下一个标签：\n输入: }\n\n*弹出标签选择菜单：\n输入: [Esc]t\n这样会弹出一个菜单，然后可以选择你想要进入的标签。\n\n*关闭当前标签：\n输入: [Ctrl]\nq\n这样会关闭当前标签。\n\n*弹出链接列表菜单：\n输入: [Esc]m\n或[Esc]l\n这样显示出当前页面所链接列表，可以择相应链接并且进入。\n\n*退出弹出菜单：\n输入: h\n或[Ctrl]h\n或[Left]\n\n*显示当前行：\n输入: [Ctr\nl]g\n\n*去指定行：\n输入: [Es\nc]g\n这样，之后输入行号将会跳到指定的行号。\n\n*连同光标向下滚动：\n输入: J\n\n*连同光标向上滚动：\n输入: K\n\n*光标向上移动：\n输入: k\n或输入: [上箭头]\n这里，方向移动的指令和vim编辑器中的一样，如果上下超过了页面边缘，那么会自动滚动半页使光标的所在行位于屏幕中央。\n\n*光标向下移动：\n输入: j\n或输入: [下箭头]\n这里，方向移动的指令和vim编辑器中的一样，如果上下超过了页面边缘，那么会自动滚动半页使光标的所在行位于屏幕中央。\n\n*光标向左移动：\n输入: h\n或输入: [左箭头]\n这里，方向移动的指令和vim编辑器中的一样。\n\n*光标向右移动：\n输入: l\n或输入: [右箭头]\n这里，方向移动的指令和vim编辑器中的一样。\n\n*退出w3m:\n输入: q\n\n*切换是否接受鼠标动作：\n输入: m\n这样切换w3m是否接受鼠标动作。如果不接受鼠标动作，在X系统下面可以用鼠标选择文本，否则接受鼠标的话就无法选择文本但是能够用鼠标点击链接并打开。\n\n*搜索字符串\n输入: /\n<你要搜索的字符串>"
+
+            echo -e ${menu};
+            ;;
+    esac
+}
+### end
 ### m.mac()
 m.mac()
 {
@@ -797,5 +804,9 @@ m.vbox()
     VBoxManage setextradata "${ver}" "VBoxInternal/Devices/smc/0/Config/GetKeyFromRealSMC" 1
 }
 ### end
+m.snap()
+{
+    snap list --all | while read snapname ver rev trk pub note; do if [[ ${note} == *disabled* ]]; then echo -e sudo snap remove $snapname" --revision "$rev ; fi; done
+}
 ## end
 # end
