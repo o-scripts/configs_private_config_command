@@ -806,7 +806,7 @@ m.vbox()
 ### end
 m.snap()
 {
-    snap list --all | while read snapname ver rev trk pub note; do if [[ ${note} == *disabled* ]]; then echo -e sudo snap remove $snapname" --revision "$rev ; fi; done
+    snap list --all | while read snapname ver rev trk pub note; do if [[ ${note} == *disabled* ]]; then echo -e sudo snap remove $snapname" --revision "$rev "; \\"; fi; done
 }
 ## end
 # end
