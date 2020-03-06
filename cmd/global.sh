@@ -48,10 +48,10 @@ DOCKER_MACHINE=docker-machine
 # end
 
 ## some usefull command
-alias byobu='byobu-screen'
-## end 2
+# alias byobu='byobu-screen'
+# end 2
 
-## which platform
+# which platform
 m.arch()
 {
     uname
@@ -613,5 +613,10 @@ m.composer()
     esac
 }
 ### end
+m.zotero()
+{
+    trash=$(find * -name *.png -or -name *.js -or -name *.css -or -name *.html -or -name *.svg -or -name *loaded_? -or -name *.xml -or -name *.cgi -or -name *.gif )
+    echo $trash
+}
 ## end
 # end
