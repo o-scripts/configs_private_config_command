@@ -207,7 +207,12 @@ m.tue()
             cd ${TUE_DIR}/${SEMESTER}/INF4361
             ;;
         * )
-            cd ${TUE_DIR}/${SEMESTER[-1]}
+            if [[ " ${SEMESTER[@]} " =~ " $op "  ]];
+            then
+                [[ -d "${TUE_DIR}/${op}" ]] && cd ${TUE_DIR}/${op};
+            else
+                [[ -d "${TUE_DIR}/${SEMESTER[-1]}" ]] && cd ${TUE_DIR}/${SEMESTER[-1]};
+            fi
             ;;
     esac
 }
