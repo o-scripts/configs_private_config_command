@@ -207,7 +207,7 @@ m.tue()
             cd ${TUE_DIR}/${SEMESTER}/INF4361
             ;;
         * )
-            cd ${TUE_DIR}/${SEMESTER}
+            cd ${TUE_DIR}/${SEMESTER[-1]}
             ;;
     esac
 }
