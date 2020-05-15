@@ -41,7 +41,7 @@ m.tue()
     # goto work dir
     OLD_DIR=$(pwd)
     TUE_DIR=${HOME}/working/tue
-    SEMESTER=19ws
+    SEMESTER=(17ss 17ws 18ss 18ws 19ss 19ws 20ss)
 
     case $(uname) in
         Darwin )
@@ -72,7 +72,7 @@ m.tue()
             case ${op_nb} in
                 nb )
                     # cd ${TUE_DIR}/${SEMESTER}
-                    jupyter notebook --ip ${pp} --no-browser --allow-root ${TUE_DIR}/${SEMESTER}
+                    jupyter notebook --ip ${pp} --no-browser --allow-root ${TUE_DIR}/${SEMESTER[-1]}
                     ;;
                 * )
                     cd ${OLD_DIR}
@@ -87,8 +87,8 @@ m.tue()
             case ${op_nb} in
                 nb )
                     # cd ${TUE_DIR}/${SEMESTER}
-                    echo "jupyter notebook --ip ${pp} --no-browser --allow-root ${TUE_DIR}/${SEMESTER}"
-                    jupyter notebook --ip ${ip} --no-browser --allow-root ${TUE_DIR}/${SEMESTER}
+                    echo "jupyter notebook --ip ${pp} --no-browser --allow-root ${TUE_DIR}/${SEMESTER[-1]}"
+                    jupyter notebook --ip ${ip} --no-browser --allow-root ${TUE_DIR}/${SEMESTER[-1]}
                     ;;
                 * )
                     cd ${OLD_DIR}
@@ -103,7 +103,7 @@ m.tue()
             case ${op_nb} in
                 nb )
                     # cd ${TUE_DIR}/${SEMESTER}
-                    jupyter notebook --ip ${ip} --no-browser --allow-root ${TUE_DIR}/${SEMESTER}
+                    jupyter notebook --ip ${ip} --no-browser --allow-root ${TUE_DIR}/${SEMESTER[-1]}
                     ;;
                 * )
                     cd ${OLD_DIR}
@@ -118,7 +118,7 @@ m.tue()
             case ${op_nb} in
                 nb )
                     # cd ${TUE_DIR}/${SEMESTER}
-                    jupyter notebook --ip ${ip} --no-browser --allow-root ${TUE_DIR}/${SEMESTER}
+                    jupyter notebook --ip ${ip} --no-browser --allow-root ${TUE_DIR}/${SEMESTER[-1]}
                     ;;
                 * )
                     cd ${OLD_DIR}
@@ -131,7 +131,7 @@ m.tue()
             ;;
         nb )
             op=$2
-            work_dir=${TUE_DIR}/${SEMESTER}
+            work_dir=${TUE_DIR}/${SEMESTER[-1]}
             if [[ "abc${op}" != "abc" ]]; then
                 work_dir=$op
             fi
@@ -171,6 +171,10 @@ m.tue()
                 jupyter nbconvert --to pdf $i;
             done
             ;;
+        asql )
+            echo docker exec --user postgres -it asql /bin/bash
+            docker exec --user postgres -it asql /bin/bash
+            ;;
         db2 )
             op_db=$2
             case ${op_db} in
@@ -189,7 +193,7 @@ m.tue()
                 * )
                     ;;
             esac
-            cd ${TUE_DIR}/${SEMESTER}/INF4141/db2-ss18-yzx-zgd-2
+            cd ${TUE_DIR}/${SEMESTER[2]}/INF4141/db2-ss18-yzx-zgd-2
             ;;
         dnn )
             cd ${TUE_DIR}/${SEMESTER}/INF4182

@@ -246,7 +246,7 @@ m.ros()
 		sudo apt install python-rosinstall
 --------------------------------------------'
 			;;
-		'2'|'h'|'help'|'HELP'|*)
+		'2'|'h'|'help'|'HELP')
 			m.log.v '
 		[HELP] HOW TO INSTALL ROS
 ============================================
@@ -254,9 +254,34 @@ m.ros()
 2. h|help|HELP - help menu
 --------------------------------------------'
 			;;
+        *)
+			m.import /opt/ros/melodic/setup.bash
+            if [[ -e devel/setup.bash  ]]; then
+                echo source devel/setup.bash
+                source devel/setup.bash
+                #echo source deploy.sh
+                #source deploy.sh
+            fi
+            ;;
 	esac
 }
 ### end m.ros()
+
+m.ros2()
+{
+	op=$1
+	case $op in
+		* )
+			m.import /opt/ros/dashing/setup.bash
+            if [[ -e devel/setup.bash  ]]; then
+                echo source devel/setup.bash
+                source devel/setup.bash
+                #echo source deploy.sh
+                #source deploy.sh
+            fi
+			;;
+	esac
+}
 
 ### ranger
 m.ranger()
