@@ -254,6 +254,9 @@ m.ros()
 2. h|help|HELP - help menu
 --------------------------------------------'
 			;;
+        vnc)
+            xtightvncviewer vnc-ros.me.com::${port} -passwd /var/tmp/passwd
+            ;;
         *)
 			m.import /opt/ros/melodic/setup.bash
             if [[ -e devel/setup.bash  ]]; then
@@ -271,6 +274,9 @@ m.ros2()
 {
 	op=$1
 	case $op in
+        vnc)
+            xtightvncviewer vnc-ros2.me.com::${port} -passwd /var/tmp/passwd
+            ;;
 		* )
 			m.import /opt/ros/dashing/setup.bash
             if [[ -e devel/setup.bash  ]]; then
