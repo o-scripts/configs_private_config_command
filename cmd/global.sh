@@ -613,5 +613,12 @@ m.composer()
     esac
 }
 ### end
+m.zotero()
+{
+    trash=$(find * -type f | egrep -v 'pdf$|epub$|.zotero')
+
+    echo $trash
+}
+
 ## end
 # end

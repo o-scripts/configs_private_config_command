@@ -885,16 +885,6 @@ m.pdf()
     pdftk blank.pdf $f output $f-01.pdf compress
 }
 
-m.zotero()
-{
-    trash=$(find * -type f -name *.png -or -name *.svg -or -name *.gif -or -name *.jpg -or -name *.jpeg \
--or -name *.js -or -name *.css -or -name *.html -or -name *.xml \
--or -name *loaded_? \
--or -name *.cgi );
-
-    echo $trash
-}
-
 m.bg()
 {
     echo setsid $@ > app-$(date +"%Y%m%d-%H.%M.%S").log 2>&1
