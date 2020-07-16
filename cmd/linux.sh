@@ -840,4 +840,64 @@ m.snap()
     snap list --all | while read snapname ver rev trk pub note; do if [[ ${note} == *disabled* ]]; then echo -e sudo snap remove $snapname" --revision "$rev "; \\"; fi; done
 }
 ## end
+m.pages()
+{
+    total=$1
+    step=$2
+    case $step in
+        2 )
+            echo $(
+                for ((i=2; i<=${total}; i++));
+                do
+                    echo $i,1,;
+                done
+            ) | sed 's/ //g'
+            ;;
+        3)
+            echo $(
+                for ((i=2; i<=${total}; i++));
+                do
+                    if (($i % 2 == 0));
+                    then
+                        if (($i == $total));
+                        then
+                            echo 1,$i;
+                        else
+                            echo 1,$i,;
+                        fi
+                    else
+                        echo $i,;
+                    fi
+                done
+            ) | sed 's/ //g'
+            ;;
+    esac
+
+}
+m.pdf()
+{
+    f=$1
+    if [[ -e blank.pdf ]]; then
+        echo 'exist';
+    else
+        cp -vf /var/tmp/blank.pdf .
+    fi
+    pdftk blank.pdf $f output $f-01.pdf compress
+}
+
+m.zotero()
+{
+    trash=$(find * -type f -name *.png -or -name *.svg -or -name *.gif -or -name *.jpg -or -name *.jpeg \
+-or -name *.js -or -name *.css -or -name *.html -or -name *.xml \
+-or -name *loaded_? \
+-or -name *.cgi );
+
+    echo $trash
+}
+
+m.bg()
+{
+    echo setsid $@ > app-$(date +"%Y%m%d-%H.%M.%S").log 2>&1
+}
 # end
+
