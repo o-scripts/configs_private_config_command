@@ -41,7 +41,7 @@ m.tue()
     # goto work dir
     OLD_DIR=$(pwd)
     TUE_DIR=${HOME}/working/tue
-    SEMESTER=(17ss 17ws 18ss 18ws 19ss 19ws 20ss)
+    SEMESTER=(2020ss 2020ws)
 
     case $(uname) in
         Darwin )
