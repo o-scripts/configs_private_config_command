@@ -23,7 +23,7 @@ m.latex()
 # otherwise they will be sent to the shell
 #
 DEBUG='true'
-ROOT_DIR= ${PWD}
+ROOT_DIR=${PWD}
 BUILD_DIR=${ROOT_DIR}/.build
 XELATEX_OPTS=-output-directory= $(BUILD_DIR)
 BIBER_OPTS=--output_directory=$ (BUILD_DIR)
@@ -32,7 +32,7 @@ BIBER_OPTS=--output_directory=$ (BUILD_DIR)
 all: copy_sources screen print copy_output
 
 copy_sources:
-  rsync --verbose --checksum --recursive --human-readable --progress --exclude=output --exclude=.git* $(ROOT_DIR)/$ (ROOT_DIR)/.build
+  rsync --verbose --checksum --recursive --human-readable --progress --exclude=output --exclude=.git* $(ROOT_DIR)/$(ROOT_DIR)/.build
 
 copy_output:
   cp --update $(BUILD_DIR)/*.pdf$ (ROOT_DIR)/output

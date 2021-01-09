@@ -840,6 +840,7 @@ m.snap()
     snap list --all | while read snapname ver rev trk pub note; do if [[ ${note} == *disabled* ]]; then echo -e sudo snap remove $snapname" --revision "$rev "; \\"; fi; done
 }
 ## end
+
 m.pages()
 {
     total=$1
@@ -872,7 +873,6 @@ m.pages()
             ) | sed 's/ //g'
             ;;
     esac
-
 }
 m.pdf()
 {
@@ -887,7 +887,34 @@ m.pdf()
 
 m.bg()
 {
-    echo setsid $@ > app-$(date +"%Y%m%d-%H.%M.%S").log 2>&1
+    op=$1
+    case $op in
+        h|help)
+            echo "m.bg [h|help|your apps]"
+            ;;
+        *)
+            echo setsid $@ > app-$(date +"%Y%m%d-%H.%M.%S").log 2>&1
+            ;;
+    esac
+}
+
+m.mouse()
+{
+    op=$(gsettings get org.gnome.settings-daemon.peripherals.mouse locate-pointer)
+    case $op in
+        true )
+            echo gsettings set org.gnome.settings-daemon.peripherals.mouse locate-pointer false
+            gsettings set org.gnome.settings-daemon.peripherals.mouse locate-pointer false
+            ;;
+        false )
+            echo gsettings set org.gnome.settings-daemon.peripherals.mouse locate-pointer true
+            gsettings set org.gnome.settings-daemon.peripherals.mouse locate-pointer true
+            ;;
+        * )
+            echo gsettings get org.gnome.settings-daemon.peripherals.mouse locate-pointer
+            gsettings get org.gnome.settings-daemon.peripherals.mouse locate-pointer
+            ;;
+    esac
 }
 # end
 
