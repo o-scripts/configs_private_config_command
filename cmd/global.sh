@@ -203,6 +203,47 @@ git.pu()
 }
 ### end
 
+m.rsync()
+{
+    echo rsync -vzrtopgu --progress $@
+    rsync -vzrtopgu --progress $@
+}
+
+m.pdftk()
+{
+    blank=../blank.pdf;
+    # do task
+    if [[ -e $blank ]]; then
+        mkdir -p tmp out;
+        for f in $(ls *.pdf);
+        do
+            # get the file-name
+            fn=$(echo $f | cut -d'.' -f 1);
+            # split pdf document
+            rm -rvf tmp/${fn}*;
+            # create output folder
+            mkdir -p tmp/$fn;
+            # split pdf
+            pdftk $f burst output tmp/${fn}_page_%d.pdf;
+            # count the page
+            num=$(ls tmp/${fn}_page_*.pdf | wc -l);
+            for i in $(seq $num);
+            do
+                # rename and move to new place
+                $(echo -e $(printf "mv tmp/%s_page_%d.pdf tmp/%s/%s_%03d.pdf\n" $fn $i $fn $fn $i+$(expr $i-1)));
+                # copy blank page
+                $(echo -e $(printf "cp %s tmp/%s/%s_%03d.pdf\n" $blank $fn $fn $i+$(expr $i)));
+            done
+            # combine multi files to one pdf-file
+            pdftk $(ls tmp/${fn}/${fn}_???.pdf) cat output out/${fn}-blank.pdf;
+        done
+        rm -rf tmp;
+        echo '!!!!finished!!!!';
+    else
+        echo '!!!!!!!!!!!!!!!!!!! there must be a blank.pdf file. !!!!!!!!!!!!!!!!!!!';
+    fi
+}
+
 ### mkdir
 alias mkdir.p='mkdir -p'
 ### end
