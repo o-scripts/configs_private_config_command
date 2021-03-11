@@ -25,7 +25,10 @@ m.shrc()
     esac
 }
 # end m.bashrc()
-
+m.wx()
+{
+    xdotool key --window $(xdotool search --limit 1 --all --pid $(pgrep WeChat.exe)) "ctrl+alt+W";
+}
 ## self define
 ### histoty command config
 m.history()
