@@ -25,10 +25,7 @@ m.shrc()
     esac
 }
 # end m.bashrc()
-m.wx()
-{
-    xdotool key --window $(xdotool search --limit 1 --all --pid $(pgrep WeChat.exe)) "ctrl+alt+W";
-}
+
 ## self define
 ### histoty command config
 m.history()
@@ -800,7 +797,9 @@ m.monkeyrunner()
     export JRE_HOME=${JAVA_HOME}/jre
     export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
     export PATH=${JAVA_HOME}/bin:${PATH}
-    monkeyrunner $@
+    cd /home/zz/android/sdk/tools/bin;
+    ./monkeyrunner $@
+    cd -;
 }
 ### end
 ### m.dex2jar
