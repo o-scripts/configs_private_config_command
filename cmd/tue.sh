@@ -41,7 +41,7 @@ m.tue()
     # goto work dir
     OLD_DIR=$(pwd)
     TUE_DIR=${HOME}/working/tue
-    SEMESTER=(courses 2020ss 2020ws)
+    SEMESTER=(courses 2020ws 2021ss 2021ws)
 
     case $(uname) in
         Darwin )
@@ -219,5 +219,9 @@ m.tue()
             fi
             ;;
     esac
+}
+m.rsync () {
+	echo rsync -vzrtopgu --progress $@;
+	rsync -vzrtopgu --progress $@;
 }
 
