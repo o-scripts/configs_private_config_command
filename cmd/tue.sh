@@ -221,7 +221,7 @@ m.tue()
     esac
 }
 m.rsync () {
-	echo rsync -vzrtopgu --progress $@;
-	rsync -vzrtopgu --progress $@;
+	echo rsync -vzrtopgu --progress --copy-links $@;
+	rsync -vzrtopgu --progress --copy-links $@;
 }
 
