@@ -1,36 +1,36 @@
 ver=a.b.c.d
-cce=az2
+cce=2
 author=a
 
 # a
 cd ${HOME}/zhang/deployment
 
 ! [[ -e $ver ]] && mkdir -p $ver
-touch ${ver}/{internet,intranet}-${cce}-${author}.csv
+touch ${ver}/{internet,intranet}-az${cce}-${author}.csv
 
 k8s.tasks()
 {
-    cat <<EOF > ${ver}/intranet-${cce}-all.csv
+    cat <<EOF > ${ver}/intranet-az${cce}-all.csv
 ...
 EOF
 
-    cat <<EOF > ${ver}/internet-${cce}-all.csv
+    cat <<EOF > ${ver}/internet-az${cce}-all.csv
 ...
 EOF
 
-    cat <<EOF > ${ver}/intranet-${cce}-a.csv
+    cat <<EOF > ${ver}/intranet-az${cce}-a.csv
 ...
 EOF
 
-    cat <<EOF > ${ver}/internet-${cce}-a.csv
+    cat <<EOF > ${ver}/internet-az${cce}-a.csv
 ...
 EOF
 
-    cat <<EOF > ${ver}/intranet-${cce}-b.csv
+    cat <<EOF > ${ver}/intranet-az${cce}-b.csv
 ...
 EOF
 
-    cat <<EOF > ${ver}/internet-${cce}-b.csv
+    cat <<EOF > ${ver}/internet-az${cce}-b.csv
 ...
 EOF
 }
@@ -49,7 +49,7 @@ k8s.chk()
 {
     k8s.tasks
     k8s.line
-    for region in $(echo {internet,intranet}-${cce});
+    for region in $(echo {internet,intranet}-az${cce});
     do
         f=${region}-${author}.csv
         for i in $(cat ${ver}/$f);
